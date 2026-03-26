@@ -3,124 +3,173 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cronje Lighting Quote Calculator</title>
+  <title>Cronje Lighting Planner</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <section class="hero">
+
+  <header class="hero">
     <div class="overlay">
-      <header class="navbar">
-        <h1 class="site-title">CRONJE LIGHTING</h1>
-      </header>
 
-      <main class="hero-content">
-        <div class="calculator-card">
-          <h2>Lighting Quote Calculator</h2>
-          <p class="subtext">Fill in the details below to estimate your project cost.</p>
-
-          <form id="calculatorForm">
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="roomType">Room Type</label>
-                <select id="roomType" required>
-                  <option value="">Select room type</option>
-                  <option value="Bedroom">Bedroom</option>
-                  <option value="Kitchen">Kitchen</option>
-                  <option value="Living Room">Living Room</option>
-                  <option value="Bathroom">Bathroom</option>
-                  <option value="Dining Room">Dining Room</option>
-                  <option value="Office">Office</option>
-                  <option value="Outdoor Area">Outdoor Area</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="length">Room Length (m)</label>
-                <input type="number" id="length" min="1" step="0.1" placeholder="e.g. 5" required />
-              </div>
-
-              <div class="form-group">
-                <label for="width">Room Width (m)</label>
-                <input type="number" id="width" min="1" step="0.1" placeholder="e.g. 4" required />
-              </div>
-
-              <div class="form-group">
-                <label for="lightCount">Number of Lights</label>
-                <input type="number" id="lightCount" min="1" step="1" placeholder="e.g. 8" required />
-              </div>
-
-              <div class="form-group">
-                <label for="fittingType">Fitting Type</label>
-                <select id="fittingType" required>
-                  <option value="">Select fitting type</option>
-                  <option value="Standard Downlights">Standard Downlights</option>
-                  <option value="Premium Downlights">Premium Downlights</option>
-                  <option value="LED Strip">LED Strip</option>
-                  <option value="Pendant Lights">Pendant Lights</option>
-                  <option value="Outdoor Lights">Outdoor Lights</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="installationType">Installation Type</label>
-                <select id="installationType" required>
-                  <option value="">Select installation type</option>
-                  <option value="New Installation">New Installation</option>
-                  <option value="Replacement">Replacement</option>
-                  <option value="Upgrade">Upgrade</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="button-row">
-              <button type="submit" id="calculateBtn">Calculate</button>
-            </div>
-          </form>
-
-          <div id="quoteResult" class="quote-result hidden">
-            <h3>Your Estimated Quote</h3>
-            <p id="quoteAmount">R0</p>
-            <p id="quoteBreakdown"></p>
-            <button id="openQuotePopupBtn" class="secondary-btn">Get a Quote</button>
-          </div>
+      <nav class="navbar">
+        <div class="logo-area">
+          <img src="./Images/logo.png" alt="Cronje Lighting Logo" class="logo" />
         </div>
-      </main>
+
+        <div class="nav-menu">
+          <a href="#">Home</a>
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#contact">Contact</a>
+          <a href="#" id="navQuoteBtn" class="quote-btn">Get a Quote</a>
+        </div>
+      </nav>
+
+      <div class="hero-content">
+        <h1>PLAN YOUR PERFECT LIGHTING</h1>
+        <div class="hero-line"></div>
+        <p>Calculate the ideal lighting for any room in seconds.</p>
+        <a href="#calculator" class="main-btn">GET STARTED</a>
+      </div>
+
+      <section class="feature-cards">
+        <div class="card">
+          <div class="icon">📏</div>
+          <h3>Room Size & Type</h3>
+          <div class="card-line"></div>
+          <p>Select your room dimensions and type</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">💡</div>
+          <h3>Brightness Preference</h3>
+          <div class="card-line"></div>
+          <p>Choose your desired lighting level</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">✨</div>
+          <h3>Instant Recommendations</h3>
+          <div class="card-line"></div>
+          <p>Get the best lighting setup instantly</p>
+        </div>
+      </section>
+
+    </div>
+  </header>
+
+  <section id="calculator" class="calculator-section">
+    <div class="calculator-box">
+      <h2>Lighting Calculator</h2>
+      <p class="calculator-subtext">Enter your room details below to get a quick recommendation.</p>
+
+      <div class="form-group">
+        <label for="roomType">Room Type</label>
+        <select id="roomType">
+          <option value="bedroom">Bedroom</option>
+          <option value="living-room">Living Room</option>
+          <option value="kitchen">Kitchen</option>
+          <option value="bathroom">Bathroom</option>
+          <option value="office">Office</option>
+          <option value="garage">Garage</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="roomLength">Length (metres)</label>
+          <input type="number" id="roomLength" placeholder="Example: 5" min="0" step="0.1" />
+        </div>
+
+        <div class="form-group">
+          <label for="roomWidth">Width (metres)</label>
+          <input type="number" id="roomWidth" placeholder="Example: 4" min="0" step="0.1" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="brightness">Brightness Preference</label>
+        <select id="brightness">
+          <option value="soft">Soft / Relaxed</option>
+          <option value="medium">Medium / Balanced</option>
+          <option value="bright">Bright / Task Lighting</option>
+        </select>
+      </div>
+
+      <button id="calculateBtn" class="calc-btn">CALCULATE</button>
+
+      <div id="result" class="result-box">
+        <h3>Your result will appear here</h3>
+        <p>Fill in the form and click calculate.</p>
+      </div>
     </div>
   </section>
 
-  <!-- POPUP -->
-  <div id="quotePopup" class="popup hidden">
-    <div class="popup-content">
-      <button id="closePopupBtn" class="close-btn">&times;</button>
-      <h2>Request Your Quote</h2>
-      <p class="subtext">Enter your contact details and any extra requirements.</p>
+  <section id="about" class="info-section">
+    <h2>About Cronje Lighting</h2>
+    <p>
+      We help homeowners and businesses plan beautiful, practical lighting layouts
+      with confidence. From room brightness to fitting recommendations, we make
+      lighting decisions easier.
+    </p>
+  </section>
 
-      <form id="quoteForm">
+  <section id="services" class="info-section dark-section">
+    <h2>Our Services</h2>
+    <p>
+      Lighting planning, brightness guidance, room-based fitting suggestions,
+      and quote-ready recommendations for your project.
+    </p>
+  </section>
+
+  <section id="contact" class="info-section">
+    <h2>Contact</h2>
+    <p>Email: info@cronjelighting.co.za</p>
+    <p>Phone: +27 XX XXX XXXX</p>
+    <p>Phone: +27 76 571 2206</p>
+  </section>
+
+  <!-- POPUP MODAL -->
+  <div id="quoteModal" class="modal">
+    <div class="modal-content">
+      <button id="closeModalBtn" class="close-btn">&times;</button>
+
+      <h2>Request a Quote</h2>
+      <p class="calculator-subtext">Your calculator result will be carried into this quote form automatically.</p>
+
+      <div class="quote-summary" id="quoteSummary">
+        <h3>Calculator Summary</h3>
+        <p>No calculator data yet. Please use the calculator first.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="clientName">Full Name</label>
+        <input type="text" id="clientName" placeholder="Enter your full name" />
+      </div>
+
+      <div class="form-row">
         <div class="form-group">
-          <label for="name">Full Name</label>
-          <input type="text" id="name" required />
+          <label for="clientEmail">Email Address</label>
+          <input type="email" id="clientEmail" placeholder="Enter your email address" />
         </div>
 
         <div class="form-group">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" required />
+          <label for="clientPhone">Telephone Number</label>
+          <input type="tel" id="clientPhone" placeholder="Enter your phone number" />
         </div>
+      </div>
 
-        <div class="form-group">
-          <label for="phone">Telephone Number</label>
-          <input type="tel" id="phone" required />
-        </div>
+      <div class="form-group">
+        <label for="additionalRequirements">Additional Requirements</label>
+        <textarea id="additionalRequirements" placeholder="Tell us anything extra, for example dimming, warm white, cool white, strip lighting, feature fittings, budget, or special requests"></textarea>
+      </div>
 
-        <div class="form-group">
-          <label for="requirements">Additional Requirements</label>
-          <textarea id="requirements" rows="4" placeholder="Anything else you'd like us to know?"></textarea>
-        </div>
+      <button id="submitQuoteBtn" class="calc-btn">SUBMIT QUOTE REQUEST</button>
 
-        <button type="submit" id="submitQuoteBtn">Submit Quote Request</button>
-      </form>
-
-      <p id="formStatus" class="status-text"></p>
+      <div id="quoteOutput" class="result-box">
+        <h3>Your quote request will appear here</h3>
+        <p>Complete the calculator and the form, then click submit.</p>
+      </div>
     </div>
   </div>
 
