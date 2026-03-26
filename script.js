@@ -7,7 +7,9 @@ const submitQuoteBtn = document.getElementById("submitQuoteBtn");
 const quoteOutput = document.getElementById("quoteOutput");
 const closeModalBtn = document.getElementById("closeModalBtn");
 const navQuoteBtn = document.getElementById("navQuoteBtn");
-const navQuoteBtnSecondary = document.getElementById("navQuoteBtnSecondary");
+
+const resultQuoteBtn = document.getElementById("resultQuoteBtn");
+const quoteActionWrap = document.getElementById("quoteActionWrap");
 
 const roomTypeField = document.getElementById("roomType");
 const roomLengthField = document.getElementById("roomLength");
@@ -19,16 +21,16 @@ const clientEmailField = document.getElementById("clientEmail");
 const clientPhoneField = document.getElementById("clientPhone");
 const additionalRequirementsField = document.getElementById("additionalRequirements");
 
+const directClientNameField = document.getElementById("directClientName");
+const directClientEmailField = document.getElementById("directClientEmail");
+const directClientPhoneField = document.getElementById("directClientPhone");
+const directQuoteDetailsField = document.getElementById("directQuoteDetails");
+const submitDirectQuoteBtn = document.getElementById("submitDirectQuoteBtn");
+const directQuoteOutput = document.getElementById("directQuoteOutput");
+
 let latestQuoteData = null;
 
-/*
-  Replace this with your real deployed Google Apps Script Web App URL
-*/
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyegtwRehBMXoCRnqnYqpm-wbEacVpmD5vlbDWc0JS3HRzQO2XSkeeju9RFHU9TW8-evA/exec";
-
-/* -----------------------------
-   MODAL FUNCTIONS
------------------------------ */
 
 function openQuoteModal() {
   if (!quoteModal) return;
@@ -41,10 +43,6 @@ function closeQuoteModal() {
   quoteModal.classList.remove("show");
   document.body.style.overflow = "";
 }
-
-/* -----------------------------
-   HELPER FUNCTIONS
------------------------------ */
 
 function formatRoomType(roomType) {
   const roomTypeMap = {
@@ -98,6 +96,18 @@ function resetQuoteForm() {
   `;
 }
 
+function resetDirectQuoteForm() {
+  directClientNameField.value = "";
+  directClientEmailField.value = "";
+  directClientPhoneField.value = "";
+  directQuoteDetailsField.value = "";
+
+  directQuoteOutput.innerHTML = `
+    <h3>Your direct quote request will appear here</h3>
+    <p>Complete the form and click submit.</p>
+  `;
+}
+
 function updateQuoteSummary() {
   if (!latestQuoteData) {
     quoteSummary.innerHTML = `
@@ -135,21 +145,22 @@ function showCalculationError(message) {
   `;
 }
 
-function showQuoteMessage(title, message1, message2 = "") {
-  quoteOutput.innerHTML = `
+function showQuoteMessage(targetElement, title, message1, message2 = "") {
+  targetElement.innerHTML = `
     <h3>${title}</h3>
     <p>${message1}</p>
     ${message2 ? `<p>${message2}</p>` : ""}
   `;
 }
 
-function validateQuoteFields() {
+function validateCalculatorQuoteFields() {
   const clientName = clientNameField.value.trim();
   const clientEmail = clientEmailField.value.trim();
   const clientPhone = clientPhoneField.value.trim();
 
   if (!clientName || !clientEmail || !clientPhone) {
     showQuoteMessage(
+      quoteOutput,
       "Missing details",
       "Please complete your full name, email address, and telephone number."
     );
@@ -159,8 +170,27 @@ function validateQuoteFields() {
   return true;
 }
 
-function buildPayload() {
+function validateDirectQuoteFields() {
+  const clientName = directClientNameField.value.trim();
+  const clientEmail = directClientEmailField.value.trim();
+  const clientPhone = directClientPhoneField.value.trim();
+  const quoteDetails = directQuoteDetailsField.value.trim();
+
+  if (!clientName || !clientEmail || !clientPhone || !quoteDetails) {
+    showQuoteMessage(
+      directQuoteOutput,
+      "Missing details",
+      "Please complete your full name, email address, telephone number, and description of what you need."
+    );
+    return false;
+  }
+
+  return true;
+}
+
+function buildCalculatorPayload() {
   return {
+    requestType: "calculatorQuote",
     clientName: clientNameField.value.trim(),
     clientEmail: clientEmailField.value.trim(),
     clientPhone: clientPhoneField.value.trim(),
@@ -173,9 +203,56 @@ function buildPayload() {
   };
 }
 
-/* -----------------------------
-   CALCULATOR
------------------------------ */
+function buildDirectQuotePayload() {
+  return {
+    requestType: "directQuote",
+    clientName: directClientNameField.value.trim(),
+    clientEmail: directClientEmailField.value.trim(),
+    clientPhone: directClientPhoneField.value.trim(),
+    quoteDetails: directQuoteDetailsField.value.trim()
+  };
+}
+
+function isSuccessfulResponse(result) {
+  const successMessages = [
+    "Quote request saved and emailed successfully",
+    "Quote submitted successfully",
+    "Direct quote request saved and emailed successfully",
+    "Saved successfully"
+  ];
+
+  return result.status === "success" || successMessages.includes(result.message);
+}
+
+async function postToBackend(payload) {
+  const response = await fetch(WEB_APP_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify(payload)
+  });
+
+  const responseText = await response.text();
+
+  if (!response.ok) {
+    throw new Error(`Server returned ${response.status}: ${responseText}`);
+  }
+
+  let result;
+
+  try {
+    result = JSON.parse(responseText);
+  } catch (parseError) {
+    throw new Error("The server response was not valid JSON.");
+  }
+
+  if (!isSuccessfulResponse(result)) {
+    throw new Error(result.message || "The submission was not confirmed by the server.");
+  }
+
+  return result;
+}
 
 function calculateLighting() {
   const roomType = roomTypeField.value;
@@ -205,63 +282,42 @@ function calculateLighting() {
   };
 
   showCalculationResult(latestQuoteData);
+
+  if (quoteActionWrap) {
+    quoteActionWrap.classList.remove("hidden");
+  }
 }
 
-/* -----------------------------
-   SUBMIT QUOTE
------------------------------ */
-
-async function submitQuoteRequest() {
+async function submitCalculatorQuoteRequest() {
   if (!latestQuoteData) {
     showQuoteMessage(
+      quoteOutput,
       "Calculator required",
       "Please use the calculator first before submitting a quote request."
     );
     return;
   }
 
-  if (!validateQuoteFields()) {
+  if (!validateCalculatorQuoteFields()) {
     return;
   }
 
-  const payload = buildPayload();
+  const payload = buildCalculatorPayload();
 
   submitQuoteBtn.disabled = true;
   submitQuoteBtn.textContent = "SENDING...";
 
   showQuoteMessage(
+    quoteOutput,
     "Sending quote request...",
     "Please wait while we submit your details."
   );
 
   try {
-    const response = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify(payload)
-    });
-
-    const responseText = await response.text();
-
-    if (!response.ok) {
-      throw new Error(`Server returned ${response.status}: ${responseText}`);
-    }
-
-    let result;
-
-    try {
-      result = JSON.parse(responseText);
-    } catch (parseError) {
-      throw new Error("The server response was not valid JSON.");
-    }
-
-    if (result.status !== "success") {
-      throw new Error(result.message || "The submission was not confirmed by the server.");
-    }
+    await postToBackend(payload);
 
     showQuoteMessage(
+      quoteOutput,
       "Thank you for your quote request",
       "We have received your details successfully.",
       "Our team will review your lighting requirements and get back to you shortly."
@@ -276,9 +332,9 @@ async function submitQuoteRequest() {
       closeQuoteModal();
       resetQuoteForm();
     }, 2500);
-
   } catch (error) {
     showQuoteMessage(
+      quoteOutput,
       "Submission problem",
       "We could not send the quote request from the website.",
       `Error: ${error.message}`
@@ -289,9 +345,45 @@ async function submitQuoteRequest() {
   }
 }
 
-/* -----------------------------
-   EVENT LISTENERS
------------------------------ */
+async function submitDirectQuoteRequest() {
+  if (!validateDirectQuoteFields()) {
+    return;
+  }
+
+  const payload = buildDirectQuotePayload();
+
+  submitDirectQuoteBtn.disabled = true;
+  submitDirectQuoteBtn.textContent = "SENDING...";
+
+  showQuoteMessage(
+    directQuoteOutput,
+    "Sending direct quote request...",
+    "Please wait while we submit your details."
+  );
+
+  try {
+    await postToBackend(payload);
+
+    showQuoteMessage(
+      directQuoteOutput,
+      "Thank you for your quote request",
+      "We have received your details successfully.",
+      "Our team will review your requirements and get back to you shortly."
+    );
+
+    resetDirectQuoteForm();
+  } catch (error) {
+    showQuoteMessage(
+      directQuoteOutput,
+      "Submission problem",
+      "We could not send the direct quote request from the website.",
+      `Error: ${error.message}`
+    );
+  } finally {
+    submitDirectQuoteBtn.disabled = false;
+    submitDirectQuoteBtn.textContent = "SUBMIT DIRECT QUOTE REQUEST";
+  }
+}
 
 if (calculateBtn) {
   calculateBtn.addEventListener("click", calculateLighting);
@@ -305,9 +397,8 @@ if (navQuoteBtn) {
   });
 }
 
-if (navQuoteBtnSecondary) {
-  navQuoteBtnSecondary.addEventListener("click", function (e) {
-    e.preventDefault();
+if (resultQuoteBtn) {
+  resultQuoteBtn.addEventListener("click", function () {
     updateQuoteSummary();
     openQuoteModal();
   });
@@ -324,5 +415,9 @@ window.addEventListener("click", function (e) {
 });
 
 if (submitQuoteBtn) {
-  submitQuoteBtn.addEventListener("click", submitQuoteRequest);
+  submitQuoteBtn.addEventListener("click", submitCalculatorQuoteRequest);
+}
+
+if (submitDirectQuoteBtn) {
+  submitDirectQuoteBtn.addEventListener("click", submitDirectQuoteRequest);
 }
