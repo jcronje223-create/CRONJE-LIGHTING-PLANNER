@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -14,10 +19,12 @@ body {
   color: white;
 }
 
-/* HERO */
 .hero {
   min-height: 100vh;
-  background: url("Images/background.jpg") no-repeat center center/cover;
+  background-image: url("./Images/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .overlay {
@@ -29,7 +36,6 @@ body {
   justify-content: space-between;
 }
 
-/* NAVBAR */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -41,6 +47,7 @@ body {
 .logo {
   height: 80px;
   width: auto;
+  display: block;
   filter: drop-shadow(0 0 12px rgba(0, 150, 255, 0.55));
 }
 
@@ -72,11 +79,6 @@ body {
   box-shadow: 0 8px 22px rgba(255, 140, 0, 0.4);
 }
 
-.quote-btn:hover {
-  transform: translateY(-2px);
-}
-
-/* HERO CONTENT */
 .hero-content {
   text-align: center;
   margin-top: 90px;
@@ -123,7 +125,6 @@ body {
   transform: translateY(-3px) scale(1.02);
 }
 
-/* FEATURE CARDS */
 .feature-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -166,7 +167,6 @@ body {
   line-height: 1.5;
 }
 
-/* EXTRA SECTIONS */
 .info-section {
   padding: 70px 25px;
   text-align: center;
@@ -191,7 +191,6 @@ body {
   background: #0f0f0f;
 }
 
-/* RESPONSIVE */
 @media (max-width: 1100px) {
   .hero-content h1 {
     font-size: 52px;
