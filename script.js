@@ -200,19 +200,11 @@ submitQuoteBtn.addEventListener("click", async function () {
       body: JSON.stringify(payload)
     });
 
-    quoteOutput.innerHTML = `
-      <h3>Quote request sent</h3>
-      <p><strong>Client name:</strong> ${clientName}</p>
-      <p><strong>Email address:</strong> ${clientEmail}</p>
-      <p><strong>Telephone number:</strong> ${clientPhone}</p>
-      <p><strong>Room type:</strong> ${latestQuoteData.roomType}</p>
-      <p><strong>Room area:</strong> ${latestQuoteData.area} m²</p>
-      <p><strong>Total light needed:</strong> ${latestQuoteData.lumens} lumens</p>
-      <p><strong>Estimated downlights:</strong> ${latestQuoteData.lights}</p>
-      <p><strong>Suggested setup:</strong> ${latestQuoteData.suggestion}</p>
-      <p><strong>Additional requirements:</strong> ${additionalRequirements || "None provided"}</p>
-      <p><strong>Status:</strong> Your quote request has been submitted. Please also check your Google Sheet and email inbox to confirm it arrived.</p>
-    `;
+  quoteOutput.innerHTML = `
+  <h3>Thank you for your quote request</h3>
+  <p>We have received your details successfully.</p>
+  <p>Our team will review your lighting requirements and get back to you shortly.</p>
+`;
 
     document.getElementById("clientName").value = "";
     document.getElementById("clientEmail").value = "";
