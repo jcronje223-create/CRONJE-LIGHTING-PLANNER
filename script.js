@@ -75,35 +75,107 @@ function getLuxLevel(roomType, brightness) {
   return luxLevel;
 }
 
-function getLumensPerLight(lightType) {
-  const lightOutputMap = {
-    "Downlights": 800,
-    "Bulb lights": 800,
-    "LED lights": 1000,
-    "Spotlights": 600
-  };
+function getRecommendationData(lightType, area, lumens) {
+  if (lightType === "LED strip lights") {
+    let recommendedMetres = Math.max(3, Math.ceil(area * 1.2));
 
-  return lightOutputMap[lightType] || 800;
-}
+    if (area > 20) {
+      recommendedMetres = Math.ceil(area * 1.5);
+    }
 
-function getLightingSuggestion(area, lights, lumensPerLight, lightType) {
-  let suggestion = `${lights} ${lightType.toLowerCase()} of approximately ${lumensPerLight} lumens each`;
+    let suggestion =
+      `${recommendedMetres} metres of LED strip lighting`;
+
+    if (lumens > 4000) {
+      suggestion += " with high-output strip and aluminium profiles for better heat dissipation";
+    } else {
+      suggestion += " with quality LED strip and proper drivers";
+    }
+
+    return {
+      quantityLabel: "Estimated strip length",
+      quantityValue: `${recommendedMetres} metres`,
+      suggestion: suggestion,
+      backendQuantity: recommendedMetres,
+      backendUnit: "metres"
+    };
+  }
 
   if (lightType === "Downlights") {
-    suggestion = `${lights} recessed downlights of approximately ${lumensPerLight} lumens each`;
-  } else if (lightType === "Bulb lights") {
-    suggestion = `${lights} bulb light fittings using lamps of approximately ${lumensPerLight} lumens each`;
-  } else if (lightType === "LED lights") {
-    suggestion = `${lights} LED light fittings of approximately ${lumensPerLight} lumens each`;
-  } else if (lightType === "Spotlights") {
-    suggestion = `${lights} spotlights of approximately ${lumensPerLight} lumens each`;
+    const lumensPerUnit = 800;
+    const fittings = Math.max(1, Math.ceil(lumens / lumensPerUnit));
+
+    let suggestion =
+      `${fittings} recessed downlights of approximately ${lumensPerUnit} lumens each`;
+
+    if (area > 25) {
+      suggestion += " spaced evenly for balanced room coverage";
+    } else {
+      suggestion += " spaced evenly for a clean and modern finish";
+    }
+
+    return {
+      quantityLabel: "Estimated fittings",
+      quantityValue: `${fittings}`,
+      suggestion: suggestion,
+      backendQuantity: fittings,
+      backendUnit: "fittings"
+    };
   }
 
-  if (area > 25) {
-    suggestion += " with possible additional feature lighting or perimeter lighting";
+  if (lightType === "Bulb lights") {
+    const lumensPerUnit = 900;
+    const fittings = Math.max(1, Math.ceil(lumens / lumensPerUnit));
+
+    let suggestion =
+      `${fittings} bulb fittings using lamps of approximately ${lumensPerUnit} lumens each`;
+
+    if (roomTypeField.value === "bedroom" || roomTypeField.value === "living-room") {
+      suggestion += " with warm white lamps for a softer ambient feel";
+    } else {
+      suggestion += " with practical lamp placement for general room lighting";
+    }
+
+    return {
+      quantityLabel: "Estimated fittings",
+      quantityValue: `${fittings}`,
+      suggestion: suggestion,
+      backendQuantity: fittings,
+      backendUnit: "fittings"
+    };
   }
 
-  return suggestion;
+  if (lightType === "Spotlights") {
+    const lumensPerUnit = 600;
+    const fittings = Math.max(1, Math.ceil(lumens / lumensPerUnit));
+
+    let suggestion =
+      `${fittings} spotlights of approximately ${lumensPerUnit} lumens each`;
+
+    if (area > 20) {
+      suggestion += " arranged in zones for directional coverage";
+    } else {
+      suggestion += " aimed at key areas for directional and feature lighting";
+    }
+
+    return {
+      quantityLabel: "Estimated fittings",
+      quantityValue: `${fittings}`,
+      suggestion: suggestion,
+      backendQuantity: fittings,
+      backendUnit: "fittings"
+    };
+  }
+
+  const fallbackUnits = Math.max(1, Math.ceil(lumens / 800));
+
+  return {
+    quantityLabel: "Estimated fittings",
+    quantityValue: `${fallbackUnits}`,
+    suggestion: `${fallbackUnits} light fittings recommended for this room`,
+    backendQuantity: fallbackUnits,
+    backendUnit: "fittings"
+  };
 }
 
 function resetQuoteForm() {
@@ -145,7 +217,7 @@ function updateQuoteSummary() {
     <p><strong>Preferred light type:</strong> ${latestQuoteData.lightType}</p>
     <p><strong>Room area:</strong> ${latestQuoteData.area} m²</p>
     <p><strong>Total light needed:</strong> ${latestQuoteData.lumens} lumens</p>
-    <p><strong>Estimated lights:</strong> ${latestQuoteData.lights}</p>
+    <p><strong>${latestQuoteData.quantityLabel}:</strong> ${latestQuoteData.quantityValue}</p>
     <p><strong>Suggested setup:</strong> ${latestQuoteData.suggestion}</p>
   `;
 }
@@ -157,7 +229,7 @@ function showCalculationResult(data) {
     <p><strong>Preferred light type:</strong> ${data.lightType}</p>
     <p><strong>Room area:</strong> ${data.area} m²</p>
     <p><strong>Total light needed:</strong> ${data.lumens} lumens</p>
-    <p><strong>Estimated lights:</strong> ${data.lights}</p>
+    <p><strong>${data.quantityLabel}:</strong> ${data.quantityValue}</p>
     <p><strong>Suggested setup:</strong> ${data.suggestion}</p>
   `;
 }
@@ -222,7 +294,10 @@ function buildCalculatorPayload() {
     lightType: latestQuoteData.lightType,
     area: latestQuoteData.area,
     lumens: latestQuoteData.lumens,
-    lights: latestQuoteData.lights,
+    lights: latestQuoteData.backendQuantity,
+    quantityLabel: latestQuoteData.quantityLabel,
+    quantityValue: latestQuoteData.quantityValue,
+    quantityUnit: latestQuoteData.backendUnit,
     suggestion: latestQuoteData.suggestion,
     additionalRequirements: additionalRequirementsField.value.trim()
   };
@@ -236,17 +311,6 @@ function buildDirectQuotePayload() {
     clientPhone: directClientPhoneField.value.trim(),
     quoteDetails: directQuoteDetailsField.value.trim()
   };
-}
-
-function isSuccessfulResponse(result) {
-  const successMessages = [
-    "Quote request saved and emailed successfully",
-    "Quote submitted successfully",
-    "Direct quote request saved and emailed successfully",
-    "Saved successfully"
-  ];
-
-  return result.status === "success" || successMessages.includes(result.message);
 }
 
 async function postToBackend(payload) {
@@ -272,8 +336,20 @@ async function postToBackend(payload) {
     throw new Error("The server response was not valid JSON.");
   }
 
-  if (!isSuccessfulResponse(result)) {
-    throw new Error(result.message || "The submission was not confirmed by the server.");
+  const messageText = String(result.message || "").toLowerCase();
+  const statusText = String(result.status || "").toLowerCase();
+
+  if (statusText === "error") {
+    throw new Error(result.message || "The server returned an error.");
+  }
+
+  if (
+    statusText === "success" ||
+    messageText.includes("successfully") ||
+    messageText.includes("saved") ||
+    messageText.includes("submitted")
+  ) {
+    return result;
   }
 
   return result;
@@ -286,6 +362,11 @@ function calculateLighting() {
   const roomWidth = parseFloat(roomWidthField.value);
   const brightness = brightnessField.value;
 
+  if (!roomType || !lightType) {
+    showCalculationError("Please select both the room type and preferred light type.");
+    return;
+  }
+
   if (isNaN(roomLength) || isNaN(roomWidth) || roomLength <= 0 || roomWidth <= 0) {
     showCalculationError("Please enter a valid room length and width greater than 0.");
     return;
@@ -295,17 +376,18 @@ function calculateLighting() {
   const luxLevel = getLuxLevel(roomType, brightness);
   const lumens = Math.round(area * luxLevel);
 
-  const lumensPerLight = getLumensPerLight(lightType);
-  const lights = Math.max(1, Math.ceil(lumens / lumensPerLight));
-  const suggestion = getLightingSuggestion(area, lights, lumensPerLight, lightType);
+  const recommendationData = getRecommendationData(lightType, area, lumens);
 
   latestQuoteData = {
     roomType: formatRoomType(roomType),
     lightType: lightType,
     area: area.toFixed(2),
     lumens: lumens,
-    lights: lights,
-    suggestion: suggestion
+    quantityLabel: recommendationData.quantityLabel,
+    quantityValue: recommendationData.quantityValue,
+    suggestion: recommendationData.suggestion,
+    backendQuantity: recommendationData.backendQuantity,
+    backendUnit: recommendationData.backendUnit
   };
 
   showCalculationResult(latestQuoteData);
@@ -347,7 +429,7 @@ async function submitCalculatorQuoteRequest() {
       quoteOutput,
       "Thank you for your quote request",
       "We have received your details successfully.",
-      "Our team will review your lighting requirements and get back to you shortly."
+      "We will review your requirements and get back to you shortly."
     );
 
     clientNameField.value = "";
@@ -358,7 +440,7 @@ async function submitCalculatorQuoteRequest() {
     setTimeout(() => {
       closeQuoteModal();
       resetQuoteForm();
-    }, 2500);
+    }, 2200);
   } catch (error) {
     showQuoteMessage(
       quoteOutput,
@@ -395,10 +477,12 @@ async function submitDirectQuoteRequest() {
       directQuoteOutput,
       "Thank you for your quote request",
       "We have received your details successfully.",
-      "Our team will review your requirements and get back to you shortly."
+      "We will review your requirements and get back to you shortly."
     );
 
-    resetDirectQuoteForm();
+    setTimeout(() => {
+      resetDirectQuoteForm();
+    }, 2200);
   } catch (error) {
     showQuoteMessage(
       directQuoteOutput,
