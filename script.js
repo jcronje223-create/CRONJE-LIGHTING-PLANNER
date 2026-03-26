@@ -1,1 +1,1 @@
-console.log("Cronje Lighting website loaded successfully.");
+console.log("Cronje Lighting website loaded.");
