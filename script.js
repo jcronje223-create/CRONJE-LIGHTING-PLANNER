@@ -44,6 +44,18 @@ function updateQuoteSummary() {
   `;
 }
 
+function resetQuoteForm() {
+  document.getElementById("clientName").value = "";
+  document.getElementById("clientEmail").value = "";
+  document.getElementById("clientPhone").value = "";
+  document.getElementById("additionalRequirements").value = "";
+
+  quoteOutput.innerHTML = `
+    <h3>Your quote request will appear here</h3>
+    <p>Complete the calculator and the form, then click submit.</p>
+  `;
+}
+
 calculateBtn.addEventListener("click", function () {
   const roomType = document.getElementById("roomType").value;
   const roomLength = parseFloat(document.getElementById("roomLength").value);
@@ -185,6 +197,9 @@ submitQuoteBtn.addEventListener("click", async function () {
     additionalRequirements: additionalRequirements
   };
 
+  submitQuoteBtn.disabled = true;
+  submitQuoteBtn.textContent = "SENDING...";
+
   quoteOutput.innerHTML = `
     <h3>Sending quote request...</h3>
     <p>Please wait while we submit your details.</p>
@@ -200,22 +215,25 @@ submitQuoteBtn.addEventListener("click", async function () {
       body: JSON.stringify(payload)
     });
 
-  quoteOutput.innerHTML = `
-  <h3>Thank you for your quote request</h3>
-  <p>We have received your details successfully.</p>
-  <p>Our team will review your lighting requirements and get back to you shortly.</p>
-`;
+    quoteOutput.innerHTML = `
+      <h3>Thank you for your quote request</h3>
+      <p>We have received your details successfully.</p>
+      <p>Our team will review your lighting requirements and get back to you shortly.</p>
+    `;
 
-    document.getElementById("clientName").value = "";
-    document.getElementById("clientEmail").value = "";
-    document.getElementById("clientPhone").value = "";
-    document.getElementById("additionalRequirements").value = "";
+    setTimeout(function () {
+      closeQuoteModal();
+      resetQuoteForm();
+    }, 2500);
 
   } catch (error) {
     quoteOutput.innerHTML = `
       <h3>Submission problem</h3>
       <p>We could not send the quote request from the website.</p>
-      <p><strong>Error:</strong> ${error.message}</p>
+      <p>Please try again in a moment.</p>
     `;
+  } finally {
+    submitQuoteBtn.disabled = false;
+    submitQuoteBtn.textContent = "SUBMIT QUOTE REQUEST";
   }
 });
