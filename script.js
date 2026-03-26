@@ -12,6 +12,7 @@ const resultQuoteBtn = document.getElementById("resultQuoteBtn");
 const quoteActionWrap = document.getElementById("quoteActionWrap");
 
 const roomTypeField = document.getElementById("roomType");
+const lightTypeField = document.getElementById("lightType");
 const roomLengthField = document.getElementById("roomLength");
 const roomWidthField = document.getElementById("roomWidth");
 const brightnessField = document.getElementById("brightness");
@@ -74,8 +75,29 @@ function getLuxLevel(roomType, brightness) {
   return luxLevel;
 }
 
-function getLightingSuggestion(area, lights, lumensPerDownlight) {
-  let suggestion = `${lights} downlights of approximately ${lumensPerDownlight} lumens each`;
+function getLumensPerLight(lightType) {
+  const lightOutputMap = {
+    "Downlights": 800,
+    "Bulb lights": 800,
+    "LED lights": 1000,
+    "Spotlights": 600
+  };
+
+  return lightOutputMap[lightType] || 800;
+}
+
+function getLightingSuggestion(area, lights, lumensPerLight, lightType) {
+  let suggestion = `${lights} ${lightType.toLowerCase()} of approximately ${lumensPerLight} lumens each`;
+
+  if (lightType === "Downlights") {
+    suggestion = `${lights} recessed downlights of approximately ${lumensPerLight} lumens each`;
+  } else if (lightType === "Bulb lights") {
+    suggestion = `${lights} bulb light fittings using lamps of approximately ${lumensPerLight} lumens each`;
+  } else if (lightType === "LED lights") {
+    suggestion = `${lights} LED light fittings of approximately ${lumensPerLight} lumens each`;
+  } else if (lightType === "Spotlights") {
+    suggestion = `${lights} spotlights of approximately ${lumensPerLight} lumens each`;
+  }
 
   if (area > 25) {
     suggestion += " with possible additional feature lighting or perimeter lighting";
@@ -120,9 +142,10 @@ function updateQuoteSummary() {
   quoteSummary.innerHTML = `
     <h3>Calculator Summary</h3>
     <p><strong>Room type:</strong> ${latestQuoteData.roomType}</p>
+    <p><strong>Preferred light type:</strong> ${latestQuoteData.lightType}</p>
     <p><strong>Room area:</strong> ${latestQuoteData.area} m²</p>
     <p><strong>Total light needed:</strong> ${latestQuoteData.lumens} lumens</p>
-    <p><strong>Estimated downlights:</strong> ${latestQuoteData.lights}</p>
+    <p><strong>Estimated lights:</strong> ${latestQuoteData.lights}</p>
     <p><strong>Suggested setup:</strong> ${latestQuoteData.suggestion}</p>
   `;
 }
@@ -131,9 +154,10 @@ function showCalculationResult(data) {
   resultBox.innerHTML = `
     <h3>Recommended Lighting</h3>
     <p><strong>Room type:</strong> ${data.roomType}</p>
+    <p><strong>Preferred light type:</strong> ${data.lightType}</p>
     <p><strong>Room area:</strong> ${data.area} m²</p>
     <p><strong>Total light needed:</strong> ${data.lumens} lumens</p>
-    <p><strong>Estimated downlights:</strong> ${data.lights}</p>
+    <p><strong>Estimated lights:</strong> ${data.lights}</p>
     <p><strong>Suggested setup:</strong> ${data.suggestion}</p>
   `;
 }
@@ -195,6 +219,7 @@ function buildCalculatorPayload() {
     clientEmail: clientEmailField.value.trim(),
     clientPhone: clientPhoneField.value.trim(),
     roomType: latestQuoteData.roomType,
+    lightType: latestQuoteData.lightType,
     area: latestQuoteData.area,
     lumens: latestQuoteData.lumens,
     lights: latestQuoteData.lights,
@@ -256,6 +281,7 @@ async function postToBackend(payload) {
 
 function calculateLighting() {
   const roomType = roomTypeField.value;
+  const lightType = lightTypeField.value;
   const roomLength = parseFloat(roomLengthField.value);
   const roomWidth = parseFloat(roomWidthField.value);
   const brightness = brightnessField.value;
@@ -269,12 +295,13 @@ function calculateLighting() {
   const luxLevel = getLuxLevel(roomType, brightness);
   const lumens = Math.round(area * luxLevel);
 
-  const lumensPerDownlight = 800;
-  const lights = Math.max(1, Math.ceil(lumens / lumensPerDownlight));
-  const suggestion = getLightingSuggestion(area, lights, lumensPerDownlight);
+  const lumensPerLight = getLumensPerLight(lightType);
+  const lights = Math.max(1, Math.ceil(lumens / lumensPerLight));
+  const suggestion = getLightingSuggestion(area, lights, lumensPerLight, lightType);
 
   latestQuoteData = {
     roomType: formatRoomType(roomType),
+    lightType: lightType,
     area: area.toFixed(2),
     lumens: lumens,
     lights: lights,
