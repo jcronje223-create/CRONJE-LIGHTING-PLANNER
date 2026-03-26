@@ -223,6 +223,7 @@ body {
 }
 
 .form-group input,
+.form-group select {
 .form-group select,
 .form-group textarea {
   padding: 14px;
@@ -235,6 +236,7 @@ body {
   font-family: inherit;
 }
 
+.form-group input::placeholder {
 .form-group textarea {
   min-height: 140px;
   resize: vertical;
@@ -245,28 +247,11 @@ body {
   color: #d8d8d8;
 }
 
-.form-group select option {
-  color: black;
-}
-
-.calc-btn {
-  width: 100%;
-  border: none;
-  background: linear-gradient(135deg, #f5b942, #ff8c00);
-  color: white;
-  padding: 16px;
-  font-size: 17px;
-  font-weight: 800;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 10px 25px rgba(255, 140, 0, 0.35);
-  transition: 0.3s ease;
-}
-
-.calc-btn:hover {
+@@ -259,20 +267,23 @@
   transform: translateY(-2px);
 }
 
+.result-box {
 .result-box,
 .quote-summary {
   margin-top: 24px;
@@ -276,54 +261,20 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.result-box h3 {
 .result-box h3,
 .quote-summary h3 {
   color: #f5b942;
   margin-bottom: 10px;
 }
 
+.result-box p {
 .result-box p,
 .quote-summary p {
   line-height: 1.6;
   color: #f3f3f3;
   margin-bottom: 6px;
-}
-
-.result-quote-btn {
-  display: inline-block;
-  margin-top: 15px;
-  text-decoration: none;
-  background: linear-gradient(135deg, #f5b942, #ff8c00);
-  color: white;
-  padding: 14px 24px;
-  font-size: 16px;
-  font-weight: 800;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(255, 140, 0, 0.35);
-}
-
-/* INFO SECTIONS */
-.info-section {
-  padding: 70px 25px;
-  text-align: center;
-  background: #141414;
-}
-
-.info-section h2 {
-  font-size: 34px;
-  margin-bottom: 18px;
-  color: #f5b942;
-}
-
-.info-section p {
-  max-width: 850px;
-  margin: 0 auto 12px;
-  font-size: 18px;
-  line-height: 1.7;
-  color: #f2f2f2;
-}
-
-.dark-section {
+@@ -316,6 +327,44 @@
   background: #0f0f0f;
 }
 
@@ -368,60 +319,17 @@ body {
 /* RESPONSIVE */
 @media (max-width: 1100px) {
   .hero-content h1 {
-    font-size: 52px;
-  }
-
-  .feature-cards {
-    grid-template-columns: 1fr;
-    max-width: 700px;
-  }
-}
-
-@media (max-width: 768px) {
-  .overlay {
-    padding: 20px;
-  }
-
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nav-menu {
-    gap: 16px;
-  }
-
-  .hero-content {
-    margin-top: 50px;
-  }
-
-  .hero-content h1 {
-    font-size: 38px;
-  }
-
-  .hero-content p {
-    font-size: 17px;
-  }
-
-  .main-btn {
-    padding: 16px 28px;
-    font-size: 16px;
-  }
-
-  .logo {
-    height: 65px;
-  }
-
-  .form-row {
-    flex-direction: column;
+@@ -368,11 +417,13 @@
     gap: 0;
   }
 
+  .calculator-box {
   .calculator-box,
   .modal-content {
     padding: 24px;
   }
 
+  .calculator-box h2 {
   .calculator-box h2,
   .modal-content h2 {
     font-size: 30px;
