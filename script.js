@@ -10,6 +10,11 @@ const navQuoteBtn = document.getElementById("navQuoteBtn");
 
 let latestQuoteData = null;
 
+/* IMPORTANT:
+   Replace the URL below with YOUR real Google Apps Script Web App URL.
+*/
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyegtwRehBMXoCRnqnYqpm-wbEacVpmD5vlbDWc0JS3HRzQO2XSkeeju9RFHU9TW8-evA/exec";
+
 function openQuoteModal() {
   quoteModal.classList.add("show");
   document.body.style.overflow = "hidden";
@@ -138,7 +143,7 @@ quoteModal.addEventListener("click", function (event) {
   }
 });
 
-submitQuoteBtn.addEventListener("click", function () {
+submitQuoteBtn.addEventListener("click", async function () {
   const clientName = document.getElementById("clientName").value.trim();
   const clientEmail = document.getElementById("clientEmail").value.trim();
   const clientPhone = document.getElementById("clientPhone").value.trim();
@@ -160,17 +165,65 @@ submitQuoteBtn.addEventListener("click", function () {
     return;
   }
 
+  if (WEB_APP_URL === "PASTE_YOUR_WEB_APP_URL_HERE") {
+    quoteOutput.innerHTML = `
+      <h3>Web app URL missing</h3>
+      <p>You still need to paste your Google Apps Script Web App URL into script.js.</p>
+    `;
+    return;
+  }
+
+  const payload = {
+    clientName: clientName,
+    clientEmail: clientEmail,
+    clientPhone: clientPhone,
+    roomType: latestQuoteData.roomType,
+    roomArea: latestQuoteData.area,
+    lumens: latestQuoteData.lumens,
+    estimatedLights: latestQuoteData.lights,
+    suggestedSetup: latestQuoteData.suggestion,
+    additionalRequirements: additionalRequirements
+  };
+
   quoteOutput.innerHTML = `
-    <h3>Quote Request Ready</h3>
-    <p><strong>Client name:</strong> ${clientName}</p>
-    <p><strong>Email address:</strong> ${clientEmail}</p>
-    <p><strong>Telephone number:</strong> ${clientPhone}</p>
-    <p><strong>Room type:</strong> ${latestQuoteData.roomType}</p>
-    <p><strong>Room area:</strong> ${latestQuoteData.area} m²</p>
-    <p><strong>Total light needed:</strong> ${latestQuoteData.lumens} lumens</p>
-    <p><strong>Estimated downlights:</strong> ${latestQuoteData.lights}</p>
-    <p><strong>Suggested setup:</strong> ${latestQuoteData.suggestion}</p>
-    <p><strong>Additional requirements:</strong> ${additionalRequirements || "None provided"}</p>
-    <p><strong>Status:</strong> Quote request captured successfully on the page.</p>
+    <h3>Sending quote request...</h3>
+    <p>Please wait while we submit your details.</p>
   `;
+
+  try {
+    await fetch(WEB_APP_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    quoteOutput.innerHTML = `
+      <h3>Quote request sent</h3>
+      <p><strong>Client name:</strong> ${clientName}</p>
+      <p><strong>Email address:</strong> ${clientEmail}</p>
+      <p><strong>Telephone number:</strong> ${clientPhone}</p>
+      <p><strong>Room type:</strong> ${latestQuoteData.roomType}</p>
+      <p><strong>Room area:</strong> ${latestQuoteData.area} m²</p>
+      <p><strong>Total light needed:</strong> ${latestQuoteData.lumens} lumens</p>
+      <p><strong>Estimated downlights:</strong> ${latestQuoteData.lights}</p>
+      <p><strong>Suggested setup:</strong> ${latestQuoteData.suggestion}</p>
+      <p><strong>Additional requirements:</strong> ${additionalRequirements || "None provided"}</p>
+      <p><strong>Status:</strong> Your quote request has been submitted. Please also check your Google Sheet and email inbox to confirm it arrived.</p>
+    `;
+
+    document.getElementById("clientName").value = "";
+    document.getElementById("clientEmail").value = "";
+    document.getElementById("clientPhone").value = "";
+    document.getElementById("additionalRequirements").value = "";
+
+  } catch (error) {
+    quoteOutput.innerHTML = `
+      <h3>Submission problem</h3>
+      <p>We could not send the quote request from the website.</p>
+      <p><strong>Error:</strong> ${error.message}</p>
+    `;
+  }
 });
