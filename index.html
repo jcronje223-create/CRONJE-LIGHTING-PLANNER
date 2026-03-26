@@ -3,130 +3,265 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cronje Lighting Planner</title>
+  <title>Cronje Lighting | Professional Lighting Planning</title>
+  <meta
+    name="description"
+    content="Professional lighting planning, room-based recommendations, and quote-ready guidance from Cronje Lighting."
+  />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <header class="hero">
-    <div class="overlay">
-
-      <nav class="navbar">
-        <div class="logo-area">
+  <!-- HERO -->
+  <header class="hero" id="home">
+    <div class="hero-overlay">
+      <nav class="navbar container">
+        <a href="#home" class="brand">
           <img src="./Images/logo.png" alt="Cronje Lighting Logo" class="logo" />
-        </div>
+        </a>
 
         <div class="nav-menu">
-          <a href="#">Home</a>
           <a href="#about">About</a>
           <a href="#services">Services</a>
+          <a href="#calculator">Calculator</a>
           <a href="#contact">Contact</a>
           <a href="#" id="navQuoteBtn" class="quote-btn">Get a Quote</a>
         </div>
       </nav>
 
-      <div class="hero-content">
-        <h1>PLAN YOUR PERFECT LIGHTING</h1>
-        <div class="hero-line"></div>
-        <p>Calculate the ideal lighting for any room in seconds.</p>
-        <a href="#calculator" class="main-btn">GET STARTED</a>
+      <div class="hero-main container">
+        <div class="hero-text">
+          <span class="eyebrow">Premium Lighting Planning</span>
+          <h1>Lighting that looks right, feels right, and works properly.</h1>
+          <p>
+            Professional room-based lighting recommendations for homes, offices,
+            renovations, and new installations.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#calculator" class="main-btn">Use the Calculator</a>
+            <a href="#services" class="secondary-btn">View Services</a>
+          </div>
+
+          <div class="hero-trust">
+            <div class="trust-item">
+              <strong>Smart Room Planning</strong>
+              <span>Practical lighting guidance</span>
+            </div>
+            <div class="trust-item">
+              <strong>Fast Quote Requests</strong>
+              <span>Direct lead capture from your site</span>
+            </div>
+            <div class="trust-item">
+              <strong>Professional Recommendations</strong>
+              <span>Clear fitting suggestions</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <div class="hero-panel-card">
+            <p class="mini-label">Why clients use this tool</p>
+            <h3>Plan before you buy</h3>
+            <p>
+              Get a fast recommendation based on room size, room type, and desired brightness.
+            </p>
+
+            <div class="hero-stats">
+              <div class="stat-box">
+                <span class="stat-number">1</span>
+                <span class="stat-text">Enter room details</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-number">2</span>
+                <span class="stat-text">See lighting recommendation</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-number">3</span>
+                <span class="stat-text">Request a quote instantly</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <section class="feature-cards">
-        <div class="card">
-          <div class="icon">📏</div>
-          <h3>Room Size & Type</h3>
-          <div class="card-line"></div>
-          <p>Select your room dimensions and type</p>
-        </div>
-
-        <div class="card">
-          <div class="icon">💡</div>
-          <h3>Brightness Preference</h3>
-          <div class="card-line"></div>
-          <p>Choose your desired lighting level</p>
-        </div>
-
-        <div class="card">
-          <div class="icon">✨</div>
-          <h3>Instant Recommendations</h3>
-          <div class="card-line"></div>
-          <p>Get the best lighting setup instantly</p>
-        </div>
-      </section>
-
     </div>
   </header>
 
-  <section id="calculator" class="calculator-section">
-    <div class="calculator-box">
-      <h2>Lighting Calculator</h2>
-      <p class="calculator-subtext">Enter your room details below to get a quick recommendation.</p>
-
-      <div class="form-group">
-        <label for="roomType">Room Type</label>
-        <select id="roomType">
-          <option value="bedroom">Bedroom</option>
-          <option value="living-room">Living Room</option>
-          <option value="kitchen">Kitchen</option>
-          <option value="bathroom">Bathroom</option>
-          <option value="office">Office</option>
-          <option value="garage">Garage</option>
-        </select>
+  <!-- FEATURES -->
+  <section class="features-section">
+    <div class="container">
+      <div class="section-heading center">
+        <span class="section-tag">How it Works</span>
+        <h2>A cleaner way to plan your lighting</h2>
+        <p>
+          Built to help clients make better decisions before requesting pricing.
+        </p>
       </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label for="roomLength">Length (metres)</label>
-          <input type="number" id="roomLength" placeholder="Example: 5" min="0" step="0.1" />
+      <div class="feature-cards">
+        <div class="card">
+          <div class="icon-wrap">📏</div>
+          <h3>Room Size & Type</h3>
+          <p>Choose the room and enter the dimensions to calculate the space properly.</p>
         </div>
 
-        <div class="form-group">
-          <label for="roomWidth">Width (metres)</label>
-          <input type="number" id="roomWidth" placeholder="Example: 4" min="0" step="0.1" />
+        <div class="card">
+          <div class="icon-wrap">💡</div>
+          <h3>Brightness Preference</h3>
+          <p>Select the lighting feel you want, from soft ambient light to bright task lighting.</p>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="brightness">Brightness Preference</label>
-        <select id="brightness">
-          <option value="soft">Soft / Relaxed</option>
-          <option value="medium">Medium / Balanced</option>
-          <option value="bright">Bright / Task Lighting</option>
-        </select>
-      </div>
-
-      <button id="calculateBtn" class="calc-btn">CALCULATE</button>
-
-      <div id="result" class="result-box">
-        <h3>Your result will appear here</h3>
-        <p>Fill in the form and click calculate.</p>
+        <div class="card">
+          <div class="icon-wrap">✨</div>
+          <h3>Instant Recommendation</h3>
+          <p>Receive a practical setup suggestion and carry it straight into a quote request.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="about" class="info-section">
-    <h2>About Cronje Lighting</h2>
-    <p>
-      We help homeowners and businesses plan beautiful, practical lighting layouts
-      with confidence. From room brightness to fitting recommendations, we make
-      lighting decisions easier.
-    </p>
+  <!-- CALCULATOR -->
+  <section id="calculator" class="calculator-section">
+    <div class="container calculator-grid">
+      <div class="calculator-intro">
+        <span class="section-tag">Lighting Calculator</span>
+        <h2>Get a fast recommendation for your room</h2>
+        <p>
+          Use the calculator below to estimate the lighting requirement for your space.
+          Once you are happy with the result, open the quote form and send your request.
+        </p>
+
+        <ul class="benefit-list">
+          <li>Professional and easy to use</li>
+          <li>Useful for homes, offices, and renovations</li>
+          <li>Designed to help clients request more accurate quotes</li>
+        </ul>
+      </div>
+
+      <div class="calculator-box">
+        <h3>Room Details</h3>
+        <p class="calculator-subtext">
+          Enter your room details below to get a quick recommendation.
+        </p>
+
+        <div class="form-group">
+          <label for="roomType">Room Type</label>
+          <select id="roomType">
+            <option value="bedroom">Bedroom</option>
+            <option value="living-room">Living Room</option>
+            <option value="kitchen">Kitchen</option>
+            <option value="bathroom">Bathroom</option>
+            <option value="office">Office</option>
+            <option value="garage">Garage</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="roomLength">Length (metres)</label>
+            <input type="number" id="roomLength" placeholder="Example: 5" min="0" step="0.1" />
+          </div>
+
+          <div class="form-group">
+            <label for="roomWidth">Width (metres)</label>
+            <input type="number" id="roomWidth" placeholder="Example: 4" min="0" step="0.1" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="brightness">Brightness Preference</label>
+          <select id="brightness">
+            <option value="soft">Soft / Relaxed</option>
+            <option value="medium">Medium / Balanced</option>
+            <option value="bright">Bright / Task Lighting</option>
+          </select>
+        </div>
+
+        <button id="calculateBtn" class="calc-btn">Calculate Recommendation</button>
+
+        <div id="result" class="result-box">
+          <h3>Your result will appear here</h3>
+          <p>Fill in the form and click calculate.</p>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section id="services" class="info-section dark-section">
-    <h2>Our Services</h2>
-    <p>
-      Lighting planning, brightness guidance, room-based fitting suggestions,
-      and quote-ready recommendations for your project.
-    </p>
+  <!-- ABOUT + SERVICES -->
+  <section id="about" class="info-split-section">
+    <div class="container info-split">
+      <div class="info-card large">
+        <span class="section-tag">About Cronje Lighting</span>
+        <h2>Lighting guidance with a professional finish</h2>
+        <p>
+          We help homeowners, businesses, and project clients plan practical,
+          attractive lighting layouts with confidence. From brightness planning to
+          fitting suggestions, our goal is to simplify the decision-making process.
+        </p>
+      </div>
+
+      <div class="info-card">
+        <span class="section-tag">Our Services</span>
+        <h3 id="services">What we offer</h3>
+        <p>
+          Lighting planning, room-based fitting recommendations, guidance on layout,
+          and quote-ready support for your next project.
+        </p>
+      </div>
+    </div>
   </section>
 
-  <section id="contact" class="info-section">
-    <h2>Contact</h2>
-    <p>Email: info@cronjelighting.co.za</p>
-    <p>Phone: +27 76 571 2206</p>
-      </section>
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container cta-box">
+      <div>
+        <span class="section-tag">Ready to move forward?</span>
+        <h2>Use the calculator, then request your quote.</h2>
+        <p>
+          Send us your room details, contact information, and any special requirements.
+        </p>
+      </div>
+
+      <div class="cta-actions">
+        <a href="#calculator" class="secondary-btn">Open Calculator</a>
+        <a href="#" id="navQuoteBtnSecondary" class="main-btn">Request Quote</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact-section">
+    <div class="container contact-grid">
+      <div class="contact-card">
+        <span class="section-tag">Contact</span>
+        <h2>Get in touch</h2>
+        <p>If you already know what you need, use the quote button and send your request directly.</p>
+      </div>
+
+      <div class="contact-card">
+        <h3>Email</h3>
+        <p>info@cronjelighting.co.za</p>
+      </div>
+
+      <div class="contact-card">
+        <h3>Phone</h3>
+        <p>+27 76 571 2206</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© 2026 Cronje Lighting. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
 
   <!-- POPUP MODAL -->
   <div id="quoteModal" class="modal">
@@ -134,7 +269,9 @@
       <button id="closeModalBtn" class="close-btn">&times;</button>
 
       <h2>Request a Quote</h2>
-      <p class="calculator-subtext">Your calculator result will be carried into this quote form automatically.</p>
+      <p class="calculator-subtext">
+        Your calculator result will be carried into this quote form automatically.
+      </p>
 
       <div class="quote-summary" id="quoteSummary">
         <h3>Calculator Summary</h3>
@@ -160,7 +297,10 @@
 
       <div class="form-group">
         <label for="additionalRequirements">Additional Requirements</label>
-        <textarea id="additionalRequirements" placeholder="Tell us anything extra, for example dimming, warm white, cool white, strip lighting, feature fittings, budget, or special requests"></textarea>
+        <textarea
+          id="additionalRequirements"
+          placeholder="Tell us anything extra, for example dimming, warm white, cool white, strip lighting, feature fittings, budget, or special requests"
+        ></textarea>
       </div>
 
       <button id="submitQuoteBtn" class="calc-btn">SUBMIT QUOTE REQUEST</button>
@@ -173,5 +313,15 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    const navQuoteBtnSecondary = document.getElementById("navQuoteBtnSecondary");
+    if (navQuoteBtnSecondary) {
+      navQuoteBtnSecondary.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (typeof updateQuoteSummary === "function") updateQuoteSummary();
+        if (typeof openQuoteModal === "function") openQuoteModal();
+      });
+    }
+  </script>
 </body>
 </html>
