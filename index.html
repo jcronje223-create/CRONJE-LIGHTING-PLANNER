@@ -34,7 +34,7 @@
           <h1>Lighting that looks right, feels right and works properly.</h1>
           <p>
             Professional room-based lighting recommendations for homes, offices,
-            Shops and new installations.
+            shops and new installations.
           </p>
 
           <div class="hero-actions">
@@ -63,7 +63,7 @@
             <p class="mini-label">Why clients use this tool</p>
             <h3>Plan before you buy</h3>
             <p>
-              Get a fast recommendation based on room size, room type and desired brightness.
+              Get a fast recommendation based on room size, room type, preferred light type and desired brightness.
             </p>
 
             <div class="hero-stats">
@@ -73,7 +73,7 @@
               </div>
               <div class="stat-box">
                 <span class="stat-number">2</span>
-                <span class="stat-text">See lighting recommendation</span>
+                <span class="stat-text">Choose your light type</span>
               </div>
               <div class="stat-box">
                 <span class="stat-number">3</span>
@@ -105,8 +105,8 @@
 
         <div class="card">
           <div class="icon-wrap">💡</div>
-          <h3>Brightness Preference</h3>
-          <p>Select the lighting feel you want, from soft ambient light to bright task lighting.</p>
+          <h3>Light Type & Brightness</h3>
+          <p>Choose your preferred fitting type and the lighting feel you want, from soft ambient light to bright task lighting.</p>
         </div>
 
         <div class="card">
@@ -153,6 +153,16 @@
           </select>
         </div>
 
+        <div class="form-group">
+          <label for="lightType">Preferred Light Type</label>
+          <select id="lightType">
+            <option value="Downlights">Downlights</option>
+            <option value="Bulb lights">Bulb lights</option>
+            <option value="LED lights">LED lights</option>
+            <option value="Spotlights">Spotlights</option>
+          </select>
+        </div>
+
         <div class="form-row">
           <div class="form-group">
             <label for="roomLength">Length (metres)</label>
@@ -178,7 +188,7 @@
 
         <div id="result" class="result-box">
           <h3>Your result will appear here</h3>
-          <p>Fill in the form and click calculate.</p>
+          <p>Fill in the form, choose your preferred light type, and click calculate.</p>
         </div>
 
         <div id="quoteActionWrap" class="quote-action-wrap hidden">
