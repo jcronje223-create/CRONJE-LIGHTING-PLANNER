@@ -6,13 +6,12 @@
   <title>Cronje Lighting | Professional Lighting Planning</title>
   <meta
     name="description"
-    content="Professional lighting planning, room-based recommendations and quote-ready guidance from Cronje Lighting."
+    content="Professional lighting planning, room-based recommendations, and quote-ready guidance from Cronje Lighting."
   />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- HERO -->
   <header class="hero" id="home">
     <div class="hero-overlay">
       <nav class="navbar container">
@@ -32,15 +31,15 @@
       <div class="hero-main container">
         <div class="hero-text">
           <span class="eyebrow">Premium Lighting Planning</span>
-          <h1>Lighting that looks right, feels right and works properly.</h1>
+          <h1>Lighting that looks right, feels right, and works properly.</h1>
           <p>
-            Professional room-based lighting recommendations for Homes, Offices,
-            Renovations, Shops and new installations.
+            Professional room-based lighting recommendations for homes, offices,
+            renovations, and new installations.
           </p>
 
           <div class="hero-actions">
             <a href="#calculator" class="main-btn">Use the Calculator</a>
-            <a href="#services" class="secondary-btn">View Services</a>
+            <a href="#directQuote" class="secondary-btn">I Know What I Want</a>
           </div>
 
           <div class="hero-trust">
@@ -64,7 +63,7 @@
             <p class="mini-label">Why clients use this tool</p>
             <h3>Plan before you buy</h3>
             <p>
-              Get a fast recommendation based on room size, room type and desired brightness.
+              Get a fast recommendation based on room size, room type, and desired brightness.
             </p>
 
             <div class="hero-stats">
@@ -87,7 +86,6 @@
     </div>
   </header>
 
-  <!-- FEATURES -->
   <section class="features-section">
     <div class="container">
       <div class="section-heading center">
@@ -120,7 +118,6 @@
     </div>
   </section>
 
-  <!-- CALCULATOR -->
   <section id="calculator" class="calculator-section">
     <div class="container calculator-grid">
       <div class="calculator-intro">
@@ -128,12 +125,12 @@
         <h2>Get a fast recommendation for your room</h2>
         <p>
           Use the calculator below to estimate the lighting requirement for your space.
-          Once you are happy with the result, open the quote form and send your request.
+          Once you are happy with the result, request your quote directly from the result box.
         </p>
 
         <ul class="benefit-list">
           <li>Professional and easy to use</li>
-          <li>Useful for Homes, Offices and Shops</li>
+          <li>Useful for homes, offices, and renovations</li>
           <li>Designed to help clients request more accurate quotes</li>
         </ul>
       </div>
@@ -183,18 +180,23 @@
           <h3>Your result will appear here</h3>
           <p>Fill in the form and click calculate.</p>
         </div>
+
+        <div id="quoteActionWrap" class="quote-action-wrap hidden">
+          <button id="resultQuoteBtn" class="main-btn result-quote-btn">
+            Request a Quote
+          </button>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ABOUT + SERVICES -->
   <section id="about" class="info-split-section">
     <div class="container info-split">
       <div class="info-card large">
         <span class="section-tag">About Cronje Lighting</span>
         <h2>Lighting guidance with a professional finish</h2>
         <p>
-          We help homeowners, businesses, Shopowners and Installers plan practical,
+          We help homeowners, businesses, and project clients plan practical,
           attractive lighting layouts with confidence. From brightness planning to
           fitting suggestions, our goal is to simplify the decision-making process.
         </p>
@@ -204,38 +206,22 @@
         <span class="section-tag">Our Services</span>
         <h3 id="services">What we offer</h3>
         <p>
-          Lighting planning, room-based fitting recommendations, guidance on layout
+          Lighting planning, room-based fitting recommendations, guidance on layout,
           and quote-ready support for your next project.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="cta-section">
-    <div class="container cta-box">
-      <div>
-        <span class="section-tag">Ready to move forward?</span>
-        <h2>Use the calculator, then request your quote.</h2>
-        <p>
-          Send us your room details, contact information and any special requirements.
-        </p>
-      </div>
-
-      <div class="cta-actions">
-        <a href="#calculator" class="secondary-btn">Open Calculator</a>
-        <a href="#" id="navQuoteBtnSecondary" class="main-btn">Request Quote</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
   <section id="contact" class="contact-section">
     <div class="container contact-grid">
       <div class="contact-card">
         <span class="section-tag">Contact</span>
         <h2>Get in touch</h2>
-        <p>If you already know what you need, use the quote button and send your request directly.</p>
+        <p>If you already know exactly what you need, skip the calculator and send a direct quote request.</p>
+        <div class="contact-actions">
+          <a href="#directQuote" class="main-btn">I Know What I Want</a>
+        </div>
       </div>
 
       <div class="contact-card">
@@ -250,7 +236,65 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <section id="directQuote" class="direct-quote-section">
+    <div class="container direct-quote-grid">
+      <div class="direct-quote-intro">
+        <span class="section-tag">Direct Quote Request</span>
+        <h2>Already know what you want?</h2>
+        <p>
+          Send us your contact details and describe exactly what you need.
+          This option is ideal for clients who already know the fittings, layout,
+          quantity, style, or type of lighting they want quoted.
+        </p>
+
+        <ul class="benefit-list">
+          <li>Skip the calculator completely</li>
+          <li>Describe fittings, rooms, quantities, or project details</li>
+          <li>Perfect for renovations, new builds, and replacement work</li>
+        </ul>
+      </div>
+
+      <div class="calculator-box">
+        <h3>Tell Us What You Need</h3>
+        <p class="calculator-subtext">
+          Enter your details and describe your requirements as clearly as possible.
+        </p>
+
+        <div class="form-group">
+          <label for="directClientName">Full Name</label>
+          <input type="text" id="directClientName" placeholder="Enter your full name" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="directClientEmail">Email Address</label>
+            <input type="email" id="directClientEmail" placeholder="Enter your email address" />
+          </div>
+
+          <div class="form-group">
+            <label for="directClientPhone">Telephone Number</label>
+            <input type="tel" id="directClientPhone" placeholder="Enter your phone number" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="directQuoteDetails">What do you need?</label>
+          <textarea
+            id="directQuoteDetails"
+            placeholder="Example: I need a quote for 12 warm white downlights, 2 pendant lights above the island, LED strip under cupboards, and installation for a kitchen renovation."
+          ></textarea>
+        </div>
+
+        <button id="submitDirectQuoteBtn" class="calc-btn">SUBMIT DIRECT QUOTE REQUEST</button>
+
+        <div id="directQuoteOutput" class="result-box">
+          <h3>Your direct quote request will appear here</h3>
+          <p>Complete the form and click submit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="container footer-inner">
       <p>© 2026 Cronje Lighting. All rights reserved.</p>
@@ -263,7 +307,6 @@
     </div>
   </footer>
 
-  <!-- POPUP MODAL -->
   <div id="quoteModal" class="modal">
     <div class="modal-content">
       <button id="closeModalBtn" class="close-btn">&times;</button>
@@ -313,15 +356,5 @@
   </div>
 
   <script src="script.js"></script>
-  <script>
-    const navQuoteBtnSecondary = document.getElementById("navQuoteBtnSecondary");
-    if (navQuoteBtnSecondary) {
-      navQuoteBtnSecondary.addEventListener("click", function (e) {
-        e.preventDefault();
-        if (typeof updateQuoteSummary === "function") updateQuoteSummary();
-        if (typeof openQuoteModal === "function") openQuoteModal();
-      });
-    }
-  </script>
 </body>
 </html>
