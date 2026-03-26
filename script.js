@@ -2,24 +2,31 @@ document.addEventListener("DOMContentLoaded", function () {
   const quoteForm = document.getElementById("quoteForm");
   const status = document.getElementById("formStatus");
 
-  if (!quoteForm) {
-    console.error('Form with id="quoteForm" was not found.');
-    return;
-  }
+  if (!quoteForm) return;
 
   quoteForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
+    const clientName = document.getElementById("name").value;
+    const clientEmail = document.getElementById("email").value;
+    const clientPhone = document.getElementById("phone").value;
+    const roomType = document.getElementById("roomType").value;
+    const roomArea = document.getElementById("roomArea").value;
+    const lumens = document.getElementById("lumens").value;
+    const estimatedLights = document.getElementById("lights").value;
+    const suggestedSetup = document.getElementById("setup").value;
+    const additionalRequirements = document.getElementById("requirements").value;
+
     const data = {
-      clientName: document.getElementById("name")?.value || "",
-      clientEmail: document.getElementById("email")?.value || "",
-      clientPhone: document.getElementById("phone")?.value || "",
-      roomType: document.getElementById("roomType")?.value || "",
-      roomArea: document.getElementById("roomArea")?.value || "",
-      lumens: document.getElementById("lumens")?.value || "",
-      estimatedLights: document.getElementById("lights")?.value || "",
-      suggestedSetup: document.getElementById("setup")?.value || "",
-      additionalRequirements: document.getElementById("requirements")?.value || ""
+      clientName,
+      clientEmail,
+      clientPhone,
+      roomType,
+      roomArea,
+      lumens,
+      estimatedLights,
+      suggestedSetup,
+      additionalRequirements
     };
 
     if (status) {
@@ -38,13 +45,13 @@ document.addEventListener("DOMContentLoaded", function () {
       .then(result => {
         if (result.success) {
           if (status) {
-            status.innerText = "Your quote request has been sent successfully!";
+            status.innerText = `Thank you ${clientName}, we will look at your requirements and get back to you shortly.`;
             status.style.color = "#00ff88";
           }
           quoteForm.reset();
         } else {
           if (status) {
-            status.innerText = result.message || "Something went wrong. Please try again.";
+            status.innerText = "Something went wrong. Please try again.";
             status.style.color = "red";
           }
         }
