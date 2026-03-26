@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const clientPhone = document.getElementById("clientPhone");
   const additionalRequirements = document.getElementById("additionalRequirements");
 
-  const WEB_APP_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxQG1MrU_U_HWjybp-c2AeIuaBmpN_iu8_t_JnKMR-E6dhvL6P4y5Eu36T88yPRFL6NZg/exec";
 
   let latestQuoteData = null;
 
@@ -201,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (result.success) {
         quoteOutput.innerHTML = `
           <h3>Thank you ${name}</h3>
-          <p>We will look at your requirements and get back to you shortly.</p>
+          <p>Our team will look at your requirements and get back to you shortly.</p>
         `;
 
         clientName.value = "";
