@@ -1,429 +1,177 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cronje Lighting Planner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-html,
-body {
-  width: 100%;
-  overflow-x: hidden;
-}
+  <header class="hero">
+    <div class="overlay">
 
-html {
-  scroll-behavior: smooth;
-}
+      <nav class="navbar">
+        <div class="logo-area">
+          <img src="./Images/logo.png" alt="Cronje Lighting Logo" class="logo" />
+        </div>
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #0d0d0d;
-  color: white;
-}
+        <div class="nav-menu">
+          <a href="#">Home</a>
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#contact">Contact</a>
+          <a href="#" id="navQuoteBtn" class="quote-btn">Get a Quote</a>
+        </div>
+      </nav>
 
-/* HERO */
-.hero {
-  min-height: 100vh;
-  background-image: url("./Images/background.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+      <div class="hero-content">
+        <h1>PLAN YOUR PERFECT LIGHTING</h1>
+        <div class="hero-line"></div>
+        <p>Calculate the ideal lighting for any room in seconds.</p>
+        <a href="#calculator" class="main-btn">GET STARTED</a>
+      </div>
 
-.overlay {
-  min-height: 100vh;
-  background: rgba(0, 0, 0, 0.35);
-  padding: 25px 50px 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+      <section class="feature-cards">
+        <div class="card">
+          <div class="icon">📏</div>
+          <h3>Room Size & Type</h3>
+          <div class="card-line"></div>
+          <p>Select your room dimensions and type</p>
+        </div>
 
-/* NAVBAR */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
+        <div class="card">
+          <div class="icon">💡</div>
+          <h3>Brightness Preference</h3>
+          <div class="card-line"></div>
+          <p>Choose your desired lighting level</p>
+        </div>
 
-.logo {
-  height: 80px;
-  width: auto;
-  display: block;
-  filter: drop-shadow(0 0 12px rgba(0, 150, 255, 0.55));
-}
+        <div class="card">
+          <div class="icon">✨</div>
+          <h3>Instant Recommendations</h3>
+          <div class="card-line"></div>
+          <p>Get the best lighting setup instantly</p>
+        </div>
+      </section>
 
-.nav-menu {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  flex-wrap: wrap;
-}
+    </div>
+  </header>
 
-.nav-menu a {
-  color: white;
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 500;
-  transition: 0.3s ease;
-}
+  <section id="calculator" class="calculator-section">
+    <div class="calculator-box">
+      <h2>Lighting Calculator</h2>
+      <p class="calculator-subtext">Enter your room details below to get a quick recommendation.</p>
 
-.nav-menu a:hover {
-  color: #ffd28a;
-}
+      <div class="form-group">
+        <label for="roomType">Room Type</label>
+        <select id="roomType">
+          <option value="bedroom">Bedroom</option>
+          <option value="living-room">Living Room</option>
+          <option value="kitchen">Kitchen</option>
+          <option value="bathroom">Bathroom</option>
+          <option value="office">Office</option>
+          <option value="garage">Garage</option>
+        </select>
+      </div>
 
-.quote-btn {
-  background: linear-gradient(135deg, #f2b544, #d88912);
-  color: white;
-  padding: 14px 24px;
-  border-radius: 8px;
-  font-weight: bold;
-  box-shadow: 0 8px 22px rgba(255, 140, 0, 0.4);
-}
+      <div class="form-row">
+        <div class="form-group">
+          <label for="roomLength">Length (metres)</label>
+          <input type="number" id="roomLength" placeholder="Example: 5" min="0" step="0.1" />
+        </div>
 
-/* HERO CONTENT */
-.hero-content {
-  text-align: center;
-  margin-top: 90px;
-  margin-bottom: 70px;
-}
+        <div class="form-group">
+          <label for="roomWidth">Width (metres)</label>
+          <input type="number" id="roomWidth" placeholder="Example: 4" min="0" step="0.1" />
+        </div>
+      </div>
 
-.hero-content h1 {
-  font-size: 68px;
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  text-shadow: 0 0 20px rgba(255, 180, 80, 0.6);
-}
+      <div class="form-group">
+        <label for="brightness">Brightness Preference</label>
+        <select id="brightness">
+          <option value="soft">Soft / Relaxed</option>
+          <option value="medium">Medium / Balanced</option>
+          <option value="bright">Bright / Task Lighting</option>
+        </select>
+      </div>
 
-.hero-line {
-  width: 340px;
-  max-width: 80%;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.25);
-  margin: 22px auto 20px;
-}
+      <button id="calculateBtn" class="calc-btn">CALCULATE</button>
 
-.hero-content p {
-  font-size: 20px;
-  margin-bottom: 30px;
-  color: rgba(255, 255, 255, 0.95);
-}
+      <div id="result" class="result-box">
+        <h3>Your result will appear here</h3>
+        <p>Fill in the form and click calculate.</p>
+      </div>
+    </div>
+  </section>
 
-.main-btn {
-  display: inline-block;
-  text-decoration: none;
-  background: linear-gradient(135deg, #f5b942, #ff8c00);
-  color: white;
-  padding: 18px 40px;
-  font-size: 18px;
-  font-weight: 800;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(255, 140, 0, 0.5);
-  transition: 0.3s ease;
-}
+  <section id="about" class="info-section">
+    <h2>About Cronje Lighting</h2>
+    <p>
+      We help homeowners and businesses plan beautiful, practical lighting layouts
+      with confidence. From room brightness to fitting recommendations, we make
+      lighting decisions easier.
+    </p>
+  </section>
 
-.main-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-}
+  <section id="services" class="info-section dark-section">
+    <h2>Our Services</h2>
+    <p>
+      Lighting planning, brightness guidance, room-based fitting suggestions,
+      and quote-ready recommendations for your project.
+    </p>
+  </section>
 
-/* FEATURE CARDS */
-.feature-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  max-width: 1250px;
-  width: 100%;
-  margin: 0 auto 20px;
-}
+  <section id="contact" class="info-section">
+    <h2>Contact</h2>
+    <p>Email: info@cronjelighting.co.za</p>
+    <p>Phone: +27 76 571 2206</p>
+      </section>
 
-.card {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 14px;
-  padding: 30px 20px;
-  text-align: center;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
-}
+  <!-- POPUP MODAL -->
+  <div id="quoteModal" class="modal">
+    <div class="modal-content">
+      <button id="closeModalBtn" class="close-btn">&times;</button>
 
-.icon {
-  font-size: 48px;
-  margin-bottom: 18px;
-}
+      <h2>Request a Quote</h2>
+      <p class="calculator-subtext">Your calculator result will be carried into this quote form automatically.</p>
 
-.card h3 {
-  font-size: 22px;
-  margin-bottom: 14px;
-}
+      <div class="quote-summary" id="quoteSummary">
+        <h3>Calculator Summary</h3>
+        <p>No calculator data yet. Please use the calculator first.</p>
+      </div>
 
-.card-line {
-  width: 85%;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.25);
-  margin: 0 auto 16px;
-}
+      <div class="form-group">
+        <label for="clientName">Full Name</label>
+        <input type="text" id="clientName" placeholder="Enter your full name" />
+      </div>
 
-.card p {
-  font-size: 17px;
-  color: rgba(255, 255, 255, 0.95);
-  line-height: 1.5;
-}
+      <div class="form-row">
+        <div class="form-group">
+          <label for="clientEmail">Email Address</label>
+          <input type="email" id="clientEmail" placeholder="Enter your email address" />
+        </div>
 
-/* CALCULATOR */
-.calculator-section {
-  padding: 80px 20px;
-  background: linear-gradient(180deg, #101010, #181818);
-}
+        <div class="form-group">
+          <label for="clientPhone">Telephone Number</label>
+          <input type="tel" id="clientPhone" placeholder="Enter your phone number" />
+        </div>
+      </div>
 
-.calculator-box {
-  max-width: 800px;
-  margin: 0 auto;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 18px;
-  padding: 35px;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(10px);
-}
+      <div class="form-group">
+        <label for="additionalRequirements">Additional Requirements</label>
+        <textarea id="additionalRequirements" placeholder="Tell us anything extra, for example dimming, warm white, cool white, strip lighting, feature fittings, budget, or special requests"></textarea>
+      </div>
 
-.calculator-box h2 {
-  text-align: center;
-  font-size: 38px;
-  margin-bottom: 12px;
-  color: #f5b942;
-}
+      <button id="submitQuoteBtn" class="calc-btn">SUBMIT QUOTE REQUEST</button>
 
-.calculator-subtext {
-  text-align: center;
-  color: #e7e7e7;
-  margin-bottom: 28px;
-  font-size: 17px;
-}
+      <div id="quoteOutput" class="result-box">
+        <h3>Your quote request will appear here</h3>
+        <p>Complete the calculator and the form, then click submit.</p>
+      </div>
+    </div>
+  </div>
 
-.form-row {
-  display: flex;
-  gap: 18px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 18px;
-  width: 100%;
-}
-
-.form-group label {
-  margin-bottom: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #ffffff;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-  padding: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.08);
-  color: white;
-  font-size: 16px;
-  outline: none;
-  font-family: inherit;
-}
-
-.form-group textarea {
-  min-height: 140px;
-  resize: vertical;
-}
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  color: #d8d8d8;
-}
-
-.form-group select option {
-  color: black;
-}
-
-.calc-btn {
-  width: 100%;
-  border: none;
-  background: linear-gradient(135deg, #f5b942, #ff8c00);
-  color: white;
-  padding: 16px;
-  font-size: 17px;
-  font-weight: 800;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 10px 25px rgba(255, 140, 0, 0.35);
-  transition: 0.3s ease;
-}
-
-.calc-btn:hover {
-  transform: translateY(-2px);
-}
-
-.result-box,
-.quote-summary {
-  margin-top: 24px;
-  padding: 22px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.result-box h3,
-.quote-summary h3 {
-  color: #f5b942;
-  margin-bottom: 10px;
-}
-
-.result-box p,
-.quote-summary p {
-  line-height: 1.6;
-  color: #f3f3f3;
-  margin-bottom: 6px;
-}
-
-.result-quote-btn {
-  display: inline-block;
-  margin-top: 15px;
-  text-decoration: none;
-  background: linear-gradient(135deg, #f5b942, #ff8c00);
-  color: white;
-  padding: 14px 24px;
-  font-size: 16px;
-  font-weight: 800;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(255, 140, 0, 0.35);
-}
-
-/* INFO SECTIONS */
-.info-section {
-  padding: 70px 25px;
-  text-align: center;
-  background: #141414;
-}
-
-.info-section h2 {
-  font-size: 34px;
-  margin-bottom: 18px;
-  color: #f5b942;
-}
-
-.info-section p {
-  max-width: 850px;
-  margin: 0 auto 12px;
-  font-size: 18px;
-  line-height: 1.7;
-  color: #f2f2f2;
-}
-
-.dark-section {
-  background: #0f0f0f;
-}
-
-/* MODAL */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.72);
-  padding: 30px 20px;
-  overflow-y: auto;
-}
-
-.modal.show {
-  display: block;
-}
-
-.modal-content {
-  max-width: 850px;
-  margin: 40px auto;
-  background: #171717;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 18px;
-  padding: 30px;
-  position: relative;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-}
-
-.close-btn {
-  position: absolute;
-  top: 14px;
-  right: 16px;
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 34px;
-  line-height: 1;
-  cursor: pointer;
-}
-
-/* RESPONSIVE */
-@media (max-width: 1100px) {
-  .hero-content h1 {
-    font-size: 52px;
-  }
-
-  .feature-cards {
-    grid-template-columns: 1fr;
-    max-width: 700px;
-  }
-}
-
-@media (max-width: 768px) {
-  .overlay {
-    padding: 20px;
-  }
-
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nav-menu {
-    gap: 16px;
-  }
-
-  .hero-content {
-    margin-top: 50px;
-  }
-
-  .hero-content h1 {
-    font-size: 38px;
-  }
-
-  .hero-content p {
-    font-size: 17px;
-  }
-
-  .main-btn {
-    padding: 16px 28px;
-    font-size: 16px;
-  }
-
-  .logo {
-    height: 65px;
-  }
-
-  .form-row {
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .calculator-box,
-  .modal-content {
-    padding: 24px;
-  }
-
-  .calculator-box h2,
-  .modal-content h2 {
-    font-size: 30px;
-  }
-}
+  <script src="script.js"></script>
+</body>
+</html>
