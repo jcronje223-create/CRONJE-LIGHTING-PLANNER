@@ -167,6 +167,112 @@ body {
   line-height: 1.5;
 }
 
+/* CALCULATOR SECTION */
+.calculator-section {
+  padding: 80px 20px;
+  background: linear-gradient(180deg, #101010, #181818);
+}
+
+.calculator-box {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 35px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+}
+
+.calculator-box h2 {
+  text-align: center;
+  font-size: 38px;
+  margin-bottom: 12px;
+  color: #f5b942;
+}
+
+.calculator-subtext {
+  text-align: center;
+  color: #e7e7e7;
+  margin-bottom: 28px;
+  font-size: 17px;
+}
+
+.form-row {
+  display: flex;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+  width: 100%;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.form-group input,
+.form-group select {
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  font-size: 16px;
+  outline: none;
+}
+
+.form-group input::placeholder {
+  color: #d8d8d8;
+}
+
+.form-group select option {
+  color: black;
+}
+
+.calc-btn {
+  width: 100%;
+  border: none;
+  background: linear-gradient(135deg, #f5b942, #ff8c00);
+  color: white;
+  padding: 16px;
+  font-size: 17px;
+  font-weight: 800;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(255, 140, 0, 0.35);
+  transition: 0.3s ease;
+}
+
+.calc-btn:hover {
+  transform: translateY(-2px);
+}
+
+.result-box {
+  margin-top: 24px;
+  padding: 22px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.result-box h3 {
+  color: #f5b942;
+  margin-bottom: 10px;
+}
+
+.result-box p {
+  line-height: 1.6;
+  color: #f3f3f3;
+}
+
+/* EXTRA SECTIONS */
 .info-section {
   padding: 70px 25px;
   text-align: center;
@@ -235,5 +341,18 @@ body {
 
   .logo {
     height: 65px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .calculator-box {
+    padding: 24px;
+  }
+
+  .calculator-box h2 {
+    font-size: 30px;
   }
 }
