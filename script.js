@@ -1,209 +1,144 @@
-document.addEventListener("DOMContentLoaded", function () {
-  function getByAnyId(ids) {
-    for (const id of ids) {
-      const el = document.getElementById(id);
-      if (el) return el;
-    }
-    return null;
+const calculatorForm = document.getElementById("calculatorForm");
+const quoteResult = document.getElementById("quoteResult");
+const quoteAmount = document.getElementById("quoteAmount");
+const quoteBreakdown = document.getElementById("quoteBreakdown");
+
+const quotePopup = document.getElementById("quotePopup");
+const openQuotePopupBtn = document.getElementById("openQuotePopupBtn");
+const closePopupBtn = document.getElementById("closePopupBtn");
+
+const quoteForm = document.getElementById("quoteForm");
+const formStatus = document.getElementById("formStatus");
+
+let latestQuoteData = null;
+
+/* -----------------------------
+   QUOTE CALCULATION
+----------------------------- */
+calculatorForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const roomType = document.getElementById("roomType").value;
+  const length = parseFloat(document.getElementById("length").value);
+  const width = parseFloat(document.getElementById("width").value);
+  const lightCount = parseInt(document.getElementById("lightCount").value, 10);
+  const fittingType = document.getElementById("fittingType").value;
+  const installationType = document.getElementById("installationType").value;
+
+  const area = length * width;
+
+  let basePerLight = 450;
+  let areaRate = 120;
+  let installFee = 0;
+
+  if (fittingType === "Premium Downlights") basePerLight = 650;
+  if (fittingType === "LED Strip") basePerLight = 700;
+  if (fittingType === "Pendant Lights") basePerLight = 950;
+  if (fittingType === "Outdoor Lights") basePerLight = 800;
+
+  if (installationType === "Replacement") installFee = 500;
+  if (installationType === "Upgrade") installFee = 1200;
+  if (installationType === "New Installation") installFee = 1800;
+
+  const lightCost = lightCount * basePerLight;
+  const areaCost = area * areaRate;
+  const total = Math.round(lightCost + areaCost + installFee);
+
+  latestQuoteData = {
+    roomType,
+    length,
+    width,
+    area: area.toFixed(2),
+    lightCount,
+    fittingType,
+    installationType,
+    estimatedQuote: total
+  };
+
+  quoteAmount.textContent = `R${total.toLocaleString("en-ZA")}`;
+  quoteBreakdown.textContent =
+    `${roomType} | ${length}m × ${width}m (${area.toFixed(2)}m²) | ` +
+    `${lightCount} lights | ${fittingType} | ${installationType}`;
+
+  quoteResult.classList.remove("hidden");
+});
+
+/* -----------------------------
+   POPUP OPEN / CLOSE
+----------------------------- */
+openQuotePopupBtn.addEventListener("click", function () {
+  quotePopup.classList.remove("hidden");
+});
+
+closePopupBtn.addEventListener("click", function () {
+  quotePopup.classList.add("hidden");
+});
+
+window.addEventListener("click", function (e) {
+  if (e.target === quotePopup) {
+    quotePopup.classList.add("hidden");
+  }
+});
+
+/* -----------------------------
+   FORM SUBMIT
+   IMPORTANT:
+   Replace WEB_APP_URL below with your Google Apps Script web app URL
+----------------------------- */
+const WEB_APP_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+quoteForm.addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  if (!latestQuoteData) {
+    formStatus.textContent = "Please calculate your quote first.";
+    formStatus.className = "status-text status-error";
+    return;
   }
 
-  function getValue(ids) {
-    const el = getByAnyId(ids);
-    return el ? el.value.trim() : "";
-  }
+  const clientName = document.getElementById("name").value.trim();
+  const clientEmail = document.getElementById("email").value.trim();
+  const clientPhone = document.getElementById("phone").value.trim();
+  const requirements = document.getElementById("requirements").value.trim();
 
-  function setValue(ids, value) {
-    const el = getByAnyId(ids);
-    if (el) el.value = value;
-  }
+  const payload = {
+    clientName,
+    clientEmail,
+    clientPhone,
+    requirements,
+    ...latestQuoteData
+  };
 
-  function setText(ids, value) {
-    const el = getByAnyId(ids);
-    if (el) el.textContent = value;
-  }
+  formStatus.textContent = "Submitting your quote request...";
+  formStatus.className = "status-text";
 
-  const calculateBtn = getByAnyId(["calculateBtn", "calculateButton"]);
-  const getQuoteBtn = getByAnyId(["getQuoteBtn", "quoteBtn"]);
-  const quotePopup = getByAnyId(["quotePopup", "quoteModal", "popupForm"]);
-  const closePopupBtn = getByAnyId(["closePopup", "closeQuotePopup", "popupClose"]);
-  const quoteForm = getByAnyId(["quoteForm"]);
-  const formStatus = getByAnyId(["formStatus"]);
-
-  const roomTypeInput = getByAnyId(["roomType"]);
-  const roomAreaInput = getByAnyId(["roomArea"]);
-  const luxInput = getByAnyId(["luxLevel", "lux", "targetLux"]);
-  const lumensInput = getByAnyId(["lumens"]);
-  const lightsInput = getByAnyId(["lights", "estimatedLights"]);
-  const setupInput = getByAnyId(["setup", "suggestedSetup"]);
-
-  function getRecommendedLux(roomType) {
-    const type = (roomType || "").toLowerCase();
-
-    if (type.includes("lounge")) return 150;
-    if (type.includes("living")) return 150;
-    if (type.includes("bedroom")) return 120;
-    if (type.includes("kitchen")) return 300;
-    if (type.includes("bathroom")) return 250;
-    if (type.includes("dining")) return 200;
-    if (type.includes("office")) return 350;
-    if (type.includes("study")) return 350;
-    if (type.includes("garage")) return 150;
-    if (type.includes("passage")) return 100;
-    if (type.includes("hall")) return 100;
-    if (type.includes("shop")) return 300;
-
-    return 200;
-  }
-
-  function calculateLighting() {
-    const roomType = roomTypeInput ? roomTypeInput.value : "";
-    const roomArea = parseFloat(roomAreaInput ? roomAreaInput.value : "0") || 0;
-
-    if (!roomArea || roomArea <= 0) {
-      if (formStatus) {
-        formStatus.innerText = "Please enter a valid room area before calculating.";
-        formStatus.style.color = "red";
+  try {
+    const response = await fetch(WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
       }
-      return null;
-    }
+    });
 
-    let targetLux = parseFloat(luxInput ? luxInput.value : "0") || 0;
-    if (!targetLux || targetLux <= 0) {
-      targetLux = getRecommendedLux(roomType);
-      if (luxInput) luxInput.value = targetLux;
-    }
+    const result = await response.json();
 
-    const totalLumens = Math.round(roomArea * targetLux);
+    if (result.success) {
+      formStatus.textContent = `Thank you ${clientName}, we will look at your requirements and get back to you shortly.`;
+      formStatus.className = "status-text status-success";
 
-    const assumedLumensPerLight = 800;
-    const estimatedLights = Math.max(1, Math.ceil(totalLumens / assumedLumensPerLight));
+      quoteForm.reset();
 
-    let suggestedSetup = "";
-    if (estimatedLights <= 2) {
-      suggestedSetup = `${estimatedLights} x downlights`;
-    } else if (estimatedLights <= 6) {
-      suggestedSetup = `${estimatedLights} x downlights evenly spaced`;
+      setTimeout(() => {
+        quotePopup.classList.add("hidden");
+      }, 2000);
     } else {
-      suggestedSetup = `${estimatedLights} x downlights in multiple rows for even coverage`;
+      formStatus.textContent = "There was a problem submitting your request. Please try again.";
+      formStatus.className = "status-text status-error";
     }
-
-    if (lumensInput) lumensInput.value = totalLumens;
-    if (lightsInput) lightsInput.value = estimatedLights;
-    if (setupInput) setupInput.value = suggestedSetup;
-
-    setText(["lumensResult"], totalLumens);
-    setText(["lightsResult"], estimatedLights);
-    setText(["setupResult"], suggestedSetup);
-
-    if (formStatus) {
-      formStatus.innerText = "Calculation complete. You can now request your quote.";
-      formStatus.style.color = "#00ff88";
-    }
-
-    return {
-      roomType,
-      roomArea,
-      targetLux,
-      totalLumens,
-      estimatedLights,
-      suggestedSetup
-    };
-  }
-
-  if (calculateBtn) {
-    calculateBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      calculateLighting();
-    });
-  }
-
-  if (getQuoteBtn) {
-    getQuoteBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-
-      const result = calculateLighting();
-      if (!result) return;
-
-      if (quotePopup) {
-        quotePopup.style.display = "flex";
-      }
-    });
-  }
-
-  if (closePopupBtn && quotePopup) {
-    closePopupBtn.addEventListener("click", function () {
-      quotePopup.style.display = "none";
-    });
-  }
-
-  if (quotePopup) {
-    window.addEventListener("click", function (e) {
-      if (e.target === quotePopup) {
-        quotePopup.style.display = "none";
-      }
-    });
-  }
-
-  if (quoteForm) {
-    quoteForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      const clientName = getValue(["name"]);
-      const clientEmail = getValue(["email"]);
-      const clientPhone = getValue(["phone"]);
-      const roomType = getValue(["roomType"]);
-      const roomArea = getValue(["roomArea"]);
-      const lumens = getValue(["lumens"]);
-      const estimatedLights = getValue(["lights", "estimatedLights"]);
-      const suggestedSetup = getValue(["setup", "suggestedSetup"]);
-      const additionalRequirements = getValue(["requirements", "additionalRequirements"]);
-
-      const data = {
-        clientName,
-        clientEmail,
-        clientPhone,
-        roomType,
-        roomArea,
-        lumens,
-        estimatedLights,
-        suggestedSetup,
-        additionalRequirements
-      };
-
-      if (formStatus) {
-        formStatus.innerText = "Sending your quote request...";
-        formStatus.style.color = "#ffffff";
-      }
-
-      fetch("https://script.google.com/macros/s/AKfycbyegtwRehBMXoCRnqnYqpm-wbEacVpmD5vlbDWc0JS3HRzQO2XSkeeju9RFHU9TW8-evA/exec", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      })
-        .then(response => response.json())
-        .then(result => {
-          if (result.success) {
-            if (formStatus) {
-              formStatus.innerText = `Thank you ${clientName}, we will look at your requirements and get back to you shortly.`;
-              formStatus.style.color = "#00ff88";
-            }
-            quoteForm.reset();
-          } else {
-            if (formStatus) {
-              formStatus.innerText = result.message || "Something went wrong. Please try again.";
-              formStatus.style.color = "red";
-            }
-          }
-        })
-        .catch(error => {
-          console.error("Error:", error);
-          if (formStatus) {
-            formStatus.innerText = "Error sending request.";
-            formStatus.style.color = "red";
-          }
-        });
-    });
+  } catch (error) {
+    formStatus.textContent = "There was a problem submitting your request. Please try again.";
+    formStatus.className = "status-text status-error";
+    console.error("Submission error:", error);
   }
 });
