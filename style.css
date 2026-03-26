@@ -223,7 +223,8 @@ body {
 }
 
 .form-group input,
-.form-group select {
+.form-group select,
+.form-group textarea {
   padding: 14px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 10px;
@@ -231,9 +232,16 @@ body {
   color: white;
   font-size: 16px;
   outline: none;
+  font-family: inherit;
 }
 
-.form-group input::placeholder {
+.form-group textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
   color: #d8d8d8;
 }
 
@@ -259,7 +267,8 @@ body {
   transform: translateY(-2px);
 }
 
-.result-box {
+.result-box,
+.quote-summary {
   margin-top: 24px;
   padding: 22px;
   border-radius: 14px;
@@ -267,12 +276,14 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.result-box h3 {
+.result-box h3,
+.quote-summary h3 {
   color: #f5b942;
   margin-bottom: 10px;
 }
 
-.result-box p {
+.result-box p,
+.quote-summary p {
   line-height: 1.6;
   color: #f3f3f3;
   margin-bottom: 6px;
@@ -314,6 +325,44 @@ body {
 
 .dark-section {
   background: #0f0f0f;
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  padding: 30px 20px;
+  overflow-y: auto;
+}
+
+.modal.show {
+  display: block;
+}
+
+.modal-content {
+  max-width: 850px;
+  margin: 40px auto;
+  background: #171717;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+
+.close-btn {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 34px;
+  line-height: 1;
+  cursor: pointer;
 }
 
 /* RESPONSIVE */
@@ -368,11 +417,13 @@ body {
     gap: 0;
   }
 
-  .calculator-box {
+  .calculator-box,
+  .modal-content {
     padding: 24px;
   }
 
-  .calculator-box h2 {
+  .calculator-box h2,
+  .modal-content h2 {
     font-size: 30px;
   }
 }
