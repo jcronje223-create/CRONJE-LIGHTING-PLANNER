@@ -1,239 +1,86 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cronje Lighting Planner</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
 
-html, body {
-  width: 100%;
-  overflow-x: hidden;
-}
+  <header class="hero">
+    <div class="overlay">
 
-html {
-  scroll-behavior: smooth;
-}
+      <nav class="navbar">
+        <div class="logo-area">
+          <img src="./Images/logo.png" alt="Cronje Lighting Logo" class="logo">
+        </div>
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #0d0d0d;
-  color: white;
-}
+        <div class="nav-menu">
+          <a href="#">Home</a>
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#contact">Contact</a>
+          <a href="#quote" class="quote-btn">Get a Quote</a>
+        </div>
+      </nav>
 
-.hero {
-  min-height: 100vh;
-  background-image: url("./Images/background.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+      <div class="hero-content">
+        <h1>PLAN YOUR PERFECT LIGHTING</h1>
+        <div class="hero-line"></div>
+        <p>Calculate the ideal lighting for any room in seconds.</p>
+        <a href="#calculator" class="main-btn">GET STARTED</a>
+      </div>
 
-.overlay {
-  min-height: 100vh;
-  background: rgba(0, 0, 0, 0.35);
-  padding: 25px 50px 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+      <section class="feature-cards">
+        <div class="card">
+          <div class="icon">📏</div>
+          <h3>Room Size & Type</h3>
+          <div class="card-line"></div>
+          <p>Select your room dimensions and type</p>
+        </div>
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
+        <div class="card">
+          <div class="icon">💡</div>
+          <h3>Brightness Preference</h3>
+          <div class="card-line"></div>
+          <p>Choose your desired lighting level</p>
+        </div>
 
-.logo {
-  height: 80px;
-  width: auto;
-  display: block;
-  filter: drop-shadow(0 0 12px rgba(0, 150, 255, 0.55));
-}
+        <div class="card">
+          <div class="icon">✨</div>
+          <h3>Instant Recommendations</h3>
+          <div class="card-line"></div>
+          <p>Get the best lighting setup instantly</p>
+        </div>
+      </section>
 
-.nav-menu {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  flex-wrap: wrap;
-}
+    </div>
+  </header>
 
-.nav-menu a {
-  color: white;
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 500;
-  transition: 0.3s ease;
-}
+  <section id="about" class="info-section">
+    <h2>About Cronje Lighting</h2>
+    <p>
+      We help homeowners and businesses plan beautiful, practical lighting layouts
+      with confidence. From room brightness to fitting recommendations, we make
+      lighting decisions easier.
+    </p>
+  </section>
 
-.nav-menu a:hover {
-  color: #ffd28a;
-}
+  <section id="services" class="info-section dark-section">
+    <h2>Our Services</h2>
+    <p>
+      Lighting planning, brightness guidance, room-based fitting suggestions,
+      and quote-ready recommendations for your project.
+    </p>
+  </section>
 
-.quote-btn {
-  background: linear-gradient(135deg, #f2b544, #d88912);
-  color: white;
-  padding: 14px 24px;
-  border-radius: 8px;
-  font-weight: bold;
-  box-shadow: 0 8px 22px rgba(255, 140, 0, 0.4);
-}
+  <section id="contact" class="info-section">
+    <h2>Contact</h2>
+    <p>Email: info@cronjelighting.co.za</p>
+    <p>Phone: +27 XX XXX XXXX</p>
+  </section>
 
-.hero-content {
-  text-align: center;
-  margin-top: 90px;
-  margin-bottom: 70px;
-}
-
-.hero-content h1 {
-  font-size: 68px;
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  text-shadow: 0 0 20px rgba(255, 180, 80, 0.6);
-}
-
-.hero-line {
-  width: 340px;
-  max-width: 80%;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.25);
-  margin: 22px auto 20px;
-}
-
-.hero-content p {
-  font-size: 20px;
-  margin-bottom: 30px;
-  color: rgba(255, 255, 255, 0.95);
-}
-
-.main-btn {
-  display: inline-block;
-  text-decoration: none;
-  background: linear-gradient(135deg, #f5b942, #ff8c00);
-  color: white;
-  padding: 18px 40px;
-  font-size: 18px;
-  font-weight: 800;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(255, 140, 0, 0.5);
-  transition: 0.3s ease;
-}
-
-.main-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-}
-
-.feature-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  max-width: 1250px;
-  width: 100%;
-  margin: 0 auto 20px;
-}
-
-.card {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 14px;
-  padding: 30px 20px;
-  text-align: center;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
-}
-
-.icon {
-  font-size: 48px;
-  margin-bottom: 18px;
-}
-
-.card h3 {
-  font-size: 22px;
-  margin-bottom: 14px;
-}
-
-.card-line {
-  width: 85%;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.25);
-  margin: 0 auto 16px;
-}
-
-.card p {
-  font-size: 17px;
-  color: rgba(255, 255, 255, 0.95);
-  line-height: 1.5;
-}
-
-.info-section {
-  padding: 70px 25px;
-  text-align: center;
-  background: #141414;
-}
-
-.info-section h2 {
-  font-size: 34px;
-  margin-bottom: 18px;
-  color: #f5b942;
-}
-
-.info-section p {
-  max-width: 850px;
-  margin: 0 auto 12px;
-  font-size: 18px;
-  line-height: 1.7;
-  color: #f2f2f2;
-}
-
-.dark-section {
-  background: #0f0f0f;
-}
-
-@media (max-width: 1100px) {
-  .hero-content h1 {
-    font-size: 52px;
-  }
-
-  .feature-cards {
-    grid-template-columns: 1fr;
-    max-width: 700px;
-  }
-}
-
-@media (max-width: 768px) {
-  .overlay {
-    padding: 20px;
-  }
-
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nav-menu {
-    gap: 16px;
-  }
-
-  .hero-content {
-    margin-top: 50px;
-  }
-
-  .hero-content h1 {
-    font-size: 38px;
-  }
-
-  .hero-content p {
-    font-size: 17px;
-  }
-
-  .main-btn {
-    padding: 16px 28px;
-    font-size: 16px;
-  }
-
-  .logo {
-    height: 65px;
-  }
-}
+  <script src="./script.js"></script>
+</body>
+</html>
