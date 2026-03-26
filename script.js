@@ -7,6 +7,17 @@ const submitQuoteBtn = document.getElementById("submitQuoteBtn");
 const quoteOutput = document.getElementById("quoteOutput");
 const closeModalBtn = document.getElementById("closeModalBtn");
 const navQuoteBtn = document.getElementById("navQuoteBtn");
+const navQuoteBtnSecondary = document.getElementById("navQuoteBtnSecondary");
+
+const roomTypeField = document.getElementById("roomType");
+const roomLengthField = document.getElementById("roomLength");
+const roomWidthField = document.getElementById("roomWidth");
+const brightnessField = document.getElementById("brightness");
+
+const clientNameField = document.getElementById("clientName");
+const clientEmailField = document.getElementById("clientEmail");
+const clientPhoneField = document.getElementById("clientPhone");
+const additionalRequirementsField = document.getElementById("additionalRequirements");
 
 let latestQuoteData = null;
 
@@ -15,14 +26,76 @@ let latestQuoteData = null;
 */
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyegtwRehBMXoCRnqnYqpm-wbEacVpmD5vlbDWc0JS3HRzQO2XSkeeju9RFHU9TW8-evA/exec";
 
+/* -----------------------------
+   MODAL FUNCTIONS
+----------------------------- */
+
 function openQuoteModal() {
+  if (!quoteModal) return;
   quoteModal.classList.add("show");
   document.body.style.overflow = "hidden";
 }
 
 function closeQuoteModal() {
+  if (!quoteModal) return;
   quoteModal.classList.remove("show");
   document.body.style.overflow = "";
+}
+
+/* -----------------------------
+   HELPER FUNCTIONS
+----------------------------- */
+
+function formatRoomType(roomType) {
+  const roomTypeMap = {
+    bedroom: "Bedroom",
+    "living-room": "Living Room",
+    kitchen: "Kitchen",
+    bathroom: "Bathroom",
+    office: "Office",
+    garage: "Garage"
+  };
+
+  return roomTypeMap[roomType] || roomType;
+}
+
+function getLuxLevel(roomType, brightness) {
+  let luxLevel = 150;
+
+  if (brightness === "medium") luxLevel = 250;
+  if (brightness === "bright") luxLevel = 350;
+
+  if (roomType === "kitchen" || roomType === "bathroom") {
+    luxLevel += 50;
+  }
+
+  if (roomType === "office" || roomType === "garage") {
+    luxLevel += 100;
+  }
+
+  return luxLevel;
+}
+
+function getLightingSuggestion(area, lights, lumensPerDownlight) {
+  let suggestion = `${lights} downlights of approximately ${lumensPerDownlight} lumens each`;
+
+  if (area > 25) {
+    suggestion += " with possible additional feature lighting or perimeter lighting";
+  }
+
+  return suggestion;
+}
+
+function resetQuoteForm() {
+  clientNameField.value = "";
+  clientEmailField.value = "";
+  clientPhoneField.value = "";
+  additionalRequirementsField.value = "";
+
+  quoteOutput.innerHTML = `
+    <h3>Your quote request will appear here</h3>
+    <p>Complete the calculator and the form, then click submit.</p>
+  `;
 }
 
 function updateQuoteSummary() {
@@ -44,75 +117,84 @@ function updateQuoteSummary() {
   `;
 }
 
-function resetQuoteForm() {
-  document.getElementById("clientName").value = "";
-  document.getElementById("clientEmail").value = "";
-  document.getElementById("clientPhone").value = "";
-  document.getElementById("additionalRequirements").value = "";
-
-  quoteOutput.innerHTML = `
-    <h3>Your quote request will appear here</h3>
-    <p>Complete the calculator and the form, then click submit.</p>
+function showCalculationResult(data) {
+  resultBox.innerHTML = `
+    <h3>Recommended Lighting</h3>
+    <p><strong>Room type:</strong> ${data.roomType}</p>
+    <p><strong>Room area:</strong> ${data.area} m²</p>
+    <p><strong>Total light needed:</strong> ${data.lumens} lumens</p>
+    <p><strong>Estimated downlights:</strong> ${data.lights}</p>
+    <p><strong>Suggested setup:</strong> ${data.suggestion}</p>
   `;
 }
 
-function formatRoomType(roomType) {
-  switch (roomType) {
-    case "bedroom":
-      return "Bedroom";
-    case "living-room":
-      return "Living Room";
-    case "kitchen":
-      return "Kitchen";
-    case "bathroom":
-      return "Bathroom";
-    case "office":
-      return "Office";
-    case "garage":
-      return "Garage";
-    default:
-      return roomType;
-  }
+function showCalculationError(message) {
+  resultBox.innerHTML = `
+    <h3>Invalid room size</h3>
+    <p>${message}</p>
+  `;
 }
 
-calculateBtn.addEventListener("click", function () {
-  const roomType = document.getElementById("roomType").value;
-  const roomLength = parseFloat(document.getElementById("roomLength").value);
-  const roomWidth = parseFloat(document.getElementById("roomWidth").value);
-  const brightness = document.getElementById("brightness").value;
+function showQuoteMessage(title, message1, message2 = "") {
+  quoteOutput.innerHTML = `
+    <h3>${title}</h3>
+    <p>${message1}</p>
+    ${message2 ? `<p>${message2}</p>` : ""}
+  `;
+}
+
+function validateQuoteFields() {
+  const clientName = clientNameField.value.trim();
+  const clientEmail = clientEmailField.value.trim();
+  const clientPhone = clientPhoneField.value.trim();
+
+  if (!clientName || !clientEmail || !clientPhone) {
+    showQuoteMessage(
+      "Missing details",
+      "Please complete your full name, email address, and telephone number."
+    );
+    return false;
+  }
+
+  return true;
+}
+
+function buildPayload() {
+  return {
+    clientName: clientNameField.value.trim(),
+    clientEmail: clientEmailField.value.trim(),
+    clientPhone: clientPhoneField.value.trim(),
+    roomType: latestQuoteData.roomType,
+    area: latestQuoteData.area,
+    lumens: latestQuoteData.lumens,
+    lights: latestQuoteData.lights,
+    suggestion: latestQuoteData.suggestion,
+    additionalRequirements: additionalRequirementsField.value.trim()
+  };
+}
+
+/* -----------------------------
+   CALCULATOR
+----------------------------- */
+
+function calculateLighting() {
+  const roomType = roomTypeField.value;
+  const roomLength = parseFloat(roomLengthField.value);
+  const roomWidth = parseFloat(roomWidthField.value);
+  const brightness = brightnessField.value;
 
   if (isNaN(roomLength) || isNaN(roomWidth) || roomLength <= 0 || roomWidth <= 0) {
-    resultBox.innerHTML = `
-      <h3>Invalid room size</h3>
-      <p>Please enter a valid room length and width greater than 0.</p>
-    `;
+    showCalculationError("Please enter a valid room length and width greater than 0.");
     return;
   }
 
   const area = roomLength * roomWidth;
-
-  let luxLevel = 150;
-  if (brightness === "medium") luxLevel = 250;
-  if (brightness === "bright") luxLevel = 350;
-
-  if (roomType === "kitchen" || roomType === "bathroom") {
-    luxLevel += 50;
-  }
-
-  if (roomType === "office" || roomType === "garage") {
-    luxLevel += 100;
-  }
-
+  const luxLevel = getLuxLevel(roomType, brightness);
   const lumens = Math.round(area * luxLevel);
 
   const lumensPerDownlight = 800;
   const lights = Math.max(1, Math.ceil(lumens / lumensPerDownlight));
-
-  let suggestion = `${lights} downlights of approximately ${lumensPerDownlight} lumens each`;
-
-  if (area > 25) {
-    suggestion += " with possible additional feature lighting or perimeter lighting";
-  }
+  const suggestion = getLightingSuggestion(area, lights, lumensPerDownlight);
 
   latestQuoteData = {
     roomType: formatRoomType(roomType),
@@ -122,73 +204,35 @@ calculateBtn.addEventListener("click", function () {
     suggestion: suggestion
   };
 
-  resultBox.innerHTML = `
-    <h3>Recommended Lighting</h3>
-    <p><strong>Room type:</strong> ${latestQuoteData.roomType}</p>
-    <p><strong>Room area:</strong> ${latestQuoteData.area} m²</p>
-    <p><strong>Total light needed:</strong> ${latestQuoteData.lumens} lumens</p>
-    <p><strong>Estimated downlights:</strong> ${latestQuoteData.lights}</p>
-    <p><strong>Suggested setup:</strong> ${latestQuoteData.suggestion}</p>
-  `;
-});
+  showCalculationResult(latestQuoteData);
+}
 
-navQuoteBtn.addEventListener("click", function (e) {
-  e.preventDefault();
-  updateQuoteSummary();
-  openQuoteModal();
-});
+/* -----------------------------
+   SUBMIT QUOTE
+----------------------------- */
 
-closeModalBtn.addEventListener("click", function () {
-  closeQuoteModal();
-});
-
-window.addEventListener("click", function (e) {
-  if (e.target === quoteModal) {
-    closeQuoteModal();
-  }
-});
-
-submitQuoteBtn.addEventListener("click", async function () {
+async function submitQuoteRequest() {
   if (!latestQuoteData) {
-    quoteOutput.innerHTML = `
-      <h3>Calculator required</h3>
-      <p>Please use the calculator first before submitting a quote request.</p>
-    `;
+    showQuoteMessage(
+      "Calculator required",
+      "Please use the calculator first before submitting a quote request."
+    );
     return;
   }
 
-  const clientName = document.getElementById("clientName").value.trim();
-  const clientEmail = document.getElementById("clientEmail").value.trim();
-  const clientPhone = document.getElementById("clientPhone").value.trim();
-  const additionalRequirements = document.getElementById("additionalRequirements").value.trim();
-
-  if (!clientName || !clientEmail || !clientPhone) {
-    quoteOutput.innerHTML = `
-      <h3>Missing details</h3>
-      <p>Please complete your full name, email address, and telephone number.</p>
-    `;
+  if (!validateQuoteFields()) {
     return;
   }
 
-  const payload = {
-    clientName: clientName,
-    clientEmail: clientEmail,
-    clientPhone: clientPhone,
-    roomType: latestQuoteData.roomType,
-    area: latestQuoteData.area,
-    lumens: latestQuoteData.lumens,
-    lights: latestQuoteData.lights,
-    suggestion: latestQuoteData.suggestion,
-    additionalRequirements: additionalRequirements
-  };
+  const payload = buildPayload();
 
   submitQuoteBtn.disabled = true;
   submitQuoteBtn.textContent = "SENDING...";
 
-  quoteOutput.innerHTML = `
-    <h3>Sending quote request...</h3>
-    <p>Please wait while we submit your details.</p>
-  `;
+  showQuoteMessage(
+    "Sending quote request...",
+    "Please wait while we submit your details."
+  );
 
   try {
     const response = await fetch(WEB_APP_URL, {
@@ -205,7 +249,8 @@ submitQuoteBtn.addEventListener("click", async function () {
       throw new Error(`Server returned ${response.status}: ${responseText}`);
     }
 
-    let result = {};
+    let result;
+
     try {
       result = JSON.parse(responseText);
     } catch (parseError) {
@@ -216,31 +261,68 @@ submitQuoteBtn.addEventListener("click", async function () {
       throw new Error(result.message || "The submission was not confirmed by the server.");
     }
 
-    quoteOutput.innerHTML = `
-      <h3>Thank you for your quote request</h3>
-      <p>We have received your details successfully.</p>
-      <p>Our team will review your lighting requirements and get back to you shortly.</p>
-    `;
+    showQuoteMessage(
+      "Thank you for your quote request",
+      "We have received your details successfully.",
+      "Our team will review your lighting requirements and get back to you shortly."
+    );
 
-    document.getElementById("clientName").value = "";
-    document.getElementById("clientEmail").value = "";
-    document.getElementById("clientPhone").value = "";
-    document.getElementById("additionalRequirements").value = "";
+    clientNameField.value = "";
+    clientEmailField.value = "";
+    clientPhoneField.value = "";
+    additionalRequirementsField.value = "";
 
-    setTimeout(function () {
+    setTimeout(() => {
       closeQuoteModal();
       resetQuoteForm();
     }, 2500);
 
   } catch (error) {
-    quoteOutput.innerHTML = `
-      <h3>Submission problem</h3>
-      <p>We could not send the quote request from the website.</p>
-      <p><strong>Error:</strong> ${error.message}</p>
-      <p>Please try again in a moment.</p>
-    `;
+    showQuoteMessage(
+      "Submission problem",
+      "We could not send the quote request from the website.",
+      `Error: ${error.message}`
+    );
   } finally {
     submitQuoteBtn.disabled = false;
     submitQuoteBtn.textContent = "SUBMIT QUOTE REQUEST";
   }
+}
+
+/* -----------------------------
+   EVENT LISTENERS
+----------------------------- */
+
+if (calculateBtn) {
+  calculateBtn.addEventListener("click", calculateLighting);
+}
+
+if (navQuoteBtn) {
+  navQuoteBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    updateQuoteSummary();
+    openQuoteModal();
+  });
+}
+
+if (navQuoteBtnSecondary) {
+  navQuoteBtnSecondary.addEventListener("click", function (e) {
+    e.preventDefault();
+    updateQuoteSummary();
+    openQuoteModal();
+  });
+}
+
+if (closeModalBtn) {
+  closeModalBtn.addEventListener("click", closeQuoteModal);
+}
+
+window.addEventListener("click", function (e) {
+  if (e.target === quoteModal) {
+    closeQuoteModal();
+  }
 });
+
+if (submitQuoteBtn) {
+  submitQuoteBtn.addEventListener("click", submitQuoteRequest);
+}
