@@ -1,6 +1,44 @@
 const calculateBtn = document.getElementById("calculateBtn");
 const resultBox = document.getElementById("result");
 
+const quoteModal = document.getElementById("quoteModal");
+const quoteSummary = document.getElementById("quoteSummary");
+const submitQuoteBtn = document.getElementById("submitQuoteBtn");
+const quoteOutput = document.getElementById("quoteOutput");
+const closeModalBtn = document.getElementById("closeModalBtn");
+const navQuoteBtn = document.getElementById("navQuoteBtn");
+
+let latestQuoteData = null;
+
+function openQuoteModal() {
+  quoteModal.classList.add("show");
+  document.body.style.overflow = "hidden";
+}
+
+function closeQuoteModal() {
+  quoteModal.classList.remove("show");
+  document.body.style.overflow = "";
+}
+
+function updateQuoteSummary() {
+  if (!latestQuoteData) {
+    quoteSummary.innerHTML = `
+      <h3>Calculator Summary</h3>
+      <p>No calculator data yet. Please use the calculator first.</p>
+    `;
+    return;
+  }
+
+  quoteSummary.innerHTML = `
+    <h3>Calculator Summary</h3>
+    <p><strong>Room type:</strong> ${latestQuoteData.roomType}</p>
+    <p><strong>Room area:</strong> ${latestQuoteData.area} m²</p>
+    <p><strong>Total light needed:</strong> ${latestQuoteData.lumens} lumens</p>
+    <p><strong>Estimated downlights:</strong> ${latestQuoteData.lights}</p>
+    <p><strong>Suggested setup:</strong> ${latestQuoteData.suggestion}</p>
+  `;
+}
+
 calculateBtn.addEventListener("click", function () {
   const roomType = document.getElementById("roomType").value;
   const roomLength = parseFloat(document.getElementById("roomLength").value);
@@ -57,13 +95,82 @@ calculateBtn.addEventListener("click", function () {
       return letter.toUpperCase();
     });
 
+  latestQuoteData = {
+    roomType: formattedRoomType,
+    area: area.toFixed(2),
+    lumens: recommendedLumens,
+    lights: numberOfLights,
+    suggestion: fittingSuggestion
+  };
+
   resultBox.innerHTML = `
     <h3>Your Lighting Recommendation</h3>
-    <p><strong>Room type:</strong> ${formattedRoomType}</p>
-    <p><strong>Room area:</strong> ${area.toFixed(2)} m²</p>
-    <p><strong>Total light needed:</strong> ${recommendedLumens} lumens</p>
-    <p><strong>Estimated downlights:</strong> ${numberOfLights} lights</p>
-    <p><strong>Suggested setup:</strong> ${fittingSuggestion}</p>
-    <a href="#contact" class="result-quote-btn">GET A QUOTE</a>
+    <p><strong>Room type:</strong> ${latestQuoteData.roomType}</p>
+    <p><strong>Room area:</strong> ${latestQuoteData.area} m²</p>
+    <p><strong>Total light needed:</strong> ${latestQuoteData.lumens} lumens</p>
+    <p><strong>Estimated downlights:</strong> ${latestQuoteData.lights} lights</p>
+    <p><strong>Suggested setup:</strong> ${latestQuoteData.suggestion}</p>
+    <a href="#" id="openQuoteFromResult" class="result-quote-btn">GET A QUOTE</a>
+  `;
+
+  updateQuoteSummary();
+
+  const openQuoteFromResult = document.getElementById("openQuoteFromResult");
+  openQuoteFromResult.addEventListener("click", function (event) {
+    event.preventDefault();
+    openQuoteModal();
+  });
+});
+
+navQuoteBtn.addEventListener("click", function (event) {
+  event.preventDefault();
+  updateQuoteSummary();
+  openQuoteModal();
+});
+
+closeModalBtn.addEventListener("click", function () {
+  closeQuoteModal();
+});
+
+quoteModal.addEventListener("click", function (event) {
+  if (event.target === quoteModal) {
+    closeQuoteModal();
+  }
+});
+
+submitQuoteBtn.addEventListener("click", function () {
+  const clientName = document.getElementById("clientName").value.trim();
+  const clientEmail = document.getElementById("clientEmail").value.trim();
+  const clientPhone = document.getElementById("clientPhone").value.trim();
+  const additionalRequirements = document.getElementById("additionalRequirements").value.trim();
+
+  if (!latestQuoteData) {
+    quoteOutput.innerHTML = `
+      <h3>Please use the calculator first</h3>
+      <p>Calculate the lighting recommendation before submitting a quote request.</p>
+    `;
+    return;
+  }
+
+  if (!clientName || !clientEmail || !clientPhone) {
+    quoteOutput.innerHTML = `
+      <h3>Missing client information</h3>
+      <p>Please fill in your full name, email address, and telephone number.</p>
+    `;
+    return;
+  }
+
+  quoteOutput.innerHTML = `
+    <h3>Quote Request Ready</h3>
+    <p><strong>Client name:</strong> ${clientName}</p>
+    <p><strong>Email address:</strong> ${clientEmail}</p>
+    <p><strong>Telephone number:</strong> ${clientPhone}</p>
+    <p><strong>Room type:</strong> ${latestQuoteData.roomType}</p>
+    <p><strong>Room area:</strong> ${latestQuoteData.area} m²</p>
+    <p><strong>Total light needed:</strong> ${latestQuoteData.lumens} lumens</p>
+    <p><strong>Estimated downlights:</strong> ${latestQuoteData.lights}</p>
+    <p><strong>Suggested setup:</strong> ${latestQuoteData.suggestion}</p>
+    <p><strong>Additional requirements:</strong> ${additionalRequirements || "None provided"}</p>
+    <p><strong>Status:</strong> Quote request captured successfully on the page.</p>
   `;
 });
