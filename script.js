@@ -85,7 +85,7 @@ window.addEventListener("click", function (e) {
    IMPORTANT:
    Replace WEB_APP_URL below with your Google Apps Script web app URL
 ----------------------------- */
-const WEB_APP_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxQG1MrU_U_HWjybp-c2AeIuaBmpN_iu8_t_JnKMR-E6dhvL6P4y5Eu36T88yPRFL6NZg/exec";
 
 quoteForm.addEventListener("submit", async function (e) {
   e.preventDefault();
