@@ -1,57 +1,60 @@
-function doPost(e) {
-  try {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    const data = JSON.parse(e.postData.contents);
+document.addEventListener("DOMContentLoaded", function () {
+  const quoteForm = document.getElementById("quoteForm");
+  const status = document.getElementById("formStatus");
 
-    sheet.appendRow([
-      new Date(),
-      data.clientName || "",
-      data.clientEmail || "",
-      data.clientPhone || "",
-      data.roomType || "",
-      data.roomArea || ""
-    ]);
-
-    MailApp.sendEmail(
-      "jcronje223@gmail.com",
-      "New Quote Request",
-      "New quote from " + data.clientName
-    );
-
-    sendWhatsAppAlert(data);
-
-    return ContentService.createTextOutput(JSON.stringify({
-      success: true
-    }));
-
-  } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({
-      success: false,
-      error: err.toString()
-    }));
+  if (!quoteForm) {
+    console.error('Form with id="quoteForm" was not found.');
+    return;
   }
-}
 
-function sendWhatsAppAlert(data) {
+  quoteForm.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-  const accountSid = "AC568d9505d09382956b95103c630e5554";
-  const authToken = "33dfb3b3fa0f3bb9395d21820c1b35e8";
+    const data = {
+      clientName: document.getElementById("name")?.value || "",
+      clientEmail: document.getElementById("email")?.value || "",
+      clientPhone: document.getElementById("phone")?.value || "",
+      roomType: document.getElementById("roomType")?.value || "",
+      roomArea: document.getElementById("roomArea")?.value || "",
+      lumens: document.getElementById("lumens")?.value || "",
+      estimatedLights: document.getElementById("lights")?.value || "",
+      suggestedSetup: document.getElementById("setup")?.value || "",
+      additionalRequirements: document.getElementById("requirements")?.value || ""
+    };
 
-  const url = "https://api.twilio.com/2010-04-01/Accounts/" + accountSid + "/Messages.json";
-
-  const payload = {
-    To: "whatsapp:+27765712206",
-    From: "whatsapp:+14155238886",
-    Body: "🚨 NEW QUOTE 🚨\nName: " + data.clientName + "\nPhone: " + data.clientPhone
-  };
-
-  const options = {
-    method: "post",
-    payload: payload,
-    headers: {
-      Authorization: "Basic " + Utilities.base64Encode(accountSid + ":" + authToken)
+    if (status) {
+      status.innerText = "Sending your quote request...";
+      status.style.color = "#ffffff";
     }
-  };
 
-  UrlFetchApp.fetch(url, options);
-}
+    fetch("https://script.google.com/macros/s/AKfycbyegtwRehBMXoCRnqnYqpm-wbEacVpmD5vlbDWc0JS3HRzQO2XSkeeju9RFHU9TW8-evA/exec", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(result => {
+        if (result.success) {
+          if (status) {
+            status.innerText = "Your quote request has been sent successfully!";
+            status.style.color = "#00ff88";
+          }
+          quoteForm.reset();
+        } else {
+          if (status) {
+            status.innerText = result.message || "Something went wrong. Please try again.";
+            status.style.color = "red";
+          }
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        if (status) {
+          status.innerText = "Error sending request.";
+          status.style.color = "red";
+        }
+      });
+  });
+});
