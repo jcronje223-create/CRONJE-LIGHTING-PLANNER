@@ -1,32 +1,69 @@
-const btn = document.getElementById("calculateBtn");
-const result = document.getElementById("result");
+const calculateBtn = document.getElementById("calculateBtn");
+const resultBox = document.getElementById("result");
 
-btn.onclick = function () {
-  const type = document.getElementById("roomType").value;
-  const length = parseFloat(document.getElementById("roomLength").value);
-  const width = parseFloat(document.getElementById("roomWidth").value);
+calculateBtn.addEventListener("click", function () {
+  const roomType = document.getElementById("roomType").value;
+  const roomLength = parseFloat(document.getElementById("roomLength").value);
+  const roomWidth = parseFloat(document.getElementById("roomWidth").value);
   const brightness = document.getElementById("brightness").value;
 
-  if (!length || !width) {
-    result.innerHTML = "Enter valid numbers";
+  if (!roomLength || !roomWidth || roomLength <= 0 || roomWidth <= 0) {
+    resultBox.innerHTML = `
+      <h3>Please enter valid room dimensions</h3>
+      <p>Make sure both length and width are filled in with numbers bigger than 0.</p>
+    `;
     return;
   }
 
-  const area = length * width;
+  const area = roomLength * roomWidth;
 
-  let lux = 150;
-  if (brightness === "soft") lux = 120;
-  if (brightness === "medium") lux = 180;
-  if (brightness === "bright") lux = 250;
+  let luxLevel = 150;
 
-  const lumens = Math.round(area * lux);
-  const lights = Math.ceil(lumens / 800);
+  if (brightness === "soft") {
+    luxLevel = 120;
+  } else if (brightness === "medium") {
+    luxLevel = 180;
+  } else if (brightness === "bright") {
+    luxLevel = 250;
+  }
 
-  result.innerHTML = `
-    <h3>Result</h3>
-    <p>Area: ${area} m²</p>
-    <p>Lumens: ${lumens}</p>
-    <p>Lights: ${lights}</p>
-    <a href="#contact">GET A QUOTE</a>
+  if (roomType === "kitchen" || roomType === "bathroom") {
+    luxLevel += 50;
+  }
+
+  if (roomType === "office" || roomType === "garage") {
+    luxLevel += 80;
+  }
+
+  const recommendedLumens = Math.round(area * luxLevel);
+  const downlightLumens = 800;
+  const numberOfLights = Math.ceil(recommendedLumens / downlightLumens);
+
+  let fittingSuggestion = "";
+
+  if (numberOfLights <= 2) {
+    fittingSuggestion = "1 to 2 downlights or a small main light";
+  } else if (numberOfLights <= 4) {
+    fittingSuggestion = "3 to 4 downlights evenly spaced";
+  } else if (numberOfLights <= 6) {
+    fittingSuggestion = "4 to 6 downlights in a grid layout";
+  } else {
+    fittingSuggestion = "Multiple downlights with layered lighting, such as downlights, LED strip lighting, and feature lights";
+  }
+
+  const formattedRoomType = roomType
+    .replace("-", " ")
+    .replace(/\b\w/g, function (letter) {
+      return letter.toUpperCase();
+    });
+
+  resultBox.innerHTML = `
+    <h3>Your Lighting Recommendation</h3>
+    <p><strong>Room type:</strong> ${formattedRoomType}</p>
+    <p><strong>Room area:</strong> ${area.toFixed(2)} m²</p>
+    <p><strong>Total light needed:</strong> ${recommendedLumens} lumens</p>
+    <p><strong>Estimated downlights:</strong> ${numberOfLights} lights</p>
+    <p><strong>Suggested setup:</strong> ${fittingSuggestion}</p>
+    <a href="#contact" class="result-quote-btn">GET A QUOTE</a>
   `;
-};
+});
