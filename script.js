@@ -31,7 +31,7 @@ const directQuoteOutput = document.getElementById("directQuoteOutput");
 
 let latestQuoteData = null;
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyegtwRehBMXoCRnqnYqpm-wbEacVpmD5vlbDWc0JS3HRzQO2XSkeeju9RFHU9TW8-evA/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxQG1MrU_U_HWjybp-c2AeIuaBmpN_iu8_t_JnKMR-E6dhvL6P4y5Eu36T88yPRFL6NZg/exec";
 
 function openQuoteModal() {
   if (!quoteModal) return;
