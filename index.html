@@ -102,6 +102,10 @@
         <h3>Your result will appear here</h3>
         <p>Fill in the form and click calculate.</p>
       </div>
+
+      <div id="quoteAction" class="quote-action" style="display: none;">
+        <button id="openQuotePopupBtn" class="quote-btn-large">Get a Quote</button>
+      </div>
     </div>
   </section>
 
@@ -130,46 +134,37 @@
   </section>
 
   <!-- POPUP MODAL -->
-  <div id="quoteModal" class="modal">
-    <div class="modal-content">
-      <button id="closeModalBtn" class="close-btn">&times;</button>
-
+  <div id="quotePopup" class="popup-overlay" style="display: none;">
+    <div class="popup-box">
+      <button id="closePopupBtn" class="close-popup-btn">&times;</button>
       <h2>Request a Quote</h2>
-      <p class="calculator-subtext">Your calculator result will be carried into this quote form automatically.</p>
+      <p>Please enter your details and any additional requirements.</p>
 
-      <div class="quote-summary" id="quoteSummary">
-        <h3>Calculator Summary</h3>
-        <p>No calculator data yet. Please use the calculator first.</p>
-      </div>
-
-      <div class="form-group">
-        <label for="clientName">Full Name</label>
-        <input type="text" id="clientName" placeholder="Enter your full name" />
-      </div>
-
-      <div class="form-row">
+      <form id="quoteForm">
         <div class="form-group">
-          <label for="clientEmail">Email Address</label>
-          <input type="email" id="clientEmail" placeholder="Enter your email address" />
+          <label for="name">Full Name</label>
+          <input type="text" id="name" required />
         </div>
 
         <div class="form-group">
-          <label for="clientPhone">Telephone Number</label>
-          <input type="tel" id="clientPhone" placeholder="Enter your phone number" />
+          <label for="email">Email Address</label>
+          <input type="email" id="email" required />
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="additionalRequirements">Additional Requirements</label>
-        <textarea id="additionalRequirements" placeholder="Tell us anything extra, for example dimming, warm white, cool white, strip lighting, feature fittings, budget, or special requests"></textarea>
-      </div>
+        <div class="form-group">
+          <label for="phone">Telephone Number</label>
+          <input type="tel" id="phone" required />
+        </div>
 
-      <button id="submitQuoteBtn" class="calc-btn">SUBMIT QUOTE REQUEST</button>
+        <div class="form-group">
+          <label for="requirements">Additional Requirements</label>
+          <textarea id="requirements" rows="4" placeholder="Anything else you want us to know?"></textarea>
+        </div>
 
-      <div id="quoteOutput" class="result-box">
-        <h3>Your quote request will appear here</h3>
-        <p>Complete the calculator and the form, then click submit.</p>
-      </div>
+        <button type="submit" class="calc-btn">SUBMIT QUOTE REQUEST</button>
+      </form>
+
+      <p id="formStatus" class="form-status"></p>
     </div>
   </div>
 
