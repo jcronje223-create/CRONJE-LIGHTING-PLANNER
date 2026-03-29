@@ -659,7 +659,7 @@ if (quoteForm) {
       return;
     }
 
-    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("PASTE_YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE")) {
+    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbyXsE4tKCoxGgQvKqqrzQTuJ9ViTOUymWZmM9_BBw_HvaZjv6qvssc3U5BRtDbsGWjS/exec")) {
       showStatus("The website form is not connected yet. Add your Google Script web app URL in script.js first.", "error");
       return;
     }
