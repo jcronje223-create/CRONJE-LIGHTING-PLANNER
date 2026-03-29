@@ -469,7 +469,7 @@ if (quoteForm) {
     setQuoteFormDisabled(true);
 
     try {
-      const response = await fetch("YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE", {
+      const response = await fetch("https://script.google.com/macros/s/AKfycbwsmsDZ-leXZj_a9U5uTx_GQlxL36JmdQDMKSeIAHRKt65ys9SKtr1X-cXD4ghrUx1h3g/exec", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
