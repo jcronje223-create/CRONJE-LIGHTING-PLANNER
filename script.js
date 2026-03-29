@@ -30,7 +30,7 @@ const submitQuoteBtn = document.getElementById("submitQuoteBtn");
   Example:
   https://script.google.com/macros/s/XXXXXXXXXXXXX/exec
 */
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyXsE4tKCoxGgQvKqqrzQTuJ9ViTOUymWZmM9_BBw_HvaZjv6qvssc3U5BRtDbsGWjS/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxtW1bM_O02zX2Qa8F65C59f_dv8JvSqteIufI_Buys6Vyq6-8oqwif5OWyqbr2Yaxp3g/exec";
 
 const categoryData = {
   home: {
