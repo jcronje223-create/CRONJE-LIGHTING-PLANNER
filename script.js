@@ -1,534 +1,500 @@
-const calculateBtn = document.getElementById("calculateBtn");
-const resultBox = document.getElementById("result");
+const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
+
+if (menuToggle && navMenu) {
+  menuToggle.addEventListener("click", () => {
+    navMenu.classList.toggle("show");
+  });
+}
+
+const projectCategory = document.getElementById("projectCategory");
+const exactSpace = document.getElementById("exactSpace");
+const lightingGoal = document.getElementById("lightingGoal");
+const lightingCalculator = document.getElementById("lightingCalculator");
+const resultBox = document.getElementById("resultBox");
+const resultContent = document.getElementById("resultContent");
 
 const quoteModal = document.getElementById("quoteModal");
-const quoteSummary = document.getElementById("quoteSummary");
-const submitQuoteBtn = document.getElementById("submitQuoteBtn");
-const quoteOutput = document.getElementById("quoteOutput");
-const closeModalBtn = document.getElementById("closeModalBtn");
 const navQuoteBtn = document.getElementById("navQuoteBtn");
+const ctaQuoteBtn = document.getElementById("ctaQuoteBtn");
+const openQuoteFromResult = document.getElementById("openQuoteFromResult");
+const closeModalBtn = document.getElementById("closeModalBtn");
 
-const resultQuoteBtn = document.getElementById("resultQuoteBtn");
-const quoteActionWrap = document.getElementById("quoteActionWrap");
+const quoteForm = document.getElementById("quoteForm");
+const formStatus = document.getElementById("formStatus");
+const submitQuoteBtn = document.getElementById("submitQuoteBtn");
 
-const roomTypeField = document.getElementById("roomType");
-const lightTypeField = document.getElementById("lightType");
-const roomLengthField = document.getElementById("roomLength");
-const roomWidthField = document.getElementById("roomWidth");
-const brightnessField = document.getElementById("brightness");
+const categoryData = {
+  home: {
+    spaces: [
+      "Bedroom",
+      "Living Room",
+      "Kitchen",
+      "Bathroom",
+      "Garage",
+      "Passage",
+      "Dining Room",
+      "Patio"
+    ],
+    goals: {
+      Bedroom: [
+        "Full room lighting",
+        "Ambient lighting",
+        "Gaming setup lighting",
+        "Headboard / feature lighting",
+        "Art / valuables lighting",
+        "Wardrobe lighting"
+      ],
+      "Living Room": [
+        "Full room lighting",
+        "Ambient lighting",
+        "TV feature lighting",
+        "Display / décor lighting"
+      ],
+      Kitchen: [
+        "Task lighting",
+        "Full room lighting",
+        "Under-cabinet lighting",
+        "Island feature lighting"
+      ],
+      Bathroom: [
+        "Bright practical lighting",
+        "Mirror lighting",
+        "Ambient luxury lighting"
+      ],
+      Garage: [
+        "Bright work lighting",
+        "Display lighting",
+        "Mixed task and feature lighting"
+      ],
+      Passage: [
+        "General pathway lighting",
+        "Ambient low-level lighting",
+        "Accent wall lighting"
+      ],
+      "Dining Room": [
+        "Feature dining lighting",
+        "Ambient mood lighting",
+        "Full room lighting"
+      ],
+      Patio: [
+        "Ambient entertaining lighting",
+        "Decorative lighting",
+        "Mixed functional lighting"
+      ]
+    }
+  },
+  vehicle: {
+    spaces: [
+      "Footwell",
+      "Dashboard",
+      "Doors",
+      "Boot / Trunk",
+      "Full interior"
+    ],
+    goals: {
+      Footwell: [
+        "Ambient glow",
+        "Bold RGB effect",
+        "Luxury subtle lighting"
+      ],
+      Dashboard: [
+        "Ambient accent line",
+        "Modern premium effect",
+        "Bold RGB effect"
+      ],
+      Doors: [
+        "Ambient line lighting",
+        "Luxury highlight lighting",
+        "Bold RGB effect"
+      ],
+      "Boot / Trunk": [
+        "Practical visibility lighting",
+        "Ambient feature lighting"
+      ],
+      "Full interior": [
+        "Full ambient lighting setup",
+        "Luxury interior transformation",
+        "Bold RGB showcase"
+      ]
+    }
+  },
+  shopfront: {
+    spaces: [
+      "Storefront Window",
+      "Shelving",
+      "Entrance",
+      "Counter Area",
+      "Signage"
+    ],
+    goals: {
+      "Storefront Window": [
+        "Display lighting",
+        "Attention-grabbing feature lighting",
+        "Luxury product highlighting"
+      ],
+      Shelving: [
+        "Shelf product lighting",
+        "Accent lighting",
+        "Balanced product visibility"
+      ],
+      Entrance: [
+        "Welcoming entrance lighting",
+        "Security and visibility lighting",
+        "Brand-led accent lighting"
+      ],
+      "Counter Area": [
+        "Functional customer lighting",
+        "Feature counter lighting",
+        "Luxury ambience"
+      ],
+      Signage: [
+        "Brand sign lighting",
+        "Visibility enhancement",
+        "Night-time storefront impact"
+      ]
+    }
+  },
+  commercial: {
+    spaces: [
+      "Office",
+      "Reception",
+      "Boardroom",
+      "Retail Floor",
+      "Client Area"
+    ],
+    goals: {
+      Office: [
+        "Efficient work lighting",
+        "Modern office ambience",
+        "Balanced functional lighting"
+      ],
+      Reception: [
+        "Welcoming reception lighting",
+        "Premium brand feel",
+        "Feature lighting"
+      ],
+      Boardroom: [
+        "Professional meeting lighting",
+        "Premium statement lighting",
+        "Balanced practical setup"
+      ],
+      "Retail Floor": [
+        "General customer lighting",
+        "Product-focused lighting",
+        "Premium branded feel"
+      ],
+      "Client Area": [
+        "Comfortable client ambience",
+        "Professional visual presentation",
+        "Luxury feature lighting"
+      ]
+    }
+  },
+  outdoor: {
+    spaces: [
+      "Garden",
+      "Patio",
+      "Driveway",
+      "Pathway",
+      "Gate / Entrance"
+    ],
+    goals: {
+      Garden: [
+        "Landscape highlight lighting",
+        "Ambient decorative lighting",
+        "Security enhancement"
+      ],
+      Patio: [
+        "Ambient entertaining lighting",
+        "Functional seating lighting",
+        "Feature ceiling or strip lighting"
+      ],
+      Driveway: [
+        "Safety and visibility lighting",
+        "Security lighting",
+        "Premium entrance effect"
+      ],
+      Pathway: [
+        "Guide lighting",
+        "Decorative pathway lighting",
+        "Low-level ambience"
+      ],
+      "Gate / Entrance": [
+        "Security and visibility lighting",
+        "Elegant entrance feature lighting",
+        "Brand / property statement lighting"
+      ]
+    }
+  }
+};
 
-const clientNameField = document.getElementById("clientName");
-const clientEmailField = document.getElementById("clientEmail");
-const clientPhoneField = document.getElementById("clientPhone");
-const additionalRequirementsField = document.getElementById("additionalRequirements");
+function populateSpaces(category) {
+  exactSpace.innerHTML = '<option value="">Select a space</option>';
+  lightingGoal.innerHTML = '<option value="">Select a goal</option>';
 
-const directClientNameField = document.getElementById("directClientName");
-const directClientEmailField = document.getElementById("directClientEmail");
-const directClientPhoneField = document.getElementById("directClientPhone");
-const directQuoteDetailsField = document.getElementById("directQuoteDetails");
-const submitDirectQuoteBtn = document.getElementById("submitDirectQuoteBtn");
-const directQuoteOutput = document.getElementById("directQuoteOutput");
+  if (!categoryData[category]) return;
 
-let latestQuoteData = null;
+  categoryData[category].spaces.forEach(space => {
+    const option = document.createElement("option");
+    option.value = space;
+    option.textContent = space;
+    exactSpace.appendChild(option);
+  });
+}
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwsmsDZ-leXZj_a9U5uTx_GQlxL36JmdQDMKSeIAHRKt65ys9SKtr1X-cXD4ghrUx1h3g/exec";
+function populateGoals(category, space) {
+  lightingGoal.innerHTML = '<option value="">Select a goal</option>';
+
+  if (!categoryData[category] || !categoryData[category].goals[space]) return;
+
+  categoryData[category].goals[space].forEach(goal => {
+    const option = document.createElement("option");
+    option.value = goal;
+    option.textContent = goal;
+    lightingGoal.appendChild(option);
+  });
+}
+
+if (projectCategory) {
+  projectCategory.addEventListener("change", function () {
+    populateSpaces(this.value);
+  });
+}
+
+if (exactSpace) {
+  exactSpace.addEventListener("change", function () {
+    populateGoals(projectCategory.value, this.value);
+  });
+}
+
+function buildRecommendation(data) {
+  const area = (data.length * data.width).toFixed(2);
+
+  let recommendedSetup = "";
+  let fittingAdvice = "";
+  let estimatedRange = "";
+  let specialAdvice = "";
+
+  if (data.fittingType === "LED Strip") {
+    const estimatedMetres = Math.max(5, Math.ceil((data.length + data.width) * 1.5));
+    recommendedSetup = `${estimatedMetres} metres of quality LED strip lighting`;
+    fittingAdvice = "Best suited for ambient lines, under-counter details, ceiling recesses, headboards, shelves and modern feature applications.";
+  } else if (data.fittingType === "Downlight") {
+    const downlights = Math.max(4, Math.ceil(area / 1.8));
+    recommendedSetup = `${downlights} downlights`;
+    fittingAdvice = "Best suited for full-room lighting, practical lighting and clean modern ceiling layouts.";
+  } else if (data.fittingType === "Spotlight") {
+    const spotlights = Math.max(3, Math.ceil(area / 3));
+    recommendedSetup = `${spotlights} spotlights`;
+    fittingAdvice = "Best suited for directional lighting, feature walls, art displays, product focus and accent points.";
+  } else if (data.fittingType === "Pendant / Feature") {
+    recommendedSetup = `1 to 2 feature fittings with supporting ambient lighting`;
+    fittingAdvice = "Best suited for dining spaces, reception areas, luxury rooms and statement focal zones.";
+  } else {
+    const mixedCount = Math.max(4, Math.ceil(area / 2.2));
+    recommendedSetup = `${mixedCount} primary fittings plus supporting ambient or accent lighting`;
+    fittingAdvice = "Best suited for layered lighting where both function and visual mood are important.";
+  }
+
+  if (data.brightness === "Soft") {
+    specialAdvice += "A softer output is recommended to keep the space relaxed and comfortable. ";
+  } else if (data.brightness === "Balanced") {
+    specialAdvice += "A balanced output will give a practical result without making the space feel harsh. ";
+  } else {
+    specialAdvice += "A brighter output is recommended for strong visibility and a cleaner high-performance feel. ";
+  }
+
+  if (data.styleMood === "Luxury") {
+    specialAdvice += "Use premium finishes, hidden light sources and layered feature lighting for a more upscale effect. ";
+  } else if (data.styleMood === "Bold RGB") {
+    specialAdvice += "RGB controls, scene presets and accent placement will be important for this look. ";
+  } else if (data.styleMood === "Minimal") {
+    specialAdvice += "Keep fittings clean, discreet and evenly spaced for a more refined finish. ";
+  }
+
+  if (data.budgetRange === "Entry Level") {
+    estimatedRange = "Best approached with a simpler practical setup and selective feature lighting.";
+  } else if (data.budgetRange === "Mid Range") {
+    estimatedRange = "Allows a stronger balance between performance, appearance and upgrade options.";
+  } else {
+    estimatedRange = "Suitable for layered premium lighting with stronger design impact and finish quality.";
+  }
+
+  return {
+    area,
+    recommendedSetup,
+    fittingAdvice,
+    estimatedRange,
+    specialAdvice
+  };
+}
+
+if (lightingCalculator) {
+  lightingCalculator.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const data = {
+      category: projectCategory.value,
+      space: document.getElementById("exactSpace").value,
+      goal: document.getElementById("lightingGoal").value,
+      styleMood: document.getElementById("styleMood").value,
+      length: parseFloat(document.getElementById("length").value),
+      width: parseFloat(document.getElementById("width").value),
+      brightness: document.getElementById("brightness").value,
+      fittingType: document.getElementById("fittingType").value,
+      budgetRange: document.getElementById("budgetRange").value
+    };
+
+    const recommendation = buildRecommendation(data);
+
+    resultContent.innerHTML = `
+      <p><strong>Project Category:</strong> ${data.category}</p>
+      <p><strong>Exact Space:</strong> ${data.space}</p>
+      <p><strong>Lighting Goal:</strong> ${data.goal}</p>
+      <p><strong>Style / Mood:</strong> ${data.styleMood}</p>
+      <p><strong>Estimated Area:</strong> ${recommendation.area} m²</p>
+      <p><strong>Suggested Setup:</strong> ${recommendation.recommendedSetup}</p>
+      <p><strong>Fitting Advice:</strong> ${recommendation.fittingAdvice}</p>
+      <p><strong>Budget Direction:</strong> ${recommendation.estimatedRange}</p>
+      <p><strong>Design Note:</strong> ${recommendation.specialAdvice}</p>
+      <p><strong>Next Step:</strong> Request a quote so Cronje Lighting can refine this into a more accurate recommendation for your project.</p>
+    `;
+
+    resultBox.classList.add("active");
+    resultBox.classList.add("highlight");
+
+    setTimeout(() => {
+      resultBox.classList.remove("highlight");
+    }, 2200);
+
+    resultBox.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  });
+}
 
 function openQuoteModal() {
   if (!quoteModal) return;
-  quoteModal.classList.add("show");
+  quoteModal.classList.add("active");
   document.body.style.overflow = "hidden";
+
+  setTimeout(() => {
+    const firstInput = document.getElementById("clientName");
+    if (firstInput) firstInput.focus();
+  }, 100);
 }
 
 function closeQuoteModal() {
   if (!quoteModal) return;
-  quoteModal.classList.remove("show");
-  document.body.style.overflow = "";
-}
-
-function formatRoomType(roomType) {
-  const roomTypeMap = {
-    bedroom: "Bedroom",
-    "living-room": "Living Room",
-    kitchen: "Kitchen",
-    bathroom: "Bathroom",
-    office: "Office",
-    garage: "Garage"
-  };
-
-  return roomTypeMap[roomType] || roomType;
-}
-
-function getLuxLevel(roomType, brightness) {
-  let luxLevel = 150;
-
-  if (brightness === "medium") luxLevel = 250;
-  if (brightness === "bright") luxLevel = 350;
-
-  if (roomType === "kitchen" || roomType === "bathroom") {
-    luxLevel += 50;
-  }
-
-  if (roomType === "office" || roomType === "garage") {
-    luxLevel += 100;
-  }
-
-  return luxLevel;
-}
-
-function getRecommendationData(lightType, area, lumens) {
-  if (lightType === "LED strip lights") {
-    let recommendedMetres = Math.max(3, Math.ceil(area * 1.2));
-
-    if (area > 20) {
-      recommendedMetres = Math.ceil(area * 1.5);
-    }
-
-    let suggestion =
-      `${recommendedMetres} metres of LED strip lighting`;
-
-    if (lumens > 4000) {
-      suggestion += " with high-output strip and aluminium profiles for better heat dissipation";
-    } else {
-      suggestion += " with quality LED strip and proper drivers";
-    }
-
-    return {
-      quantityLabel: "Estimated strip length",
-      quantityValue: `${recommendedMetres} metres`,
-      suggestion: suggestion,
-      backendQuantity: recommendedMetres,
-      backendUnit: "metres"
-    };
-  }
-
-  if (lightType === "Downlights") {
-    const lumensPerUnit = 800;
-    const fittings = Math.max(1, Math.ceil(lumens / lumensPerUnit));
-
-    let suggestion =
-      `${fittings} recessed downlights of approximately ${lumensPerUnit} lumens each`;
-
-    if (area > 25) {
-      suggestion += " spaced evenly for balanced room coverage";
-    } else {
-      suggestion += " spaced evenly for a clean and modern finish";
-    }
-
-    return {
-      quantityLabel: "Estimated fittings",
-      quantityValue: `${fittings}`,
-      suggestion: suggestion,
-      backendQuantity: fittings,
-      backendUnit: "fittings"
-    };
-  }
-
-  if (lightType === "Bulb lights") {
-    const lumensPerUnit = 900;
-    const fittings = Math.max(1, Math.ceil(lumens / lumensPerUnit));
-
-    let suggestion =
-      `${fittings} bulb fittings using lamps of approximately ${lumensPerUnit} lumens each`;
-
-    if (roomTypeField.value === "bedroom" || roomTypeField.value === "living-room") {
-      suggestion += " with warm white lamps for a softer ambient feel";
-    } else {
-      suggestion += " with practical lamp placement for general room lighting";
-    }
-
-    return {
-      quantityLabel: "Estimated fittings",
-      quantityValue: `${fittings}`,
-      suggestion: suggestion,
-      backendQuantity: fittings,
-      backendUnit: "fittings"
-    };
-  }
-
-  if (lightType === "Spotlights") {
-    const lumensPerUnit = 600;
-    const fittings = Math.max(1, Math.ceil(lumens / lumensPerUnit));
-
-    let suggestion =
-      `${fittings} spotlights of approximately ${lumensPerUnit} lumens each`;
-
-    if (area > 20) {
-      suggestion += " arranged in zones for directional coverage";
-    } else {
-      suggestion += " aimed at key areas for directional and feature lighting";
-    }
-
-    return {
-      quantityLabel: "Estimated fittings",
-      quantityValue: `${fittings}`,
-      suggestion: suggestion,
-      backendQuantity: fittings,
-      backendUnit: "fittings"
-    };
-  }
-
-  const fallbackUnits = Math.max(1, Math.ceil(lumens / 800));
-
-  return {
-    quantityLabel: "Estimated fittings",
-    quantityValue: `${fallbackUnits}`,
-    suggestion: `${fallbackUnits} light fittings recommended for this room`,
-    backendQuantity: fallbackUnits,
-    backendUnit: "fittings"
-  };
-}
-
-function resetQuoteForm() {
-  clientNameField.value = "";
-  clientEmailField.value = "";
-  clientPhoneField.value = "";
-  additionalRequirementsField.value = "";
-
-  quoteOutput.innerHTML = `
-    <h3>Your quote request will appear here</h3>
-    <p>Complete the calculator and the form, then click submit.</p>
-  `;
-}
-
-function resetDirectQuoteForm() {
-  directClientNameField.value = "";
-  directClientEmailField.value = "";
-  directClientPhoneField.value = "";
-  directQuoteDetailsField.value = "";
-
-  directQuoteOutput.innerHTML = `
-    <h3>Your direct quote request will appear here</h3>
-    <p>Complete the form and click submit.</p>
-  `;
-}
-
-function updateQuoteSummary() {
-  if (!latestQuoteData) {
-    quoteSummary.innerHTML = `
-      <h3>Calculator Summary</h3>
-      <p>No calculator data yet. Please use the calculator first.</p>
-    `;
-    return;
-  }
-
-  quoteSummary.innerHTML = `
-    <h3>Calculator Summary</h3>
-    <p><strong>Room type:</strong> ${latestQuoteData.roomType}</p>
-    <p><strong>Preferred light type:</strong> ${latestQuoteData.lightType}</p>
-    <p><strong>Room area:</strong> ${latestQuoteData.area} m²</p>
-    <p><strong>Total light needed:</strong> ${latestQuoteData.lumens} lumens</p>
-    <p><strong>${latestQuoteData.quantityLabel}:</strong> ${latestQuoteData.quantityValue}</p>
-    <p><strong>Suggested setup:</strong> ${latestQuoteData.suggestion}</p>
-  `;
-}
-
-function showCalculationResult(data) {
-  resultBox.innerHTML = `
-    <h3>Recommended Lighting</h3>
-    <p><strong>Room type:</strong> ${data.roomType}</p>
-    <p><strong>Preferred light type:</strong> ${data.lightType}</p>
-    <p><strong>Room area:</strong> ${data.area} m²</p>
-    <p><strong>Total light needed:</strong> ${data.lumens} lumens</p>
-    <p><strong>${data.quantityLabel}:</strong> ${data.quantityValue}</p>
-    <p><strong>Suggested setup:</strong> ${data.suggestion}</p>
-  `;
-}
-
-function showCalculationError(message) {
-  resultBox.innerHTML = `
-    <h3>Invalid room size</h3>
-    <p>${message}</p>
-  `;
-}
-
-function showQuoteMessage(targetElement, title, message1, message2 = "") {
-  targetElement.innerHTML = `
-    <h3>${title}</h3>
-    <p>${message1}</p>
-    ${message2 ? `<p>${message2}</p>` : ""}
-  `;
-}
-
-function validateCalculatorQuoteFields() {
-  const clientName = clientNameField.value.trim();
-  const clientEmail = clientEmailField.value.trim();
-  const clientPhone = clientPhoneField.value.trim();
-
-  if (!clientName || !clientEmail || !clientPhone) {
-    showQuoteMessage(
-      quoteOutput,
-      "Missing details",
-      "Please complete your full name, email address, and telephone number."
-    );
-    return false;
-  }
-
-  return true;
-}
-
-function validateDirectQuoteFields() {
-  const clientName = directClientNameField.value.trim();
-  const clientEmail = directClientEmailField.value.trim();
-  const clientPhone = directClientPhoneField.value.trim();
-  const quoteDetails = directQuoteDetailsField.value.trim();
-
-  if (!clientName || !clientEmail || !clientPhone || !quoteDetails) {
-    showQuoteMessage(
-      directQuoteOutput,
-      "Missing details",
-      "Please complete your full name, email address, telephone number, and description of what you need."
-    );
-    return false;
-  }
-
-  return true;
-}
-
-function buildCalculatorPayload() {
-  return {
-    requestType: "calculatorQuote",
-    clientName: clientNameField.value.trim(),
-    clientEmail: clientEmailField.value.trim(),
-    clientPhone: clientPhoneField.value.trim(),
-    roomType: latestQuoteData.roomType,
-    lightType: latestQuoteData.lightType,
-    area: latestQuoteData.area,
-    lumens: latestQuoteData.lumens,
-    lights: latestQuoteData.backendQuantity,
-    quantityLabel: latestQuoteData.quantityLabel,
-    quantityValue: latestQuoteData.quantityValue,
-    quantityUnit: latestQuoteData.backendUnit,
-    suggestion: latestQuoteData.suggestion,
-    additionalRequirements: additionalRequirementsField.value.trim()
-  };
-}
-
-function buildDirectQuotePayload() {
-  return {
-    requestType: "directQuote",
-    clientName: directClientNameField.value.trim(),
-    clientEmail: directClientEmailField.value.trim(),
-    clientPhone: directClientPhoneField.value.trim(),
-    quoteDetails: directQuoteDetailsField.value.trim()
-  };
-}
-
-async function postToBackend(payload) {
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "text/plain;charset=utf-8"
-    },
-    body: JSON.stringify(payload)
-  });
-
-  const responseText = await response.text();
-
-  if (!response.ok) {
-    throw new Error(`Server returned ${response.status}: ${responseText}`);
-  }
-
-  let result;
-
-  try {
-    result = JSON.parse(responseText);
-  } catch (parseError) {
-    throw new Error("The server response was not valid JSON.");
-  }
-
-  const messageText = String(result.message || "").toLowerCase();
-  const statusText = String(result.status || "").toLowerCase();
-
-  if (statusText === "error") {
-    throw new Error(result.message || "The server returned an error.");
-  }
-
-  if (
-    statusText === "success" ||
-    messageText.includes("successfully") ||
-    messageText.includes("saved") ||
-    messageText.includes("submitted")
-  ) {
-    return result;
-  }
-
-  return result;
-}
-
-function calculateLighting() {
-  const roomType = roomTypeField.value;
-  const lightType = lightTypeField.value;
-  const roomLength = parseFloat(roomLengthField.value);
-  const roomWidth = parseFloat(roomWidthField.value);
-  const brightness = brightnessField.value;
-
-  if (!roomType || !lightType) {
-    showCalculationError("Please select both the room type and preferred light type.");
-    return;
-  }
-
-  if (isNaN(roomLength) || isNaN(roomWidth) || roomLength <= 0 || roomWidth <= 0) {
-    showCalculationError("Please enter a valid room length and width greater than 0.");
-    return;
-  }
-
-  const area = roomLength * roomWidth;
-  const luxLevel = getLuxLevel(roomType, brightness);
-  const lumens = Math.round(area * luxLevel);
-
-  const recommendationData = getRecommendationData(lightType, area, lumens);
-
-  latestQuoteData = {
-    roomType: formatRoomType(roomType),
-    lightType: lightType,
-    area: area.toFixed(2),
-    lumens: lumens,
-    quantityLabel: recommendationData.quantityLabel,
-    quantityValue: recommendationData.quantityValue,
-    suggestion: recommendationData.suggestion,
-    backendQuantity: recommendationData.backendQuantity,
-    backendUnit: recommendationData.backendUnit
-  };
-
-  showCalculationResult(latestQuoteData);
-
-  if (quoteActionWrap) {
-    quoteActionWrap.classList.remove("hidden");
-  }
-}
-
-async function submitCalculatorQuoteRequest() {
-  if (!latestQuoteData) {
-    showQuoteMessage(
-      quoteOutput,
-      "Calculator required",
-      "Please use the calculator first before submitting a quote request."
-    );
-    return;
-  }
-
-  if (!validateCalculatorQuoteFields()) {
-    return;
-  }
-
-  const payload = buildCalculatorPayload();
-
-  submitQuoteBtn.disabled = true;
-  submitQuoteBtn.textContent = "SENDING...";
-
-  showQuoteMessage(
-    quoteOutput,
-    "Sending quote request...",
-    "Please wait while we submit your details."
-  );
-
-  try {
-    await postToBackend(payload);
-
-    showQuoteMessage(
-      quoteOutput,
-      "Thank you for your quote request",
-      "We have received your details successfully.",
-      "We will review your requirements and get back to you shortly."
-    );
-
-    clientNameField.value = "";
-    clientEmailField.value = "";
-    clientPhoneField.value = "";
-    additionalRequirementsField.value = "";
-
-    setTimeout(() => {
-      closeQuoteModal();
-      resetQuoteForm();
-    }, 2200);
-  } catch (error) {
-    showQuoteMessage(
-      quoteOutput,
-      "Submission problem",
-      "We could not send the quote request from the website.",
-      `Error: ${error.message}`
-    );
-  } finally {
-    submitQuoteBtn.disabled = false;
-    submitQuoteBtn.textContent = "SUBMIT QUOTE REQUEST";
-  }
-}
-
-async function submitDirectQuoteRequest() {
-  if (!validateDirectQuoteFields()) {
-    return;
-  }
-
-  const payload = buildDirectQuotePayload();
-
-  submitDirectQuoteBtn.disabled = true;
-  submitDirectQuoteBtn.textContent = "SENDING...";
-
-  showQuoteMessage(
-    directQuoteOutput,
-    "Sending direct quote request...",
-    "Please wait while we submit your details."
-  );
-
-  try {
-    await postToBackend(payload);
-
-    showQuoteMessage(
-      directQuoteOutput,
-      "Thank you for your quote request",
-      "We have received your details successfully.",
-      "We will review your requirements and get back to you shortly."
-    );
-
-    setTimeout(() => {
-      resetDirectQuoteForm();
-    }, 2200);
-  } catch (error) {
-    showQuoteMessage(
-      directQuoteOutput,
-      "Submission problem",
-      "We could not send the direct quote request from the website.",
-      `Error: ${error.message}`
-    );
-  } finally {
-    submitDirectQuoteBtn.disabled = false;
-    submitDirectQuoteBtn.textContent = "SUBMIT DIRECT QUOTE REQUEST";
-  }
-}
-
-if (calculateBtn) {
-  calculateBtn.addEventListener("click", calculateLighting);
+  quoteModal.classList.remove("active");
+  document.body.style.overflow = "auto";
 }
 
 if (navQuoteBtn) {
   navQuoteBtn.addEventListener("click", function (e) {
     e.preventDefault();
-    updateQuoteSummary();
     openQuoteModal();
   });
 }
 
-if (resultQuoteBtn) {
-  resultQuoteBtn.addEventListener("click", function () {
-    updateQuoteSummary();
+if (ctaQuoteBtn) {
+  ctaQuoteBtn.addEventListener("click", function () {
+    openQuoteModal();
+  });
+}
+
+if (openQuoteFromResult) {
+  openQuoteFromResult.addEventListener("click", function () {
     openQuoteModal();
   });
 }
 
 if (closeModalBtn) {
-  closeModalBtn.addEventListener("click", closeQuoteModal);
-}
-
-window.addEventListener("click", function (e) {
-  if (e.target === quoteModal) {
+  closeModalBtn.addEventListener("click", function () {
     closeQuoteModal();
-  }
-});
-
-if (submitQuoteBtn) {
-  submitQuoteBtn.addEventListener("click", submitCalculatorQuoteRequest);
+  });
 }
 
-if (submitDirectQuoteBtn) {
-  submitDirectQuoteBtn.addEventListener("click", submitDirectQuoteRequest);
+if (quoteModal) {
+  quoteModal.addEventListener("click", function (e) {
+    if (e.target === quoteModal) {
+      closeQuoteModal();
+    }
+  });
+}
+
+function showStatus(message, type) {
+  if (!formStatus) return;
+  formStatus.textContent = message;
+  formStatus.className = "status-box show " + type;
+  formStatus.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function setQuoteFormDisabled(disabled) {
+  if (!quoteForm) return;
+  const fields = quoteForm.querySelectorAll("input, textarea, button");
+  fields.forEach(field => {
+    field.disabled = disabled;
+  });
+}
+
+if (quoteForm) {
+  quoteForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const calculatorData = lightingCalculator ? {
+      projectCategory: document.getElementById("projectCategory")?.value || "",
+      exactSpace: document.getElementById("exactSpace")?.value || "",
+      lightingGoal: document.getElementById("lightingGoal")?.value || "",
+      styleMood: document.getElementById("styleMood")?.value || "",
+      length: document.getElementById("length")?.value || "",
+      width: document.getElementById("width")?.value || "",
+      brightness: document.getElementById("brightness")?.value || "",
+      fittingType: document.getElementById("fittingType")?.value || "",
+      budgetRange: document.getElementById("budgetRange")?.value || ""
+    } : {};
+
+    const payload = {
+      clientName: document.getElementById("clientName").value.trim(),
+      clientEmail: document.getElementById("clientEmail").value.trim(),
+      clientPhone: document.getElementById("clientPhone").value.trim(),
+      clientLocation: document.getElementById("clientLocation").value.trim(),
+      additionalRequirements: document.getElementById("additionalRequirements").value.trim(),
+      ...calculatorData
+    };
+
+    showStatus("Submitting your quote request...", "info");
+    setQuoteFormDisabled(true);
+
+    try {
+      const response = await fetch("YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        showStatus(`Thank you ${payload.clientName}. Your quote request has been submitted successfully. We will review your requirements and get back to you shortly.`, "success");
+        quoteForm.reset();
+
+        if (lightingCalculator) {
+          setTimeout(() => {
+            closeQuoteModal();
+          }, 1800);
+        }
+      } else {
+        showStatus("Something went wrong while submitting your request. Please try again or contact us directly on WhatsApp.", "error");
+      }
+    } catch (error) {
+      showStatus("We could not submit your request right now. Please try again in a moment or contact us on WhatsApp.", "error");
+    } finally {
+      setQuoteFormDisabled(false);
+    }
+  });
 }
