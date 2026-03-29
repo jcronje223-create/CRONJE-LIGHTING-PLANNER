@@ -24,6 +24,12 @@ const quoteForm = document.getElementById("quoteForm");
 const formStatus = document.getElementById("formStatus");
 const submitQuoteBtn = document.getElementById("submitQuoteBtn");
 
+/*
+  IMPORTANT:
+  Replace the value below with your LIVE Google Apps Script WEB APP URL
+  Example:
+  https://script.google.com/macros/s/XXXXXXXXXXXXX/exec
+*/
 const GOOGLE_SCRIPT_URL = "PASTE_YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE";
 
 const categoryData = {
@@ -239,7 +245,7 @@ function populateSpaces(category) {
 
   if (!categoryData[category]) return;
 
-  categoryData[category].spaces.forEach(space => {
+  categoryData[category].spaces.forEach((space) => {
     const option = document.createElement("option");
     option.value = space;
     option.textContent = space;
@@ -254,7 +260,7 @@ function populateGoals(category, space) {
 
   if (!categoryData[category] || !categoryData[category].goals[space]) return;
 
-  categoryData[category].goals[space].forEach(goal => {
+  categoryData[category].goals[space].forEach((goal) => {
     const option = document.createElement("option");
     option.value = goal;
     option.textContent = goal;
@@ -270,7 +276,7 @@ if (projectCategory) {
 
 if (exactSpace) {
   exactSpace.addEventListener("change", function () {
-    populateGoals(projectCategory.value, this.value);
+    populateGoals(projectCategory?.value || "", this.value);
   });
 }
 
@@ -287,6 +293,19 @@ function capitaliseCategory(category) {
 function safeNumber(value) {
   const num = parseFloat(value);
   return Number.isFinite(num) ? num : 0;
+}
+
+function getBudgetDirection(budgetRange) {
+  if (budgetRange === "Entry Level") {
+    return "Best approached with a simpler practical setup and selective feature lighting.";
+  }
+  if (budgetRange === "Mid Range") {
+    return "Allows a stronger balance between performance, appearance and upgrade options.";
+  }
+  if (budgetRange === "Premium") {
+    return "Suitable for layered premium lighting with stronger design impact and finish quality.";
+  }
+  return "Budget direction will be refined during the quote review.";
 }
 
 function getVehicleRecommendation(data) {
@@ -317,19 +336,22 @@ function getVehicleRecommendation(data) {
       fittingAdvice = "Best suited for soft glow and improved cabin ambience.";
     }
   } else if (data.space === "Doors") {
-    suggestedSetup = data.goal === "Bold RGB effect"
-      ? "4 door ambient accent lines or inserts"
-      : "2 to 4 subtle door ambient accent lines";
+    suggestedSetup =
+      data.goal === "Bold RGB effect"
+        ? "4 door ambient accent lines or inserts"
+        : "2 to 4 subtle door ambient accent lines";
     fittingAdvice = "Use concealed placement so the door lighting complements the interior lines.";
   } else if (data.space === "Boot / Trunk") {
-    suggestedSetup = data.goal === "Practical visibility lighting"
-      ? "1 bright practical boot light upgrade"
-      : "1 ambient boot feature light setup";
+    suggestedSetup =
+      data.goal === "Practical visibility lighting"
+        ? "1 bright practical boot light upgrade"
+        : "1 ambient boot feature light setup";
     fittingAdvice = "Focus on neat edge placement and proper brightness for the actual use of the boot area.";
   } else {
-    suggestedSetup = data.goal === "Bold RGB showcase"
-      ? "A full interior RGB ambient package across dashboard, footwells and doors"
-      : "A full interior ambient package with coordinated dashboard, footwell and door lighting";
+    suggestedSetup =
+      data.goal === "Bold RGB showcase"
+        ? "A full interior RGB ambient package across dashboard, footwells and doors"
+        : "A full interior ambient package with coordinated dashboard, footwell and door lighting";
     fittingAdvice = "This works best as a matched multi-zone install so the whole cabin feels intentional.";
   }
 
@@ -350,11 +372,12 @@ function getVehicleRecommendation(data) {
   }
 
   return {
+    areaValue: "",
     areaText: "Not used for vehicle lighting layouts",
     suggestedSetup,
     fittingAdvice,
     budgetDirection: getBudgetDirection(data.budgetRange),
-    designNote
+    designNote: designNote.trim()
   };
 }
 
@@ -365,13 +388,16 @@ function getArchitecturalRecommendation(data) {
   let designNote = "";
 
   if (data.fittingType === "LED Strip") {
-    let stripMetres = Math.max(3, Math.ceil((safeNumber(data.length) + safeNumber(data.width)) * 1.2));
+    let stripMetres = Math.max(
+      3,
+      Math.ceil((safeNumber(data.length) + safeNumber(data.width)) * 1.2)
+    );
 
-    if (data.goal.toLowerCase().includes("under-cabinet")) {
+    if ((data.goal || "").toLowerCase().includes("under-cabinet")) {
       stripMetres = Math.max(2, Math.ceil(safeNumber(data.length)));
     }
 
-    if (data.goal.toLowerCase().includes("headboard")) {
+    if ((data.goal || "").toLowerCase().includes("headboard")) {
       stripMetres = Math.max(3, Math.ceil(safeNumber(data.width) || 3));
     }
 
@@ -396,9 +422,10 @@ function getArchitecturalRecommendation(data) {
 
   if (data.category === "home") {
     if (data.space === "Bedroom" && data.goal === "Ambient lighting") {
-      suggestedSetup = data.fittingType === "LED Strip"
-        ? "4 to 6 metres of concealed bedroom ambient LED strip lighting"
-        : "A soft layered ambient bedroom setup with secondary feature lighting";
+      suggestedSetup =
+        data.fittingType === "LED Strip"
+          ? "4 to 6 metres of concealed bedroom ambient LED strip lighting"
+          : "A soft layered ambient bedroom setup with secondary feature lighting";
       fittingAdvice = "Keep the light indirect and soft so the room feels comfortable instead of harsh.";
     }
 
@@ -419,7 +446,7 @@ function getArchitecturalRecommendation(data) {
   }
 
   if (data.category === "shopfront") {
-    if (data.goal.toLowerCase().includes("display")) {
+    if ((data.goal || "").toLowerCase().includes("display")) {
       fittingAdvice = "Use directional or concealed lighting that makes products stand out to passing customers.";
     }
     if (data.space === "Signage") {
@@ -470,25 +497,13 @@ function getArchitecturalRecommendation(data) {
   }
 
   return {
+    areaValue: area.toFixed(2),
     areaText: `${area.toFixed(2)} m²`,
     suggestedSetup,
     fittingAdvice,
     budgetDirection: getBudgetDirection(data.budgetRange),
-    designNote
+    designNote: designNote.trim()
   };
-}
-
-function getBudgetDirection(budgetRange) {
-  if (budgetRange === "Entry Level") {
-    return "Best approached with a simpler practical setup and selective feature lighting.";
-  }
-  if (budgetRange === "Mid Range") {
-    return "Allows a stronger balance between performance, appearance and upgrade options.";
-  }
-  if (budgetRange === "Premium") {
-    return "Suitable for layered premium lighting with stronger design impact and finish quality.";
-  }
-  return "Budget direction will be refined during the quote review.";
 }
 
 function buildRecommendation(data) {
@@ -498,29 +513,59 @@ function buildRecommendation(data) {
   return getArchitecturalRecommendation(data);
 }
 
+function getCalculatorData() {
+  return {
+    projectCategory: document.getElementById("projectCategory")?.value || "",
+    exactSpace: document.getElementById("exactSpace")?.value || "",
+    lightingGoal: document.getElementById("lightingGoal")?.value || "",
+    styleMood: document.getElementById("styleMood")?.value || "",
+    length: document.getElementById("length")?.value || "",
+    width: document.getElementById("width")?.value || "",
+    brightness: document.getElementById("brightness")?.value || "",
+    fittingType: document.getElementById("fittingType")?.value || "",
+    budgetRange: document.getElementById("budgetRange")?.value || ""
+  };
+}
+
+function getRecommendationForSubmission() {
+  const calculatorData = getCalculatorData();
+
+  return buildRecommendation({
+    category: calculatorData.projectCategory,
+    space: calculatorData.exactSpace,
+    goal: calculatorData.lightingGoal,
+    styleMood: calculatorData.styleMood,
+    length: calculatorData.length,
+    width: calculatorData.width,
+    brightness: calculatorData.brightness,
+    fittingType: calculatorData.fittingType,
+    budgetRange: calculatorData.budgetRange
+  });
+}
+
 if (lightingCalculator) {
   lightingCalculator.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const data = {
-      category: projectCategory.value,
-      space: document.getElementById("exactSpace").value,
-      goal: document.getElementById("lightingGoal").value,
-      styleMood: document.getElementById("styleMood").value,
-      length: document.getElementById("length").value,
-      width: document.getElementById("width").value,
-      brightness: document.getElementById("brightness").value,
-      fittingType: document.getElementById("fittingType").value,
-      budgetRange: document.getElementById("budgetRange").value
-    };
+    const calculatorData = getCalculatorData();
 
-    const recommendation = buildRecommendation(data);
+    const recommendation = buildRecommendation({
+      category: calculatorData.projectCategory,
+      space: calculatorData.exactSpace,
+      goal: calculatorData.lightingGoal,
+      styleMood: calculatorData.styleMood,
+      length: calculatorData.length,
+      width: calculatorData.width,
+      brightness: calculatorData.brightness,
+      fittingType: calculatorData.fittingType,
+      budgetRange: calculatorData.budgetRange
+    });
 
     resultContent.innerHTML = `
-      <p><strong>Project Category:</strong> ${capitaliseCategory(data.category)}</p>
-      <p><strong>Exact Space:</strong> ${data.space}</p>
-      <p><strong>Lighting Goal:</strong> ${data.goal}</p>
-      <p><strong>Style / Mood:</strong> ${data.styleMood}</p>
+      <p><strong>Project Category:</strong> ${capitaliseCategory(calculatorData.projectCategory)}</p>
+      <p><strong>Exact Space:</strong> ${calculatorData.exactSpace}</p>
+      <p><strong>Lighting Goal:</strong> ${calculatorData.lightingGoal}</p>
+      <p><strong>Style / Mood:</strong> ${calculatorData.styleMood}</p>
       <p><strong>Estimated Area:</strong> ${recommendation.areaText}</p>
       <p><strong>Suggested Setup:</strong> ${recommendation.suggestedSetup}</p>
       <p><strong>Fitting Advice:</strong> ${recommendation.fittingAdvice}</p>
@@ -545,6 +590,7 @@ if (lightingCalculator) {
 
 function openQuoteModal() {
   if (!quoteModal) return;
+
   quoteModal.classList.add("active");
   document.body.style.overflow = "hidden";
 
@@ -556,6 +602,7 @@ function openQuoteModal() {
 
 function closeQuoteModal() {
   if (!quoteModal) return;
+
   quoteModal.classList.remove("active");
   document.body.style.overflow = "auto";
 }
@@ -603,7 +650,7 @@ function setQuoteFormDisabled(disabled) {
   if (!quoteForm) return;
 
   const fields = quoteForm.querySelectorAll("input, textarea, button");
-  fields.forEach(field => {
+  fields.forEach((field) => {
     field.disabled = disabled;
   });
 
@@ -612,42 +659,56 @@ function setQuoteFormDisabled(disabled) {
   }
 }
 
+async function submitQuotePayload(payload) {
+  const response = await fetch(GOOGLE_SCRIPT_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify(payload)
+  });
+
+  const responseText = await response.text();
+
+  let result = null;
+  try {
+    result = JSON.parse(responseText);
+  } catch (parseError) {
+    result = {
+      success: false,
+      status: "error",
+      message: "The server returned an invalid response.",
+      raw: responseText
+    };
+  }
+
+  return result;
+}
+
 if (quoteForm) {
   quoteForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const calculatorData = lightingCalculator ? {
-      projectCategory: document.getElementById("projectCategory")?.value || "",
-      exactSpace: document.getElementById("exactSpace")?.value || "",
-      lightingGoal: document.getElementById("lightingGoal")?.value || "",
-      styleMood: document.getElementById("styleMood")?.value || "",
-      length: document.getElementById("length")?.value || "",
-      width: document.getElementById("width")?.value || "",
-      brightness: document.getElementById("brightness")?.value || "",
-      fittingType: document.getElementById("fittingType")?.value || "",
-      budgetRange: document.getElementById("budgetRange")?.value || ""
-    } : {};
-
-    const currentRecommendation = buildRecommendation({
-      category: calculatorData.projectCategory,
-      space: calculatorData.exactSpace,
-      goal: calculatorData.lightingGoal,
-      styleMood: calculatorData.styleMood,
-      length: calculatorData.length,
-      width: calculatorData.width,
-      brightness: calculatorData.brightness,
-      fittingType: calculatorData.fittingType,
-      budgetRange: calculatorData.budgetRange
-    });
+    const calculatorData = getCalculatorData();
+    const currentRecommendation = getRecommendationForSubmission();
 
     const payload = {
       requestType: "calculatorQuote",
-      clientName: document.getElementById("clientName").value.trim(),
-      clientEmail: document.getElementById("clientEmail").value.trim(),
-      clientPhone: document.getElementById("clientPhone").value.trim(),
-      clientLocation: document.getElementById("clientLocation").value.trim(),
-      additionalRequirements: document.getElementById("additionalRequirements").value.trim(),
-      ...calculatorData,
+      clientName: document.getElementById("clientName")?.value.trim() || "",
+      clientEmail: document.getElementById("clientEmail")?.value.trim() || "",
+      clientPhone: document.getElementById("clientPhone")?.value.trim() || "",
+      clientLocation: document.getElementById("clientLocation")?.value.trim() || "",
+      additionalRequirements: document.getElementById("additionalRequirements")?.value.trim() || "",
+      projectCategory: calculatorData.projectCategory,
+      exactSpace: calculatorData.exactSpace,
+      lightingGoal: calculatorData.lightingGoal,
+      styleMood: calculatorData.styleMood,
+      length: calculatorData.length,
+      width: calculatorData.width,
+      area: currentRecommendation.areaValue,
+      brightness: calculatorData.brightness,
+      fittingType: calculatorData.fittingType,
+      budgetRange: calculatorData.budgetRange,
       suggestedSetup: currentRecommendation.suggestedSetup,
       fittingAdvice: currentRecommendation.fittingAdvice,
       budgetDirection: currentRecommendation.budgetDirection,
@@ -659,8 +720,32 @@ if (quoteForm) {
       return;
     }
 
-    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbyXsE4tKCoxGgQvKqqrzQTuJ9ViTOUymWZmM9_BBw_HvaZjv6qvssc3U5BRtDbsGWjS/exec")) {
-      showStatus("The website form is not connected yet. Add your Google Script web app URL in script.js first.", "error");
+    if (
+      !payload.projectCategory ||
+      !payload.exactSpace ||
+      !payload.lightingGoal ||
+      !payload.styleMood ||
+      !payload.brightness ||
+      !payload.fittingType ||
+      !payload.budgetRange
+    ) {
+      showStatus("Please complete the calculator first before requesting a quote.", "error");
+      return;
+    }
+
+    if (
+      payload.projectCategory !== "vehicle" &&
+      (!payload.length || !payload.width)
+    ) {
+      showStatus("Please enter the project length and width before requesting a quote.", "error");
+      return;
+    }
+
+    if (
+      !GOOGLE_SCRIPT_URL ||
+      GOOGLE_SCRIPT_URL === "PASTE_YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE"
+    ) {
+      showStatus("Your Google Script web app URL is still missing in script.js.", "error");
       return;
     }
 
@@ -668,25 +753,30 @@ if (quoteForm) {
     setQuoteFormDisabled(true);
 
     try {
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8"
-        },
-        body: JSON.stringify(payload)
-      });
+      console.log("Submitting quote payload:", payload);
 
-      showStatus(
-        `Thank you ${payload.clientName}. Your quote request has been submitted successfully. We will review your requirements and get back to you shortly.`,
-        "success"
-      );
+      const result = await submitQuotePayload(payload);
 
-      setTimeout(() => {
-        quoteForm.reset();
-        closeQuoteModal();
-      }, 1400);
+      console.log("Google Script response:", result);
+
+      if (result && result.success) {
+        showStatus(
+          `Thank you ${payload.clientName}. Your quote request has been submitted successfully. We will review your requirements and get back to you shortly.`,
+          "success"
+        );
+
+        setTimeout(() => {
+          quoteForm.reset();
+          closeQuoteModal();
+        }, 1400);
+      } else {
+        showStatus(
+          result?.message || "We could not submit your request right now. Please try again in a moment.",
+          "error"
+        );
+      }
     } catch (error) {
+      console.error("Quote submission error:", error);
       showStatus(
         "We could not submit your request right now. Please try again in a moment or contact us on WhatsApp.",
         "error"
