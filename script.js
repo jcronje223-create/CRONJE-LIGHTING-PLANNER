@@ -24,6 +24,8 @@ const quoteForm = document.getElementById("quoteForm");
 const formStatus = document.getElementById("formStatus");
 const submitQuoteBtn = document.getElementById("submitQuoteBtn");
 
+const GOOGLE_SCRIPT_URL = "PASTE_YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE";
+
 const categoryData = {
   home: {
     spaces: [
@@ -230,6 +232,8 @@ const categoryData = {
 };
 
 function populateSpaces(category) {
+  if (!exactSpace || !lightingGoal) return;
+
   exactSpace.innerHTML = '<option value="">Select a space</option>';
   lightingGoal.innerHTML = '<option value="">Select a goal</option>';
 
@@ -244,6 +248,8 @@ function populateSpaces(category) {
 }
 
 function populateGoals(category, space) {
+  if (!lightingGoal) return;
+
   lightingGoal.innerHTML = '<option value="">Select a goal</option>';
 
   if (!categoryData[category] || !categoryData[category].goals[space]) return;
@@ -268,66 +274,228 @@ if (exactSpace) {
   });
 }
 
-function buildRecommendation(data) {
-  const area = (data.length * data.width).toFixed(2);
+function capitaliseCategory(category) {
+  if (!category) return "";
+  if (category === "shopfront") return "Shopfront";
+  if (category === "vehicle") return "Vehicle";
+  if (category === "home") return "Home";
+  if (category === "commercial") return "Commercial / Office";
+  if (category === "outdoor") return "Outdoor / Garden";
+  return category;
+}
 
-  let recommendedSetup = "";
+function safeNumber(value) {
+  const num = parseFloat(value);
+  return Number.isFinite(num) ? num : 0;
+}
+
+function getVehicleRecommendation(data) {
+  let suggestedSetup = "";
   let fittingAdvice = "";
-  let estimatedRange = "";
-  let specialAdvice = "";
+  let designNote = "";
 
-  if (data.fittingType === "LED Strip") {
-    const estimatedMetres = Math.max(5, Math.ceil((data.length + data.width) * 1.5));
-    recommendedSetup = `${estimatedMetres} metres of quality LED strip lighting`;
-    fittingAdvice = "Best suited for ambient lines, under-counter details, ceiling recesses, headboards, shelves and modern feature applications.";
-  } else if (data.fittingType === "Downlight") {
-    const downlights = Math.max(4, Math.ceil(area / 1.8));
-    recommendedSetup = `${downlights} downlights`;
-    fittingAdvice = "Best suited for full-room lighting, practical lighting and clean modern ceiling layouts.";
-  } else if (data.fittingType === "Spotlight") {
-    const spotlights = Math.max(3, Math.ceil(area / 3));
-    recommendedSetup = `${spotlights} spotlights`;
-    fittingAdvice = "Best suited for directional lighting, feature walls, art displays, product focus and accent points.";
-  } else if (data.fittingType === "Pendant / Feature") {
-    recommendedSetup = `1 to 2 feature fittings with supporting ambient lighting`;
-    fittingAdvice = "Best suited for dining spaces, reception areas, luxury rooms and statement focal zones.";
+  if (data.space === "Dashboard") {
+    if (data.goal === "Ambient accent line") {
+      suggestedSetup = "1 clean dashboard ambient LED line with a subtle controller";
+      fittingAdvice = "Use a slim concealed LED strip or fibre-style ambient line along the dashboard only, not a full-room type setup.";
+    } else if (data.goal === "Modern premium effect") {
+      suggestedSetup = "1 premium dashboard ambient line with matching trim integration";
+      fittingAdvice = "Use a hidden light source with smooth diffusion for a factory-style luxury finish.";
+    } else {
+      suggestedSetup = "1 RGB dashboard ambient line with app or remote control";
+      fittingAdvice = "Keep the installation neat and controlled so the effect looks premium instead of messy.";
+    }
+  } else if (data.space === "Footwell") {
+    if (data.goal === "Luxury subtle lighting") {
+      suggestedSetup = "2 low-level footwell light points, one per front side";
+      fittingAdvice = "Keep brightness soft so the cabin feels premium and not overlit.";
+    } else if (data.goal === "Bold RGB effect") {
+      suggestedSetup = "4 RGB footwell light points for full cabin effect";
+      fittingAdvice = "Use RGB modules or controlled strip sections with proper wiring concealment.";
+    } else {
+      suggestedSetup = "2 to 4 ambient footwell light points";
+      fittingAdvice = "Best suited for soft glow and improved cabin ambience.";
+    }
+  } else if (data.space === "Doors") {
+    suggestedSetup = data.goal === "Bold RGB effect"
+      ? "4 door ambient accent lines or inserts"
+      : "2 to 4 subtle door ambient accent lines";
+    fittingAdvice = "Use concealed placement so the door lighting complements the interior lines.";
+  } else if (data.space === "Boot / Trunk") {
+    suggestedSetup = data.goal === "Practical visibility lighting"
+      ? "1 bright practical boot light upgrade"
+      : "1 ambient boot feature light setup";
+    fittingAdvice = "Focus on neat edge placement and proper brightness for the actual use of the boot area.";
   } else {
-    const mixedCount = Math.max(4, Math.ceil(area / 2.2));
-    recommendedSetup = `${mixedCount} primary fittings plus supporting ambient or accent lighting`;
-    fittingAdvice = "Best suited for layered lighting where both function and visual mood are important.";
-  }
-
-  if (data.brightness === "Soft") {
-    specialAdvice += "A softer output is recommended to keep the space relaxed and comfortable. ";
-  } else if (data.brightness === "Balanced") {
-    specialAdvice += "A balanced output will give a practical result without making the space feel harsh. ";
-  } else {
-    specialAdvice += "A brighter output is recommended for strong visibility and a cleaner high-performance feel. ";
+    suggestedSetup = data.goal === "Bold RGB showcase"
+      ? "A full interior RGB ambient package across dashboard, footwells and doors"
+      : "A full interior ambient package with coordinated dashboard, footwell and door lighting";
+    fittingAdvice = "This works best as a matched multi-zone install so the whole cabin feels intentional.";
   }
 
   if (data.styleMood === "Luxury") {
-    specialAdvice += "Use premium finishes, hidden light sources and layered feature lighting for a more upscale effect. ";
+    designNote += "Keep the lighting soft, concealed and evenly diffused for a high-end OEM-style finish. ";
   } else if (data.styleMood === "Bold RGB") {
-    specialAdvice += "RGB controls, scene presets and accent placement will be important for this look. ";
+    designNote += "Use controlled RGB zones and scene presets so the result feels deliberate rather than random. ";
   } else if (data.styleMood === "Minimal") {
-    specialAdvice += "Keep fittings clean, discreet and evenly spaced for a more refined finish. ";
+    designNote += "Use the fewest visible light lines possible and focus on clean trim-following placement. ";
   }
 
-  if (data.budgetRange === "Entry Level") {
-    estimatedRange = "Best approached with a simpler practical setup and selective feature lighting.";
-  } else if (data.budgetRange === "Mid Range") {
-    estimatedRange = "Allows a stronger balance between performance, appearance and upgrade options.";
+  if (data.brightness === "Soft") {
+    designNote += "Soft brightness is the best choice for vehicle ambience because it avoids glare inside the cabin.";
+  } else if (data.brightness === "Bright") {
+    designNote += "Keep brighter vehicle lighting controlled so it does not become distracting while driving.";
   } else {
-    estimatedRange = "Suitable for layered premium lighting with stronger design impact and finish quality.";
+    designNote += "A balanced brightness level will usually give the cleanest and most usable vehicle result.";
   }
 
   return {
-    area,
-    recommendedSetup,
+    areaText: "Not used for vehicle lighting layouts",
+    suggestedSetup,
     fittingAdvice,
-    estimatedRange,
-    specialAdvice
+    budgetDirection: getBudgetDirection(data.budgetRange),
+    designNote
   };
+}
+
+function getArchitecturalRecommendation(data) {
+  const area = safeNumber(data.length) * safeNumber(data.width);
+  let suggestedSetup = "";
+  let fittingAdvice = "";
+  let designNote = "";
+
+  if (data.fittingType === "LED Strip") {
+    let stripMetres = Math.max(3, Math.ceil((safeNumber(data.length) + safeNumber(data.width)) * 1.2));
+
+    if (data.goal.toLowerCase().includes("under-cabinet")) {
+      stripMetres = Math.max(2, Math.ceil(safeNumber(data.length)));
+    }
+
+    if (data.goal.toLowerCase().includes("headboard")) {
+      stripMetres = Math.max(3, Math.ceil(safeNumber(data.width) || 3));
+    }
+
+    suggestedSetup = `${stripMetres} metres of LED strip lighting`;
+    fittingAdvice = "Best suited for ambient edges, recesses, under-cabinet details, shelving, headboards and feature lines.";
+  } else if (data.fittingType === "Downlight") {
+    const count = Math.max(4, Math.ceil(area / 1.8));
+    suggestedSetup = `${count} downlights`;
+    fittingAdvice = "Best suited for practical ceiling lighting, balanced room coverage and clean modern layouts.";
+  } else if (data.fittingType === "Spotlight") {
+    const count = Math.max(3, Math.ceil(area / 3));
+    suggestedSetup = `${count} spotlights`;
+    fittingAdvice = "Best suited for directional task lighting, feature walls, displays, art and product focus.";
+  } else if (data.fittingType === "Pendant / Feature") {
+    suggestedSetup = "1 main feature fitting with supporting secondary lighting";
+    fittingAdvice = "Best suited for dining areas, reception zones, statement spaces and luxury focal points.";
+  } else {
+    const count = Math.max(4, Math.ceil(area / 2.2));
+    suggestedSetup = `${count} primary fittings with supporting ambient or accent lighting`;
+    fittingAdvice = "Best suited where the space needs both function and visual atmosphere.";
+  }
+
+  if (data.category === "home") {
+    if (data.space === "Bedroom" && data.goal === "Ambient lighting") {
+      suggestedSetup = data.fittingType === "LED Strip"
+        ? "4 to 6 metres of concealed bedroom ambient LED strip lighting"
+        : "A soft layered ambient bedroom setup with secondary feature lighting";
+      fittingAdvice = "Keep the light indirect and soft so the room feels comfortable instead of harsh.";
+    }
+
+    if (data.space === "Bedroom" && data.goal === "Gaming setup lighting") {
+      suggestedSetup = "A gaming-focused ambient setup with RGB accent lighting around key zones";
+      fittingAdvice = "Use controllable RGB lighting behind the setup, desk zone or bed features rather than general ceiling brightness only.";
+    }
+
+    if (data.space === "Kitchen" && data.goal === "Under-cabinet lighting") {
+      suggestedSetup = `About ${Math.max(2, Math.ceil(safeNumber(data.length)))} metres of under-cabinet LED strip lighting`;
+      fittingAdvice = "Use even task lighting under cabinets for work surfaces, not just decorative ceiling lighting.";
+    }
+
+    if (data.space === "Bathroom" && data.goal === "Mirror lighting") {
+      suggestedSetup = "1 mirror lighting solution with supporting bathroom lighting";
+      fittingAdvice = "Use clean front-facing mirror lighting that supports visibility without harsh shadows.";
+    }
+  }
+
+  if (data.category === "shopfront") {
+    if (data.goal.toLowerCase().includes("display")) {
+      fittingAdvice = "Use directional or concealed lighting that makes products stand out to passing customers.";
+    }
+    if (data.space === "Signage") {
+      suggestedSetup = "A dedicated signage lighting setup sized to the sign face";
+      fittingAdvice = "Focus on even sign illumination and visibility from a distance.";
+    }
+  }
+
+  if (data.category === "commercial") {
+    if (data.space === "Reception") {
+      designNote += "Reception lighting should feel welcoming and polished because it shapes first impressions. ";
+    }
+    if (data.space === "Boardroom") {
+      designNote += "Boardroom lighting should be balanced, clean and professional rather than overly decorative. ";
+    }
+  }
+
+  if (data.category === "outdoor") {
+    if (data.space === "Pathway") {
+      suggestedSetup = "A low-level pathway lighting layout with evenly spaced guide points";
+      fittingAdvice = "Prioritise safe movement and consistent spacing instead of overly bright flood-style lighting.";
+    }
+    if (data.space === "Driveway") {
+      fittingAdvice = "Use practical visibility lighting with controlled glare and weather-suitable fittings.";
+    }
+  }
+
+  if (data.styleMood === "Luxury") {
+    designNote += "Use concealed sources, premium finishes and layered feature lighting for a more upscale effect. ";
+  } else if (data.styleMood === "Bold RGB") {
+    designNote += "Use RGB only where it supports the selected goal, otherwise the result can feel overdone. ";
+  } else if (data.styleMood === "Minimal") {
+    designNote += "Keep fittings discreet, evenly spaced and visually clean. ";
+  } else if (data.styleMood === "Warm") {
+    designNote += "Warmer tones will help the space feel more comfortable and inviting. ";
+  } else if (data.styleMood === "Cool") {
+    designNote += "Cooler tones can support a sharper, cleaner and more modern feel. ";
+  } else if (data.styleMood === "Modern") {
+    designNote += "Use clean lines and controlled placement for a more modern finish. ";
+  }
+
+  if (data.brightness === "Soft") {
+    designNote += "A softer output is better where mood and comfort matter most.";
+  } else if (data.brightness === "Bright") {
+    designNote += "A brighter output is better where visibility and practical performance are more important.";
+  } else {
+    designNote += "A balanced output usually gives the best mix of usability and appearance.";
+  }
+
+  return {
+    areaText: `${area.toFixed(2)} m²`,
+    suggestedSetup,
+    fittingAdvice,
+    budgetDirection: getBudgetDirection(data.budgetRange),
+    designNote
+  };
+}
+
+function getBudgetDirection(budgetRange) {
+  if (budgetRange === "Entry Level") {
+    return "Best approached with a simpler practical setup and selective feature lighting.";
+  }
+  if (budgetRange === "Mid Range") {
+    return "Allows a stronger balance between performance, appearance and upgrade options.";
+  }
+  if (budgetRange === "Premium") {
+    return "Suitable for layered premium lighting with stronger design impact and finish quality.";
+  }
+  return "Budget direction will be refined during the quote review.";
+}
+
+function buildRecommendation(data) {
+  if (data.category === "vehicle") {
+    return getVehicleRecommendation(data);
+  }
+  return getArchitecturalRecommendation(data);
 }
 
 if (lightingCalculator) {
@@ -339,8 +507,8 @@ if (lightingCalculator) {
       space: document.getElementById("exactSpace").value,
       goal: document.getElementById("lightingGoal").value,
       styleMood: document.getElementById("styleMood").value,
-      length: parseFloat(document.getElementById("length").value),
-      width: parseFloat(document.getElementById("width").value),
+      length: document.getElementById("length").value,
+      width: document.getElementById("width").value,
       brightness: document.getElementById("brightness").value,
       fittingType: document.getElementById("fittingType").value,
       budgetRange: document.getElementById("budgetRange").value
@@ -349,15 +517,15 @@ if (lightingCalculator) {
     const recommendation = buildRecommendation(data);
 
     resultContent.innerHTML = `
-      <p><strong>Project Category:</strong> ${data.category}</p>
+      <p><strong>Project Category:</strong> ${capitaliseCategory(data.category)}</p>
       <p><strong>Exact Space:</strong> ${data.space}</p>
       <p><strong>Lighting Goal:</strong> ${data.goal}</p>
       <p><strong>Style / Mood:</strong> ${data.styleMood}</p>
-      <p><strong>Estimated Area:</strong> ${recommendation.area} m²</p>
-      <p><strong>Suggested Setup:</strong> ${recommendation.recommendedSetup}</p>
+      <p><strong>Estimated Area:</strong> ${recommendation.areaText}</p>
+      <p><strong>Suggested Setup:</strong> ${recommendation.suggestedSetup}</p>
       <p><strong>Fitting Advice:</strong> ${recommendation.fittingAdvice}</p>
-      <p><strong>Budget Direction:</strong> ${recommendation.estimatedRange}</p>
-      <p><strong>Design Note:</strong> ${recommendation.specialAdvice}</p>
+      <p><strong>Budget Direction:</strong> ${recommendation.budgetDirection}</p>
+      <p><strong>Design Note:</strong> ${recommendation.designNote}</p>
       <p><strong>Next Step:</strong> Request a quote so Cronje Lighting can refine this into a more accurate recommendation for your project.</p>
     `;
 
@@ -366,7 +534,7 @@ if (lightingCalculator) {
 
     setTimeout(() => {
       resultBox.classList.remove("highlight");
-    }, 2200);
+    }, 1800);
 
     resultBox.scrollIntoView({
       behavior: "smooth",
@@ -380,10 +548,10 @@ function openQuoteModal() {
   quoteModal.classList.add("active");
   document.body.style.overflow = "hidden";
 
-  setTimeout(() => {
-    const firstInput = document.getElementById("clientName");
-    if (firstInput) firstInput.focus();
-  }, 100);
+  if (formStatus) {
+    formStatus.textContent = "";
+    formStatus.className = "status-box";
+  }
 }
 
 function closeQuoteModal() {
@@ -428,16 +596,20 @@ if (quoteModal) {
 function showStatus(message, type) {
   if (!formStatus) return;
   formStatus.textContent = message;
-  formStatus.className = "status-box show " + type;
-  formStatus.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  formStatus.className = `status-box show ${type}`;
 }
 
 function setQuoteFormDisabled(disabled) {
   if (!quoteForm) return;
+
   const fields = quoteForm.querySelectorAll("input, textarea, button");
   fields.forEach(field => {
     field.disabled = disabled;
   });
+
+  if (submitQuoteBtn) {
+    submitQuoteBtn.textContent = disabled ? "Submitting..." : "Submit Quote Request";
+  }
 }
 
 if (quoteForm) {
@@ -456,43 +628,69 @@ if (quoteForm) {
       budgetRange: document.getElementById("budgetRange")?.value || ""
     } : {};
 
+    const currentRecommendation = buildRecommendation({
+      category: calculatorData.projectCategory,
+      space: calculatorData.exactSpace,
+      goal: calculatorData.lightingGoal,
+      styleMood: calculatorData.styleMood,
+      length: calculatorData.length,
+      width: calculatorData.width,
+      brightness: calculatorData.brightness,
+      fittingType: calculatorData.fittingType,
+      budgetRange: calculatorData.budgetRange
+    });
+
     const payload = {
+      requestType: "calculatorQuote",
       clientName: document.getElementById("clientName").value.trim(),
       clientEmail: document.getElementById("clientEmail").value.trim(),
       clientPhone: document.getElementById("clientPhone").value.trim(),
       clientLocation: document.getElementById("clientLocation").value.trim(),
       additionalRequirements: document.getElementById("additionalRequirements").value.trim(),
-      ...calculatorData
+      ...calculatorData,
+      suggestedSetup: currentRecommendation.suggestedSetup,
+      fittingAdvice: currentRecommendation.fittingAdvice,
+      budgetDirection: currentRecommendation.budgetDirection,
+      designNote: currentRecommendation.designNote
     };
+
+    if (!payload.clientName || !payload.clientEmail || !payload.clientPhone) {
+      showStatus("Please complete your name, email address and phone number.", "error");
+      return;
+    }
+
+    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("PASTE_YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE")) {
+      showStatus("The website form is not connected yet. Add your Google Script web app URL in script.js first.", "error");
+      return;
+    }
 
     showStatus("Submitting your quote request...", "info");
     setQuoteFormDisabled(true);
 
     try {
-      const response = await fetch("https://script.google.com/macros/s/AKfycbyXsE4tKCoxGgQvKqqrzQTuJ9ViTOUymWZmM9_BBw_HvaZjv6qvssc3U5BRtDbsGWjS/exec", {
+      await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
+        mode: "no-cors",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "text/plain;charset=utf-8"
         },
         body: JSON.stringify(payload)
       });
 
-      const result = await response.json();
+      showStatus(
+        `Thank you ${payload.clientName}. Your quote request has been submitted successfully. We will review your requirements and get back to you shortly.`,
+        "success"
+      );
 
-      if (result.success) {
-        showStatus(`Thank you ${payload.clientName}. Your quote request has been submitted successfully. We will review your requirements and get back to you shortly.`, "success");
+      setTimeout(() => {
         quoteForm.reset();
-
-        if (lightingCalculator) {
-          setTimeout(() => {
-            closeQuoteModal();
-          }, 1800);
-        }
-      } else {
-        showStatus("Something went wrong while submitting your request. Please try again or contact us directly on WhatsApp.", "error");
-      }
+        closeQuoteModal();
+      }, 1400);
     } catch (error) {
-      showStatus("We could not submit your request right now. Please try again in a moment or contact us on WhatsApp.", "error");
+      showStatus(
+        "We could not submit your request right now. Please try again in a moment or contact us on WhatsApp.",
+        "error"
+      );
     } finally {
       setQuoteFormDisabled(false);
     }
