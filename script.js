@@ -742,11 +742,11 @@ if (quoteForm) {
     }
 
     if (
-      !GOOGLE_SCRIPT_URL ||
-      GOOGLE_SCRIPT_URL === "https://script.google.com/macros/s/AKfycbyXsE4tKCoxGgQvKqqrzQTuJ9ViTOUymWZmM9_BBw_HvaZjv6qvssc3U5BRtDbsGWjS/exec"
-    ) {
-      showStatus("Your Google Script web app URL is still missing in script.js.", "error");
-      return;
+  !GOOGLE_SCRIPT_URL ||
+  GOOGLE_SCRIPT_URL === "PASTE_YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE"
+) {
+  showStatus("Your Google Script web app URL is still missing in script.js.", "error");
+  return;
     }
 
     showStatus("Submitting your quote request...", "info");
