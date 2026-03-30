@@ -841,4 +841,10 @@ textarea:focus-visible {
 
 .page-hero + .section {
   padding-top: 48px !important;
+}/* ===== FIX REPEATING BACKGROUND IMAGE ===== */
+
+.page-hero {
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
 }
