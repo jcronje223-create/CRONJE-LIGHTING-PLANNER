@@ -3,244 +3,1085 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>LED Lighting Products South Africa | LED Strips, Downlights, RGB Kits & Accessories | Cronje Lighting</title>
-
+  <title>Shop | Cronje Lighting</title>
   <meta
     name="description"
-    content="Shop LED lighting products in South Africa from Cronje Lighting, including LED strip kits, downlights, spotlights, RGB lighting kits, power supplies, controllers and installation accessories."
+    content="Shop premium LED lighting products from Cronje Lighting. RGB strips, IC flow LEDs, motion sensor lights, COB strips, car ambient kits and more."
   />
-  <meta
-    name="keywords"
-    content="LED lighting products South Africa, LED strip kits, downlights, spotlights, RGB lighting kits, lighting accessories, power supplies, LED controllers, buy LED lights South Africa, Cronje Lighting"
-  />
-  <meta name="author" content="Cronje Lighting" />
-  <meta name="theme-color" content="#0d0d0d" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <meta name="googlebot" content="index, follow" />
-
   <link rel="canonical" href="https://cronjelighting.co.za/shop.html" />
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <link rel="apple-touch-icon" href="/favicon.png" />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="LED Lighting Products South Africa | Cronje Lighting" />
-  <meta
-    property="og:description"
-    content="Browse LED strip kits, downlights, spotlights, RGB kits, controllers and accessories from Cronje Lighting."
-  />
-  <meta property="og:url" content="https://cronjelighting.co.za/shop.html" />
-  <meta property="og:site_name" content="Cronje Lighting" />
-  <meta property="og:image" content="https://cronjelighting.co.za/Images/products-placeholder.jpg" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="LED Lighting Products South Africa | Cronje Lighting" />
-  <meta
-    name="twitter:description"
-    content="Ready-to-install LED lighting products, kits and accessories for homes, vehicles and business spaces."
-  />
-  <meta name="twitter:image" content="https://cronjelighting.co.za/Images/products-placeholder.jpg" />
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "Cronje Lighting Shop",
-    "url": "https://cronjelighting.co.za/shop.html",
-    "description": "Browse LED lighting products including LED strips, downlights, spotlights, RGB kits and accessories.",
-    "isPartOf": {
-      "@type": "WebSite",
-      "name": "Cronje Lighting",
-      "url": "https://cronjelighting.co.za/"
-    }
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "name": "Cronje Lighting Product Categories",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "LED Strip Kits",
-        "url": "https://cronjelighting.co.za/shop.html#led-strip-kits"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Downlights",
-        "url": "https://cronjelighting.co.za/shop.html#downlights"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "Spotlights",
-        "url": "https://cronjelighting.co.za/shop.html#spotlights"
-      },
-      {
-        "@type": "ListItem",
-        "position": 4,
-        "name": "RGB Lighting Kits",
-        "url": "https://cronjelighting.co.za/shop.html#rgb-lighting-kits"
-      },
-      {
-        "@type": "ListItem",
-        "position": 5,
-        "name": "Drivers and Power Supplies",
-        "url": "https://cronjelighting.co.za/shop.html#drivers-power-supplies"
-      },
-      {
-        "@type": "ListItem",
-        "position": 6,
-        "name": "Controllers and Accessories",
-        "url": "https://cronjelighting.co.za/shop.html#controllers-accessories"
-      }
-    ]
-  }
-  </script>
-
   <link rel="stylesheet" href="style.css" />
+
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --bg-2: #12192b;
+      --card: #161f33;
+      --card-2: #1c2740;
+      --text: #f5f7fb;
+      --muted: #b8c2d9;
+      --line: rgba(255,255,255,0.08);
+      --gold: #ffd166;
+      --blue: #66b3ff;
+      --cyan: #5ce1e6;
+      --green: #78f0a4;
+      --pink: #ff6bd6;
+      --red: #ff6b6b;
+      --shadow: 0 18px 40px rgba(0,0,0,0.35);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --max: 1280px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(92,225,230,0.12), transparent 20%),
+        radial-gradient(circle at top left, rgba(255,107,214,0.10), transparent 20%),
+        linear-gradient(180deg, #0a0f18 0%, #0d1320 45%, #0a0f18 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(92%, var(--max));
+      margin: 0 auto;
+    }
+
+    .sticky-whatsapp {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 999;
+      background: #25d366;
+      color: #fff;
+      padding: 14px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .sticky-whatsapp:hover {
+      transform: translateY(-2px);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(14px);
+      background: rgba(8, 12, 20, 0.78);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      width: min(92%, var(--max));
+      margin: 0 auto;
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .logo {
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      padding: 6px;
+    }
+
+    .brand-text {
+      min-width: 0;
+    }
+
+    .brand-text h1 {
+      font-size: 1.05rem;
+      line-height: 1.1;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-text p {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #fff;
+    }
+
+    .nav-cta {
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: #08101b;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .hero {
+      padding: 64px 0 34px;
+    }
+
+    .hero-box {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 56px 28px;
+      background:
+        linear-gradient(135deg, rgba(92,225,230,0.12), rgba(255,107,214,0.08)),
+        rgba(19, 26, 43, 0.82);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-box::before {
+      content: "";
+      position: absolute;
+      inset: auto -60px -60px auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(255,209,102,0.18), transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 14px;
+    }
+
+    .hero h2 {
+      font-size: clamp(2rem, 4vw, 3.8rem);
+      line-height: 1.05;
+      margin-bottom: 14px;
+      max-width: 780px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 760px;
+      font-size: 1.02rem;
+      margin-bottom: 24px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 800;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), #ffb84d);
+      color: #18120a;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line);
+      color: #fff;
+    }
+
+    .trust-bar {
+      padding: 8px 0 28px;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .trust-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .controls {
+      padding: 18px 0 18px;
+    }
+
+    .controls-wrap {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .search-box input {
+      width: 100%;
+      min-height: 52px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: #fff;
+      padding: 0 16px;
+      outline: none;
+      font-size: 0.98rem;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .filter-btn {
+      min-height: 44px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: #08101b;
+      border-color: transparent;
+    }
+
+    .shop-section {
+      padding: 18px 0 70px;
+    }
+
+    .section-head {
+      margin-bottom: 24px;
+    }
+
+    .section-head h3 {
+      font-size: 2rem;
+      margin-bottom: 6px;
+    }
+
+    .section-head p {
+      color: var(--muted);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .product-card {
+      background: linear-gradient(180deg, rgba(26,36,58,0.95), rgba(18,25,43,0.95));
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(92,225,230,0.25);
+    }
+
+    .product-image-wrap {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: #0d1424;
+    }
+
+    .product-image-wrap img {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .badge-row {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      z-index: 2;
+    }
+
+    .badge {
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      line-height: 1;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .badge.best {
+      background: rgba(255, 209, 102, 0.18);
+      color: #ffe29b;
+    }
+
+    .badge.premium {
+      background: rgba(92, 225, 230, 0.18);
+      color: #9ef5f8;
+    }
+
+    .badge.value {
+      background: rgba(120, 240, 164, 0.18);
+      color: #b8ffd0;
+    }
+
+    .badge.new {
+      background: rgba(255, 107, 214, 0.18);
+      color: #ffc0ef;
+    }
+
+    .product-content {
+      padding: 20px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+    }
+
+    .product-category {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      color: var(--cyan);
+      font-weight: 800;
+    }
+
+    .product-title {
+      font-size: 1.25rem;
+      line-height: 1.25;
+      font-weight: 800;
+    }
+
+    .product-desc {
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .features {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .features li {
+      color: #d7deee;
+      font-size: 0.94rem;
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .features li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    .price-row {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .price {
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .price-note {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: -6px;
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .product-btn {
+      flex: 1;
+      min-width: 145px;
+      text-align: center;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .btn-order {
+      background: linear-gradient(135deg, var(--gold), #ffb84d);
+      color: #18120a;
+    }
+
+    .btn-enquire {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line);
+      color: #fff;
+    }
+
+    .empty-state {
+      display: none;
+      text-align: center;
+      padding: 40px 20px 10px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .promo {
+      padding: 0 0 70px;
+    }
+
+    .promo-box {
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(255,209,102,0.10), rgba(92,225,230,0.08)),
+        rgba(20,28,46,0.95);
+      padding: 34px 24px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .promo h3 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .promo p {
+      color: var(--muted);
+      max-width: 760px;
+      margin-bottom: 18px;
+    }
+
+    .promo-points {
+      display: grid;
+      gap: 10px;
+    }
+
+    .promo-points div {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      font-weight: 700;
+      color: #e7edfa;
+    }
+
+    .footer {
+      border-top: 1px solid var(--line);
+      background: rgba(5, 8, 14, 0.75);
+      padding: 28px 0 50px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .footer p,
+    .footer a {
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 1080px) {
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .trust-grid,
+      .promo-box,
+      .controls-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .filters {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav {
+        flex-wrap: wrap;
+        padding: 14px 0;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hero-box {
+        padding: 40px 20px;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .trust-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-links {
+        justify-content: flex-start;
+      }
+
+      .product-actions {
+        flex-direction: column;
+      }
+
+      .product-btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <a
-    class="sticky-whatsapp"
-    href="https://wa.me/27765712206"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Chat with Cronje Lighting on WhatsApp"
-  >
+  <a class="sticky-whatsapp" href="https://wa.me/27765712206?text=Hi%20Cronje%20Lighting%2C%20I%20would%20like%20help%20with%20a%20product%20order." target="_blank" rel="noopener noreferrer">
     WhatsApp Us
   </a>
 
-  <header class="page-hero" style="background-image: url('./Images/products-placeholder.jpg');">
-    <div class="overlay">
-      <nav class="navbar">
-        <div class="logo-area">
-          <a href="index.html" aria-label="Cronje Lighting home">
-            <img src="./Images/logo.png" alt="Cronje Lighting Logo" class="logo" />
-          </a>
+  <header class="site-header">
+    <nav class="nav">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <img src="./Images/logo.png" alt="Cronje Lighting Logo" class="logo" />
+        </a>
+        <div class="brand-text">
+          <h1>Cronje Lighting</h1>
+          <p>Premium LED Products & Smart Lighting</p>
         </div>
-        <button
-          class="menu-toggle"
-          id="menuToggle"
-          aria-label="Open menu"
-          aria-expanded="false"
-          aria-controls="navMenu"
-          type="button"
-        >
-          ☰
-        </button>
-        <div class="nav-menu" id="navMenu">
-          <a href="index.html">Home</a>
-          <a href="index.html#services">Services</a>
-          <a href="index.html#calculator">Calculator</a>
-          <a href="index.html#contact">Contact</a>
-          <a href="index.html" class="quote-btn">Get a Quote</a>
-        </div>
-      </nav>
-
-      <div class="container">
-        <h1>LED Lighting Products in South Africa</h1>
-        <p>Ready-to-install LED lighting products, accessories and kits for homes, vehicles and business spaces.</p>
       </div>
-    </div>
+
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shop.html" class="active">Shop</a>
+        <a href="index.html#calculator">Calculator</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#quote">Get a Quote</a>
+        <a href="https://wa.me/27765712206?text=Hi%20Cronje%20Lighting%2C%20I%20would%20like%20help%20choosing%20the%20right%20lighting." class="nav-cta" target="_blank" rel="noopener noreferrer">Get Help</a>
+      </div>
+    </nav>
   </header>
 
-  <section class="section">
-    <div class="container">
-      <div class="section-heading">
-        <h2>Shop LED Lighting Products and Installation Accessories</h2>
-        <p>
-          Browse Cronje Lighting product categories including LED strip kits, downlights, spotlights,
-          RGB lighting kits, controllers, power supplies and accessories. These products are suited for
-          home lighting, vehicle ambient lighting, shopfront lighting and commercial lighting projects.
-        </p>
-      </div>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-box">
+          <span class="hero-tag">Premium Lighting Products</span>
+          <h2>Shop LED lighting that actually transforms a space.</h2>
+          <p>
+            Explore premium RGB strips, IC flow LEDs, motion sensor lighting, COB strips and car ambient kits.
+            Better value than overpriced marketplaces — with local service you can trust.
+          </p>
 
-      <div class="product-grid">
-        <div class="product-card" id="led-strip-kits">
-          <img src="./Images/products-placeholder.jpg" alt="LED Strip Kits" />
-          <div class="product-content">
-            <h3>LED Strip Kits</h3>
-            <p>Ideal for ambient room lighting, shelves, headboards, counters and ceiling detail lines.</p>
-            <span class="price">From R299</span>
-            <a href="index.html" class="primary-btn">Enquire Now</a>
-          </div>
-        </div>
-
-        <div class="product-card" id="downlights">
-          <img src="./Images/products-placeholder.jpg" alt="Downlights" />
-          <div class="product-content">
-            <h3>Downlights</h3>
-            <p>Clean modern fittings for practical full-room lighting in homes and business spaces.</p>
-            <span class="price">From R149 each</span>
-            <a href="index.html" class="primary-btn">Enquire Now</a>
-          </div>
-        </div>
-
-        <div class="product-card" id="spotlights">
-          <img src="./Images/products-placeholder.jpg" alt="Spotlights" />
-          <div class="product-content">
-            <h3>Spotlights</h3>
-            <p>Great for accent lighting, feature walls, art pieces, shop displays and directional light.</p>
-            <span class="price">From R199 each</span>
-            <a href="index.html" class="primary-btn">Enquire Now</a>
-          </div>
-        </div>
-
-        <div class="product-card" id="rgb-lighting-kits">
-          <img src="./Images/products-placeholder.jpg" alt="RGB Lighting Kits" />
-          <div class="product-content">
-            <h3>RGB Lighting Kits</h3>
-            <p>For gaming rooms, vehicle interiors, ambient mood lighting and programmable effects.</p>
-            <span class="price">From R499</span>
-            <a href="index.html" class="primary-btn">Enquire Now</a>
-          </div>
-        </div>
-
-        <div class="product-card" id="drivers-power-supplies">
-          <img src="./Images/products-placeholder.jpg" alt="Drivers and Power Supplies" />
-          <div class="product-content">
-            <h3>Drivers &amp; Power Supplies</h3>
-            <p>Reliable support hardware for more stable and professional installations.</p>
-            <span class="price">From R179</span>
-            <a href="index.html" class="primary-btn">Enquire Now</a>
-          </div>
-        </div>
-
-        <div class="product-card" id="controllers-accessories">
-          <img src="./Images/products-placeholder.jpg" alt="Controllers and Accessories" />
-          <div class="product-content">
-            <h3>Controllers &amp; Accessories</h3>
-            <p>Dimmers, connectors, RGB controllers and accessories to complete the setup.</p>
-            <span class="price">From R129</span>
-            <a href="index.html" class="primary-btn">Enquire Now</a>
+          <div class="hero-actions">
+            <a href="#products" class="btn btn-primary">Shop Products</a>
+            <a href="index.html#quote" class="btn btn-secondary">Request Installation Quote</a>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section cta-band">
-    <div class="container cta-band-inner">
-      <div>
-        <h2>Need Help Choosing the Right Lighting Products?</h2>
-        <p>Use the smart calculator first, then contact Cronje Lighting for a tailored quote or product recommendation.</p>
+    <section class="trust-bar">
+      <div class="container">
+        <div class="trust-grid">
+          <div class="trust-item">Premium Quality</div>
+          <div class="trust-item">Better Value Than Big Marketplaces</div>
+          <div class="trust-item">DIY Friendly Options</div>
+          <div class="trust-item">Local Support</div>
+        </div>
       </div>
-      <a href="index.html#calculator" class="primary-btn">Use Calculator</a>
-    </div>
-  </section>
+    </section>
+
+    <section class="controls" id="products">
+      <div class="container">
+        <div class="controls-wrap">
+          <div class="search-box">
+            <input
+              type="text"
+              id="productSearch"
+              placeholder="Search products like RGB, motion, COB, car, warm white..."
+              aria-label="Search products"
+            />
+          </div>
+
+          <div class="filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="room">Room Lighting</button>
+            <button class="filter-btn" data-filter="premium">Premium Effects</button>
+            <button class="filter-btn" data-filter="smart">Smart Lighting</button>
+            <button class="filter-btn" data-filter="car">Car Lighting</button>
+            <button class="filter-btn" data-filter="accessories">Accessories</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shop-section">
+      <div class="container">
+        <div class="section-head">
+          <h3>Featured Products</h3>
+          <p>Carefully priced to give customers better value while keeping Cronje Lighting profitable and premium.</p>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+
+          <!-- PRODUCT 1 -->
+          <article class="product-card" data-category="room smart">
+            <div class="product-image-wrap">
+              <div class="badge-row">
+                <span class="badge best">Best Seller</span>
+                <span class="badge value">Top Value</span>
+              </div>
+              <img src="./Images/product-rgb-strip.jpg" alt="Smart RGB LED Strip Kit 5m" />
+            </div>
+            <div class="product-content">
+              <div class="product-category">Room Lighting</div>
+              <h4 class="product-title">Smart RGB LED Strip Kit (5m) – App & Remote</h4>
+              <p class="product-desc">
+                Full colour ambient lighting for bedrooms, lounges and gaming setups.
+              </p>
+              <ul class="features">
+                <li>16+ million colours</li>
+                <li>Control with app or remote</li>
+                <li>Easy plug-and-play setup</li>
+                <li>Perfect for room upgrades</li>
+              </ul>
+              <div>
+                <div class="price">R399</div>
+                <div class="price-note">Cheaper than many premium marketplace listings</div>
+              </div>
+              <div class="product-actions">
+                <a
+                  class="product-btn btn-order"
+                  href="https://wa.me/27765712206?text=Hi%20Cronje%20Lighting%2C%20I%20want%20to%20order%20the%20Smart%20RGB%20LED%20Strip%20Kit%20(5m)%20for%20R399."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Order on WhatsApp
+                </a>
+                <a
+                  class="product-btn btn-enquire"
+                  href="index.html#quote"
+                >
+                  Ask for Installation
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- PRODUCT 2 -->
+          <article class="product-card" data-category="room premium">
+            <div class="product-image-wrap">
+              <div class="badge-row">
+                <span class="badge premium">Premium</span>
+                <span class="badge new">Dynamic Effect</span>
+              </div>
+              <img src="./Images/product-ic-flow.jpg" alt="IC Flow LED Strip 5m Running Light Effect" />
+            </div>
+            <div class="product-content">
+              <div class="product-category">Premium Effects</div>
+              <h4 class="product-title">IC Flow LED Strip (5m) – Running Light Effect</h4>
+              <p class="product-desc">
+                A premium chasing light strip that creates a flowing luxury effect instead of all LEDs turning on at once.
+              </p>
+              <ul class="features">
+                <li>Dynamic running light effect</li>
+                <li>Premium modern look</li>
+                <li>Great for ceilings and feature spaces</li>
+                <li>Perfect for standout installations</li>
+              </ul>
+              <div>
+                <div class="price">R699</div>
+                <div class="price-note">High perceived value premium product</div>
+              </div>
+              <div class="product-actions">
+                <a
+                  class="product-btn btn-order"
+                  href="https://wa.me/27765712206?text=Hi%20Cronje%20Lighting%2C%20I%20want%20to%20order%20the%20IC%20Flow%20LED%20Strip%20(5m)%20for%20R699."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Order on WhatsApp
+                </a>
+                <a
+                  class="product-btn btn-enquire"
+                  href="index.html#quote"
+                >
+                  Ask for Installation
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- PRODUCT 3 -->
+          <article class="product-card" data-category="room smart">
+            <div class="product-image-wrap">
+              <div class="badge-row">
+                <span class="badge value">Smart Choice</span>
+              </div>
+              <img src="./Images/product-motion-strip.jpg" alt="Motion Sensor LED Night Strip 5m Warm White" />
+            </div>
+            <div class="product-content">
+              <div class="product-category">Smart Lighting</div>
+              <h4 class="product-title">Motion Sensor LED Night Strip (5m) – Warm White</h4>
+              <p class="product-desc">
+                Practical automatic lighting for bedrooms, walkways, under-bed lighting and night-time visibility.
+              </p>
+              <ul class="features">
+                <li>Motion activated lighting</li>
+                <li>Warm white glow</li>
+                <li>Ideal for safety and comfort</li>
+                <li>Energy efficient solution</li>
+              </ul>
+              <div>
+                <div class="price">R599</div>
+                <div class="price-note">Perfect for function + style</div>
+              </div>
+              <div class="product-actions">
+                <a
+                  class="product-btn btn-order"
+                  href="https://wa.me/27765712206?text=Hi%20Cronje%20Lighting%2C%20I%20want%20to%20order%20the%20Motion%20Sensor%20LED%20Night%20Strip%20(5m)%20for%20R599."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Order on WhatsApp
+                </a>
+                <a
+                  class="product-btn btn-enquire"
+                  href="index.html#quote"
+                >
+                  Ask for Installation
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- PRODUCT 4 -->
+          <article class="product-card" data-category="room premium">
+            <div class="product-image-wrap">
+              <div class="badge-row">
+                <span class="badge premium">Premium Finish</span>
+              </div>
+              <img src="./Images/product-cob-strip.jpg" alt="COB LED Strip 5m Seamless Light No Dots" />
+            </div>
+            <div class="product-content">
+              <div class="product-category">Room Lighting</div>
+              <h4 class="product-title">COB LED Strip (5m) – Seamless Light (No Dots)</h4>
+              <p class="product-desc">
+                Ultra-smooth continuous lighting with a clean modern finish and no visible LED dot effect.
+              </p>
+              <ul class="features">
+                <li>Seamless continuous light output</li>
+                <li>No visible dot pattern</li>
+                <li>Great for ceilings and cabinets</li>
+                <li>Modern high-end look</li>
+              </ul>
+              <div>
+                <div class="price">R449</div>
+                <div class="price-note">Excellent premium-value option</div>
+              </div>
+              <div class="product-actions">
+                <a
+                  class="product-btn btn-order"
+                  href="https://wa.me/27765712206?text=Hi%20Cronje%20Lighting%2C%20I%20want%20to%20order%20the%20COB%20LED%20Strip%20(5m)%20for%20R449."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Order on WhatsApp
+                </a>
+                <a
+                  class="product-btn btn-enquire"
+                  href="index.html#quote"
+                >
+                  Ask for Installation
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- PRODUCT 5 -->
+          <article class="product-card" data-category="accessories">
+            <div class="product-image-wrap">
+              <div class="badge-row">
+                <span class="badge value">Add-On</span>
+              </div>
+              <img src="./Images/product-connector-kit.jpg" alt="LED Strip Connector and Mounting Kit" />
+            </div>
+            <div class="product-content">
+              <div class="product-category">Accessories</div>
+              <h4 class="product-title">LED Strip Connector & Mounting Kit</h4>
+              <p class="product-desc">
+                The easy way to get a cleaner, stronger and more professional LED strip installation.
+              </p>
+              <ul class="features">
+                <li>Useful for custom installations</li>
+                <li>Helps create a neat finish</li>
+                <li>Great add-on for strip purchases</li>
+                <li>Ideal for DIY setups</li>
+              </ul>
+              <div>
+                <div class="price">R129</div>
+                <div class="price-note">Recommended add-on item</div>
+              </div>
+              <div class="product-actions">
+                <a
+                  class="product-btn btn-order"
+                  href="https://wa.me/27765712206?text=Hi%20Cronje%20Lighting%2C%20I%20want%20to%20order%20the%20LED%20Strip%20Connector%20%26%20Mounting%20Kit%20for%20R129."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Order on WhatsApp
+                </a>
+                <a
+                  class="product-btn btn-enquire"
+                  href="index.html#quote"
+                >
+                  Ask a Question
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- PRODUCT 6 -->
+          <article class="product-card" data-category="car smart">
+            <div class="product-image-wrap">
+              <div class="badge-row">
+                <span class="badge best">Popular</span>
+                <span class="badge new">Car Upgrade</span>
+              </div>
+              <img src="./Images/product-car-ambient.jpg" alt="Car Ambient LED Kit RGB Interior Lighting" />
+            </div>
+            <div class="product-content">
+              <div class="product-category">Car Lighting</div>
+              <h4 class="product-title">Car Ambient LED Kit – RGB Interior Lighting</h4>
+              <p class="product-desc">
+                Transform your vehicle interior with vibrant ambient lighting built for a premium night-drive vibe.
+              </p>
+              <ul class="features">
+                <li>RGB interior lighting effect</li>
+                <li>Great for footwells and trims</li>
+                <li>Upgrades the cabin atmosphere</li>
+                <li>Perfect for custom car setups</li>
+              </ul>
+              <div>
+                <div class="price">R549</div>
+                <div class="price-note">Strong value in the car lighting category</div>
+              </div>
+              <div class="product-actions">
+                <a
+                  class="product-btn btn-order"
+                  href="https://wa.me/27765712206?text=Hi%20Cronje%20Lighting%2C%20I%20want%20to%20order%20the%20Car%20Ambient%20LED%20Kit%20for%20R549."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Order on WhatsApp
+                </a>
+                <a
+                  class="product-btn btn-enquire"
+                  href="index.html#quote"
+                >
+                  Ask for Installation
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="empty-state" id="emptyState">
+          No products matched your search. Try another word or choose a different filter.
+        </div>
+      </div>
+    </section>
+
+    <section class="promo">
+      <div class="container">
+        <div class="promo-box">
+          <div>
+            <h3>Need help choosing the right product?</h3>
+            <p>
+              Not sure whether you need RGB, COB, motion lighting or a premium IC effect strip?
+              Use the Cronje Lighting calculator or message us directly for guidance.
+            </p>
+            <div class="hero-actions">
+              <a href="index.html#calculator" class="btn btn-primary">Use Calculator</a>
+              <a href="https://wa.me/27765712206?text=Hi%20Cronje%20Lighting%2C%20I%20need%20help%20choosing%20the%20right%20product." class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="promo-points">
+            <div>✔ Better value than many marketplace sellers</div>
+            <div>✔ Premium product selection</div>
+            <div>✔ Easy DIY and installation options</div>
+            <div>✔ Local support you can actually reach</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <footer class="footer">
-    <div class="container">
-      <p>© 2026 Cronje Lighting. All rights reserved.</p>
+    <div class="container footer-grid">
+      <div>
+        <p><strong>Cronje Lighting</strong></p>
+        <p>Premium LED lighting solutions for homes, cars and custom spaces.</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="index.html#quote">Get a Quote</a>
+        <a href="https://www.instagram.com/CronjeLighting" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.tiktok.com/@CronjeLighting" target="_blank" rel="noopener noreferrer">TikTok</a>
+        <a href="https://www.facebook.com/CronjeLighting" target="_blank" rel="noopener noreferrer">Facebook</a>
+      </div>
     </div>
   </footer>
 
-  <script src="script.js?v=20260329-1"></script>
+  <script>
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const productCards = document.querySelectorAll(".product-card");
+    const searchInput = document.getElementById("productSearch");
+    const emptyState = document.getElementById("emptyState");
+
+    let currentFilter = "all";
+
+    function filterProducts() {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      productCards.forEach(card => {
+        const categories = card.dataset.category.toLowerCase();
+        const text = card.innerText.toLowerCase();
+
+        const matchesFilter = currentFilter === "all" || categories.includes(currentFilter);
+        const matchesSearch = text.includes(query);
+
+        if (matchesFilter && matchesSearch) {
+          card.style.display = "flex";
+          visibleCount++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      emptyState.style.display = visibleCount === 0 ? "block" : "none";
+    }
+
+    filterButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        filterButtons.forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+        currentFilter = button.dataset.filter;
+        filterProducts();
+      });
+    });
+
+    searchInput.addEventListener("input", filterProducts);
+  </script>
 </body>
 </html>
