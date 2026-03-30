@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,7 @@
 
   <meta
     name="description"
-    content="Cronje Lighting provides professional LED lighting installation in South Africa for homes, cars, shopfronts, gardens, outdoor areas and commercial spaces. Use our smart calculator and request a custom quote."
+    content="Cronje Lighting provides professional LED lighting installation in South Africa for homes, cars, shopfronts, gardens, outdoor areas and commercial spaces. Use our smart calculator, browse our shop, and request a custom quote."
   />
   <meta
     name="keywords"
@@ -26,7 +27,7 @@
   <meta property="og:title" content="Cronje Lighting | LED Lighting Installation South Africa" />
   <meta
     property="og:description"
-    content="Professional LED lighting solutions for homes, vehicles, shopfronts, outdoor areas, gardens and commercial spaces. Use our smart calculator and request a custom quote."
+    content="Professional LED lighting solutions for homes, vehicles, shopfronts, outdoor areas, gardens and commercial spaces. Use our smart calculator, browse our shop, and request a custom quote."
   />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://cronjelighting.co.za/" />
@@ -68,12 +69,12 @@
   }
   </script>
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=20260330-1" />
 </head>
 <body>
   <a
     class="sticky-whatsapp"
-    href="https://wa.me/27765712206"
+    href="https://wa.me/27765712206?text=Hi%20Cronje%20Lighting%2C%20I%20would%20like%20help%20with%20lighting%20for%20my%20space."
     target="_blank"
     rel="noopener noreferrer"
     aria-label="Chat with Cronje Lighting on WhatsApp"
@@ -102,13 +103,13 @@
         </button>
 
         <div class="nav-menu" id="navMenu">
-          <a href="index.html">Home</a>
+          <a href="index.html" class="active">Home</a>
           <a href="#services">Services</a>
           <a href="#calculator">Calculator</a>
           <a href="shop.html">Shop</a>
           <a href="#about">About</a>
           <a href="#contact">Contact</a>
-          <a href="#" id="navQuoteBtn" class="quote-btn">Get a Quote</a>
+          <a href="#quote" id="navQuoteBtn" class="quote-btn">Get a Quote</a>
         </div>
       </nav>
 
@@ -123,6 +124,7 @@
         <div class="hero-buttons">
           <a href="#calculator" class="primary-btn">Use Smart Calculator</a>
           <a href="#services" class="secondary-btn">Explore Services</a>
+          <a href="shop.html" class="secondary-btn">Browse Shop</a>
         </div>
       </div>
     </div>
@@ -151,8 +153,8 @@
             <p>We help you move from idea to installation with practical recommendations.</p>
           </div>
           <div class="feature-card">
-            <h3>Quote-Ready Planning</h3>
-            <p>Send your requirements straight through our quote form for a more accurate response.</p>
+            <h3>Products & Kits</h3>
+            <p>Browse strips, kits and accessories in the shop when you already know what you need.</p>
           </div>
         </div>
       </div>
@@ -216,7 +218,7 @@
             <div class="service-card-content">
               <h3>Shop / Products</h3>
               <p>Browse ready-to-install lighting products, kits and accessories.</p>
-              <span>View Products</span>
+              <span>Shop Now</span>
             </div>
           </a>
         </div>
@@ -240,7 +242,7 @@
               <div class="form-group">
                 <label for="projectCategory">1. Project Category</label>
                 <select id="projectCategory" required>
-                  <option value="">Select a category</option>
+                  <option value="">Select category</option>
                   <option value="home">Home</option>
                   <option value="vehicle">Vehicle</option>
                   <option value="shopfront">Shopfront</option>
@@ -266,53 +268,50 @@
               <div class="form-group">
                 <label for="styleMood">4. Style / Mood</label>
                 <select id="styleMood" required>
-                  <option value="">Select a style</option>
-                  <option value="Warm">Warm</option>
-                  <option value="Neutral">Neutral</option>
-                  <option value="Cool">Cool</option>
-                  <option value="Luxury">Luxury</option>
-                  <option value="Modern">Modern</option>
-                  <option value="Minimal">Minimal</option>
-                  <option value="Bold RGB">Bold RGB</option>
+                  <option value="">Select style</option>
+                  <option value="Modern Clean">Modern Clean</option>
+                  <option value="Luxury Premium">Luxury Premium</option>
+                  <option value="Bold Statement">Bold Statement</option>
+                  <option value="Warm Relaxed">Warm Relaxed</option>
+                  <option value="Minimal Practical">Minimal Practical</option>
                 </select>
               </div>
 
-              <div class="form-group dimension-group" id="lengthGroup">
+              <div class="form-group" id="lengthGroup">
                 <label for="length">5. Length (m)</label>
-                <input type="number" id="length" min="0" step="0.1" placeholder="Example: 4.5" required />
+                <input type="number" id="length" min="0" step="0.1" placeholder="e.g. 5" />
               </div>
 
-              <div class="form-group dimension-group" id="widthGroup">
+              <div class="form-group" id="widthGroup">
                 <label for="width">6. Width (m)</label>
-                <input type="number" id="width" min="0" step="0.1" placeholder="Example: 3.2" required />
+                <input type="number" id="width" min="0" step="0.1" placeholder="e.g. 4" />
               </div>
 
               <div class="form-group">
                 <label for="brightness">7. Brightness Preference</label>
                 <select id="brightness" required>
                   <option value="">Select brightness</option>
-                  <option value="Soft">Soft</option>
+                  <option value="Soft ambient">Soft ambient</option>
                   <option value="Balanced">Balanced</option>
-                  <option value="Bright">Bright</option>
+                  <option value="Bright functional">Bright functional</option>
                 </select>
               </div>
 
               <div class="form-group">
                 <label for="fittingType">8. Preferred Fitting Type</label>
                 <select id="fittingType" required>
-                  <option value="">Select fitting type</option>
+                  <option value="">Select fitting</option>
                   <option value="LED Strip">LED Strip</option>
-                  <option value="Downlight">Downlight</option>
-                  <option value="Spotlight">Spotlight</option>
-                  <option value="Pendant / Feature">Pendant / Feature</option>
-                  <option value="Mixed Setup">Mixed Setup</option>
+                  <option value="Downlights">Downlights</option>
+                  <option value="Spotlights">Spotlights</option>
+                  <option value="Mixed Recommendation">Mixed Recommendation</option>
                 </select>
               </div>
 
               <div class="form-group full-width">
                 <label for="budgetRange">9. Budget Range</label>
                 <select id="budgetRange" required>
-                  <option value="">Select a budget range</option>
+                  <option value="">Select budget</option>
                   <option value="Entry Level">Entry Level</option>
                   <option value="Mid Range">Mid Range</option>
                   <option value="Premium">Premium</option>
@@ -321,17 +320,16 @@
             </div>
 
             <div class="calculator-actions">
-              <button type="submit" class="primary-btn">Calculate Recommendation</button>
+              <button type="submit" class="primary-btn">Get Recommendation</button>
             </div>
           </form>
-        </div>
 
-        <div class="result-box" id="resultBox" aria-live="polite">
-          <h3>Your Lighting Recommendation</h3>
-          <div id="resultContent"></div>
-          <div class="result-actions">
-            <button id="openQuoteFromResult" class="quote-btn" type="button">Request a Quote</button>
-            <a href="shop.html" class="secondary-btn">Browse Products</a>
+          <div class="result-box" id="resultBox">
+            <h3>Your Lighting Direction</h3>
+            <div id="resultContent"></div>
+            <div class="result-actions">
+              <a href="#quote" id="openQuoteFromResult" class="quote-btn">Request Quote For This Setup</a>
+            </div>
           </div>
         </div>
       </div>
@@ -342,35 +340,87 @@
         <div class="section-heading">
           <h2>Why Choose Cronje Lighting</h2>
           <p>
-            We focus on practical, attractive, and modern lighting solutions
-            that improve how a space feels, functions, and presents itself.
+            We focus on practical advice, strong visual results, and lighting plans that
+            make sense for the actual space you are working with.
           </p>
         </div>
 
         <div class="feature-grid">
           <div class="feature-card">
-            <h3>Tailored Recommendations</h3>
-            <p>We do not treat every room, vehicle, or business space the same.</p>
+            <h3>Custom Recommendations</h3>
+            <p>We do not force one solution onto every project. The setup is based on your real goal.</p>
           </div>
           <div class="feature-card">
-            <h3>Modern Design Thinking</h3>
-            <p>We consider ambience, performance, layout, purpose, and client style.</p>
+            <h3>Home, Vehicle & Business Coverage</h3>
+            <p>From bedroom mood lighting to car ambient lighting to shopfront displays, we cover it all.</p>
           </div>
           <div class="feature-card">
-            <h3>Built for Real Clients</h3>
-            <p>Our process is designed to turn ideas into practical quote-ready lighting plans.</p>
+            <h3>Quote-Driven Workflow</h3>
+            <p>Once the calculator gives direction, you can send the details straight through for follow-up.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section cta-band">
-      <div class="container cta-band-inner">
-        <div>
-          <h2>Need a Custom Lighting Quote?</h2>
-          <p>Tell us what you want and we will help you move from concept to solution.</p>
+    <section class="section quote-section" id="quote">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Request a Quote</h2>
+          <p>
+            Send us your details and project requirements. You can either use the calculator first,
+            or submit a direct quote request below.
+          </p>
         </div>
-        <button id="ctaQuoteBtn" class="primary-btn" type="button">Get a Quote</button>
+
+        <div class="calculator-card">
+          <form id="quoteForm">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="clientName">Full Name</label>
+                <input type="text" id="clientName" name="clientName" required />
+              </div>
+
+              <div class="form-group">
+                <label for="clientEmail">Email Address</label>
+                <input type="email" id="clientEmail" name="clientEmail" required />
+              </div>
+
+              <div class="form-group">
+                <label for="clientPhone">Phone Number</label>
+                <input type="tel" id="clientPhone" name="clientPhone" required />
+              </div>
+
+              <div class="form-group">
+                <label for="clientLocation">Location</label>
+                <input type="text" id="clientLocation" name="clientLocation" placeholder="e.g. Pretoria" />
+              </div>
+
+              <div class="form-group full-width">
+                <label for="quoteDetails">Project Details / What You Need</label>
+                <textarea
+                  id="quoteDetails"
+                  name="quoteDetails"
+                  placeholder="Tell us what you need, where it is for, and any important details."
+                ></textarea>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="additionalRequirements">Additional Requirements</label>
+                <textarea
+                  id="additionalRequirements"
+                  name="additionalRequirements"
+                  placeholder="Anything else we should know?"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="calculator-actions">
+              <button type="submit" id="submitQuoteBtn" class="primary-btn">Submit Quote Request</button>
+            </div>
+
+            <p id="formStatus" class="form-status" aria-live="polite"></p>
+          </form>
+        </div>
       </div>
     </section>
 
@@ -378,83 +428,40 @@
       <div class="container">
         <div class="section-heading">
           <h2>Contact Cronje Lighting</h2>
-          <p>Reach out for custom quotes, product enquiries, and lighting advice.</p>
+          <p>Get in touch directly if you want to discuss your project before submitting a quote.</p>
         </div>
 
         <div class="contact-grid">
           <div class="contact-card">
+            <h3>WhatsApp</h3>
+            <p><a href="https://wa.me/27765712206" target="_blank" rel="noopener noreferrer">+27 76 571 2206</a></p>
+          </div>
+
+          <div class="contact-card">
             <h3>Email</h3>
             <p><a href="mailto:cronjelighting@gmail.com">cronjelighting@gmail.com</a></p>
           </div>
+
           <div class="contact-card">
-            <h3>Phone / WhatsApp</h3>
-            <p><a href="tel:+27765712206">+27 76 571 2206</a></p>
-          </div>
-          <div class="contact-card">
-            <h3>Service Areas</h3>
-            <p>Pretoria, Johannesburg and surrounding areas</p>
+            <h3>Shop</h3>
+            <p><a href="shop.html">Browse products and kits</a></p>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <div class="modal" id="quoteModal" aria-hidden="true">
-    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="quoteModalTitle">
-      <button class="close-modal" id="closeModalBtn" aria-label="Close quote form" type="button">×</button>
-
-      <h2 id="quoteModalTitle">Request a Quote</h2>
-      <p class="modal-intro">
-        Fill in your details and lighting requirements below. We will review your needs and get back to you.
-      </p>
-
-      <form id="quoteForm">
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="clientName">Full Name</label>
-            <input type="text" id="clientName" required />
-          </div>
-
-          <div class="form-group">
-            <label for="clientEmail">Email Address</label>
-            <input type="email" id="clientEmail" required />
-          </div>
-
-          <div class="form-group">
-            <label for="clientPhone">Phone Number</label>
-            <input type="tel" id="clientPhone" required />
-          </div>
-
-          <div class="form-group">
-            <label for="clientLocation">Area / Location</label>
-            <input type="text" id="clientLocation" placeholder="Example: Pretoria East" />
-          </div>
-
-          <div class="form-group full-width">
-            <label for="additionalRequirements">Additional Requirements</label>
-            <textarea
-              id="additionalRequirements"
-              rows="5"
-              placeholder="Tell us more about the look, use, style, or special requirements you want."
-            ></textarea>
-          </div>
-        </div>
-
-        <div class="status-box" id="formStatus"></div>
-
-        <div class="calculator-actions">
-          <button type="submit" class="primary-btn" id="submitQuoteBtn">Submit Quote Request</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <footer class="footer">
-    <div class="container">
-      <p>© 2026 Cronje Lighting. All rights reserved.</p>
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>&copy; 2026 Cronje Lighting. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="https://www.instagram.com/CronjeLighting" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.tiktok.com/@CronjeLighting" target="_blank" rel="noopener noreferrer">TikTok</a>
+        <a href="https://www.facebook.com/CronjeLighting" target="_blank" rel="noopener noreferrer">Facebook</a>
+      </div>
     </div>
   </footer>
 
-  <script src="script.js?v=20260329-1"></script>
+  <script src="script.js?v=20260330-1"></script>
 </body>
 </html>
