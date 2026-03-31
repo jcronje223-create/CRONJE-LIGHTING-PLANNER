@@ -1,876 +1,850 @@
-/* script.js */
+/* style.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-/* =========================================================
-   CRONJE LIGHTING - MAIN SCRIPT
-   Updated to work with:
-   - current index.html
-   - current style.css
-   - current Google Apps Script
-   - spreadsheet + email quote submissions
-   ========================================================= */
+html {
+  scroll-behavior: smooth;
+}
 
-/* =========================
-   GOOGLE SCRIPT URL
-   ========================= */
-const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxtW1bM_O02zX2Qa8F65C59f_dv8JvSqteIufI_Buys6Vyq6-8oqwif5OWyqbr2Yaxp3g/exec";
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #0d0d0d;
+  color: #ffffff;
+  line-height: 1.6;
+}
 
-/* =========================
-   CALCULATOR DATA
-   ========================= */
-const calculatorData = {
-  home: {
-    spaces: [
-      "Bedroom",
-      "Living Room",
-      "Kitchen",
-      "Bathroom",
-      "Passage",
-      "Dining Room",
-      "Ceiling Feature",
-      "Gaming Setup",
-      "TV Unit / Display Area",
-      "Patio"
-    ],
-    goals: [
-      "Full lighting",
-      "Ambient mood lighting",
-      "Gaming setup lighting",
-      "Feature lighting",
-      "Art / valuables lighting",
-      "Warm relaxing atmosphere",
-      "Practical everyday lighting"
-    ]
-  },
-  vehicle: {
-    spaces: [
-      "Dashboard",
-      "Footwells",
-      "Doors",
-      "Under Seats",
-      "Roof Liner",
-      "Boot / Trunk",
-      "Full Interior",
-      "Show Car Setup"
-    ],
-    goals: [
-      "Ambient interior lighting",
-      "Luxury look",
-      "Show build effect",
-      "Night visibility",
-      "Subtle accent lighting",
-      "Full custom effect"
-    ]
-  },
-  shopfront: {
-    spaces: [
-      "Store Entrance",
-      "Window Display",
-      "Shelving",
-      "Counter Area",
-      "Signage",
-      "Product Display Wall",
-      "Indoor Retail Space",
-      "Full Shopfront"
-    ],
-    goals: [
-      "Attract attention",
-      "Highlight products",
-      "Premium retail look",
-      "Clean professional lighting",
-      "Brand visibility",
-      "Night-time impact"
-    ]
-  },
-  commercial: {
-    spaces: [
-      "Office",
-      "Reception",
-      "Boardroom",
-      "Retail Floor",
-      "Waiting Area",
-      "Corridor",
-      "Workshop",
-      "Full Commercial Space"
-    ],
-    goals: [
-      "Professional brightness",
-      "Client-facing premium look",
-      "Functional task lighting",
-      "Energy-efficient lighting",
-      "Feature lighting",
-      "Balanced work environment"
-    ]
-  },
-  outdoor: {
-    spaces: [
-      "Garden",
-      "Pathway",
-      "Driveway",
-      "Patio",
-      "Braai Area",
-      "Perimeter",
-      "Pool Area",
-      "Outdoor Entertainment Area"
-    ],
-    goals: [
-      "Security lighting",
-      "Decorative garden lighting",
-      "Warm outdoor ambiance",
-      "Path visibility",
-      "Entertainment lighting",
-      "Feature landscape lighting"
-    ]
+body.modal-open {
+  overflow: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.container {
+  width: 90%;
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.section-heading {
+  text-align: center;
+  max-width: 850px;
+  margin: 0 auto 45px;
+}
+
+.section-heading h2 {
+  font-size: 2.2rem;
+  margin-bottom: 14px;
+}
+
+.section-heading p {
+  color: #d5d5d5;
+}
+
+.hidden-field {
+  display: none !important;
+}
+
+.sticky-whatsapp {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 999;
+  background: #25d366;
+  color: #ffffff;
+  padding: 14px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.sticky-whatsapp:hover {
+  transform: translateY(-3px);
+}
+
+/* ================= HERO ================= */
+
+.hero {
+  min-height: 100vh;
+  background-image: url("./Images/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.overlay {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.78));
+  padding: 24px 0 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+  width: 90%;
+  max-width: 1250px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.logo {
+  height: 82px;
+  width: auto;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 2rem;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.nav-menu a {
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+  color: #d8b45a;
+}
+
+/* ================= BUTTONS ================= */
+
+.quote-btn,
+.primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #d8b45a;
+  color: #111111;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 24px;
+  font-weight: 700;
+  transition: 0.25s ease;
+  font-size: 1rem;
+  min-height: 50px;
+}
+
+.quote-btn:hover,
+.primary-btn:hover {
+  background: #ebc66a;
+}
+
+.secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #d8b45a;
+  color: #ffffff;
+  padding: 14px 24px;
+  border-radius: 10px;
+  min-height: 50px;
+  transition: 0.25s ease;
+}
+
+.secondary-btn:hover {
+  background: rgba(216, 180, 90, 0.1);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #d8b45a;
+  outline-offset: 2px;
+}
+
+/* ================= HERO CONTENT ================= */
+
+.hero-content {
+  margin: auto;
+  text-align: center;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+
+.hero-content p {
+  max-width: 760px;
+  margin: 0 auto 28px;
+  color: #e8e8e8;
+  font-size: 1.08rem;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ================= GRIDS / CARDS ================= */
+
+.feature-grid,
+.contact-grid,
+.service-grid,
+.product-grid {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.feature-card,
+.contact-card,
+.service-card,
+.product-card,
+.calculator-card,
+.result-box {
+  background: #1d1d1d;
+  border-radius: 18px;
+  border: 1px solid #2a2a2a;
+}
+
+.feature-card,
+.contact-card,
+.product-card {
+  padding: 22px;
+}
+
+.feature-card h3,
+.contact-card h3 {
+  color: #d8b45a;
+  margin-bottom: 10px;
+}
+
+.service-card {
+  overflow: hidden;
+  padding: 0;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  border-color: #3d3320;
+}
+
+.service-card img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+
+.service-card-content {
+  padding: 20px;
+}
+
+.service-card-content h3 {
+  color: #d8b45a;
+  margin-bottom: 8px;
+}
+
+.service-card-content p {
+  color: #d5d5d5;
+  margin-bottom: 14px;
+}
+
+.service-card-content span {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* ================= CALCULATOR ================= */
+
+.calculator-card {
+  padding: 25px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #111111;
+  border: 1px solid #333333;
+  color: #ffffff;
+  min-height: 48px;
+}
+
+.form-group textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.calculator-actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ================= RESULT ================= */
+
+.result-box {
+  display: none;
+  margin-top: 24px;
+  padding: 24px;
+}
+
+.result-box.active {
+  display: block;
+}
+
+.result-box.highlight {
+  border-color: #d8b45a;
+  box-shadow: 0 0 0 1px rgba(216, 180, 90, 0.1);
+}
+
+.result-box h3 {
+  color: #d8b45a;
+  margin-bottom: 14px;
+}
+
+.result-summary {
+  margin-bottom: 16px;
+  color: #e5e5e5;
+}
+
+.result-list {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.result-list div {
+  background: #141414;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.result-list strong {
+  color: #d8b45a;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.result-meta {
+  font-size: 0.95rem;
+  color: #cfcfcf;
+  margin-top: 14px;
+}
+
+.result-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/* ================= QUOTE FORM ================= */
+
+.form-status {
+  margin-top: 16px;
+  text-align: center;
+  font-weight: 700;
+  min-height: 24px;
+}
+
+/* ================= FOOTER ================= */
+
+.site-footer {
+  border-top: 1px solid #2a2a2a;
+  padding: 24px 0;
+  background: #101010;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: #d5d5d5;
+  transition: 0.25s ease;
+}
+
+.footer-links a:hover {
+  color: #d8b45a;
+}
+
+/* ================= SHOP PAGE ================= */
+
+.shop-hero {
+  min-height: auto;
+  background-image: none;
+  background: linear-gradient(to bottom, #111111, #0d0d0d);
+}
+
+.shop-hero .overlay {
+  min-height: auto;
+  padding-bottom: 30px;
+}
+
+.shop-intro {
+  text-align: center;
+  max-width: 850px;
+  margin: 0 auto 30px;
+}
+
+.shop-intro h1 {
+  font-size: 2.8rem;
+  margin-bottom: 12px;
+}
+
+.shop-intro p {
+  color: #d5d5d5;
+}
+
+.shop-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.shop-search {
+  flex: 1 1 300px;
+}
+
+.shop-search input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #111111;
+  border: 1px solid #333333;
+  color: #ffffff;
+  min-height: 48px;
+}
+
+.shop-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid #333333;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-weight: 700;
+  transition: 0.25s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: #d8b45a;
+  color: #111111;
+  border-color: #d8b45a;
+}
+
+.product-card {
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  border-color: #3d3320;
+}
+
+.product-image-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.product-image-wrap img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.badge-row {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.badge.best,
+.badge.value,
+.badge.premium,
+.badge.new {
+  background: rgba(17, 17, 17, 0.8);
+  color: #ffffff;
+}
+
+.product-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.product-category {
+  color: #d8b45a;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.product-title {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+
+.product-desc {
+  color: #d5d5d5;
+  margin-bottom: 14px;
+}
+
+.features {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.features li {
+  color: #e5e5e5;
+  position: relative;
+  padding-left: 16px;
+}
+
+.features li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #d8b45a;
+}
+
+.price-row {
+  margin-top: auto;
+}
+
+.price {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.price-note {
+  color: #bbbbbb;
+  font-size: 0.92rem;
+  margin-top: 4px;
+}
+
+.product-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.product-btn {
+  flex: 1 1 180px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 46px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: 0.25s ease;
+}
+
+.btn-order {
+  background: #d8b45a;
+  color: #111111;
+}
+
+.btn-order:hover {
+  background: #ebc66a;
+}
+
+.btn-enquire {
+  border: 2px solid #d8b45a;
+  color: #ffffff;
+}
+
+.btn-enquire:hover {
+  background: rgba(216, 180, 90, 0.1);
+}
+
+.empty-state {
+  display: none;
+  margin-top: 26px;
+  text-align: center;
+  color: #d5d5d5;
+}
+
+.promo-box {
+  background: #1d1d1d;
+  border: 1px solid #2a2a2a;
+  border-radius: 18px;
+  padding: 30px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+}
+
+.promo-box h3 {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.promo-box p {
+  color: #d5d5d5;
+  margin-bottom: 18px;
+}
+
+.promo-points {
+  display: grid;
+  gap: 12px;
+}
+
+.promo-points div {
+  background: #141414;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 14px;
+  color: #e5e5e5;
+  font-weight: 700;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 992px) {
+  .feature-grid,
+  .contact-grid,
+  .service-grid,
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-};
 
-/* =========================
-   STATE
-   ========================= */
-let lastCalculatorSubmission = null;
-
-/* =========================
-   HELPERS
-   ========================= */
-function getEl(id) {
-  return document.getElementById(id);
-}
-
-function escapeHtml(value) {
-  if (value === null || value === undefined) return "";
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
-function setOptions(selectEl, items, placeholder) {
-  if (!selectEl) return;
-
-  selectEl.innerHTML = "";
-
-  const defaultOption = document.createElement("option");
-  defaultOption.value = "";
-  defaultOption.textContent = placeholder;
-  selectEl.appendChild(defaultOption);
-
-  items.forEach((item) => {
-    const option = document.createElement("option");
-    option.value = item;
-    option.textContent = item;
-    selectEl.appendChild(option);
-  });
-
-  selectEl.value = "";
-}
-
-function smoothScrollToHash(hash) {
-  if (!hash) return;
-  const target = document.querySelector(hash);
-  if (target) {
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-}
-
-function toNumberString(value) {
-  if (value === null || value === undefined) return "";
-  const cleaned = String(value).trim();
-  return cleaned;
-}
-
-function formatArea(length, width, category) {
-  if (category === "vehicle") return "";
-
-  const l = Number(length);
-  const w = Number(width);
-
-  if (!l || !w || l <= 0 || w <= 0) return "";
-  return (l * w).toFixed(2);
-}
-
-function isCalculatorComplete(data) {
-  return Boolean(
-    data &&
-      data.projectCategory &&
-      data.exactSpace &&
-      data.lightingGoal &&
-      data.styleMood &&
-      data.brightness &&
-      data.fittingType &&
-      data.budgetRange
-  );
-}
-
-function titleCaseCategory(category) {
-  switch (category) {
-    case "home":
-      return "Home";
-    case "vehicle":
-      return "Vehicle";
-    case "shopfront":
-      return "Shopfront";
-    case "commercial":
-      return "Commercial / Office";
-    case "outdoor":
-      return "Outdoor / Garden";
-    default:
-      return category || "";
-  }
-}
-
-function buildQuoteDetailsText(calc, resultData) {
-  if (!calc || !resultData) return "";
-
-  const lengthLine =
-    calc.projectCategory === "vehicle"
-      ? "Length: Not applicable"
-      : `Length: ${calc.length || "Not provided"} m`;
-
-  const widthLine =
-    calc.projectCategory === "vehicle"
-      ? "Width: Not applicable"
-      : `Width: ${calc.width || "Not provided"} m`;
-
-  const areaLine =
-    calc.projectCategory === "vehicle"
-      ? "Area: Not applicable"
-      : `Area: ${calc.area ? `${calc.area} m²` : "Not provided"}`;
-
-  return (
-    "Calculator Recommendation:\n" +
-    `Project Category: ${titleCaseCategory(calc.projectCategory)}\n` +
-    `Exact Space: ${calc.exactSpace}\n` +
-    `Lighting Goal: ${calc.lightingGoal}\n` +
-    `Style / Mood: ${calc.styleMood}\n` +
-    `${lengthLine}\n` +
-    `${widthLine}\n` +
-    `${areaLine}\n` +
-    `Brightness Preference: ${calc.brightness}\n` +
-    `Preferred Fitting Type: ${calc.fittingType}\n` +
-    `Budget Range: ${calc.budgetRange}\n\n` +
-    "Suggested Setup:\n" +
-    `${resultData.recommendedSetup}\n\n` +
-    "Suggested Fittings:\n" +
-    `${resultData.fittings}\n\n` +
-    "Recommended Light Tone:\n" +
-    `${resultData.colorTone}\n\n` +
-    "Installation Direction:\n" +
-    `${resultData.installationNote}\n\n` +
-    "Budget Direction:\n" +
-    `${resultData.budgetNote}`
-  );
-}
-
-/* =========================
-   LIGHTING LOGIC
-   ========================= */
-function getLightingDirection({
-  category,
-  space,
-  goal,
-  style,
-  brightness,
-  fitting,
-  budget,
-  length,
-  width
-}) {
-  const area = formatArea(length, width, category);
-
-  let recommendedSetup = "";
-  let fittings = "";
-  let colorTone = "";
-  let installationNote = "";
-  let budgetNote = "";
-  let summary = "";
-
-  if (category === "home") {
-    if (
-      goal === "Ambient mood lighting" ||
-      goal === "Warm relaxing atmosphere" ||
-      style === "Warm Relaxed"
-    ) {
-      recommendedSetup =
-        "Use perimeter LED strip lighting, soft indirect glow, and selected accent points instead of relying on one harsh central light.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "LED Strip + selected downlights"
-          : fitting;
-      colorTone = "Warm white or tunable warm ambient tones";
-    } else if (
-      goal === "Gaming setup lighting" ||
-      space === "Gaming Setup" ||
-      style === "Bold Statement"
-    ) {
-      recommendedSetup =
-        "Use RGB or smart LED strip lighting around the desk, display units, ceiling edges, and feature walls for layered visual impact.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "LED Strip + feature spots"
-          : fitting;
-      colorTone = "RGB / dynamic ambient effects";
-    } else if (
-      goal === "Full lighting" ||
-      goal === "Practical everyday lighting"
-    ) {
-      recommendedSetup =
-        "Use a balanced main lighting layout with downlights for coverage, then add subtle strip or feature lighting where needed.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "Downlights + LED Strip accents"
-          : fitting;
-      colorTone = "Neutral white for clarity with optional warm accents";
-    } else {
-      recommendedSetup =
-        "Use a layered residential setup with functional base lighting and focused accent lighting for depth and visual style.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "Downlights + Spotlights + LED Strip accents"
-          : fitting;
-      colorTone = "Neutral to warm white depending on mood";
-    }
-  }
-
-  if (category === "vehicle") {
-    if (
-      goal === "Luxury look" ||
-      style === "Luxury Premium" ||
-      goal === "Subtle accent lighting"
-    ) {
-      recommendedSetup =
-        "Use concealed ambient strips in the dashboard, door trims, and footwells for a refined premium interior finish.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "Vehicle ambient LED strips"
-          : fitting;
-      colorTone = "Soft ambient tones or premium multicolor control";
-    } else if (
-      goal === "Show build effect" ||
-      goal === "Full custom effect" ||
-      style === "Bold Statement"
-    ) {
-      recommendedSetup =
-        "Use dynamic interior LED strips with multiple zones, stronger footwell lighting, and full-cabin effect control for maximum visual impact.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "IC / RGB ambient strips + accent modules"
-          : fitting;
-      colorTone = "RGB / flowing / custom multicolor";
-    } else {
-      recommendedSetup =
-        "Use practical accent lighting focused on visibility, style, and interior enhancement without over-lighting the cabin.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "Ambient strips + footwell lighting"
-          : fitting;
-      colorTone = "Balanced ambient tones";
-    }
-  }
-
-  if (category === "shopfront") {
-    if (
-      goal === "Highlight products" ||
-      space === "Window Display" ||
-      space === "Shelving"
-    ) {
-      recommendedSetup =
-        "Use focused display lighting to direct attention to products, shelves, and premium items while keeping the overall look clean.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "Spotlights + LED strip display lighting"
-          : fitting;
-      colorTone = "Neutral white for product visibility";
-    } else if (
-      goal === "Attract attention" ||
-      goal === "Night-time impact" ||
-      goal === "Brand visibility"
-    ) {
-      recommendedSetup =
-        "Use strong entrance and sign-enhancing lighting with contrast and visibility from the street to increase impact after dark.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "LED strips + signage lighting + spotlights"
-          : fitting;
-      colorTone = "Clean bright white with optional brand-color accents";
-    } else {
-      recommendedSetup =
-        "Use a balanced retail lighting approach that improves visibility, professionalism, and customer focus inside and outside the space.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "Display strip lighting + downlights"
-          : fitting;
-      colorTone = "Neutral white";
-    }
-  }
-
-  if (category === "commercial") {
-    if (
-      goal === "Functional task lighting" ||
-      goal === "Professional brightness"
-    ) {
-      recommendedSetup =
-        "Use a functional lighting layout focused on clear coverage, comfort, and productivity with minimal shadowing.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "Downlights + task-focused fittings"
-          : fitting;
-      colorTone = "Neutral to cool white";
-    } else if (
-      goal === "Client-facing premium look" ||
-      style === "Luxury Premium"
-    ) {
-      recommendedSetup =
-        "Use layered commercial lighting with clean general illumination and feature accents in client-facing areas.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "Downlights + spotlights + LED accents"
-          : fitting;
-      colorTone = "Neutral white with premium accent highlights";
-    } else {
-      recommendedSetup =
-        "Use a clean, efficient commercial layout that balances appearance, practicality, and energy-conscious operation.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "Downlights + selected feature fittings"
-          : fitting;
-      colorTone = "Balanced neutral white";
-    }
-  }
-
-  if (category === "outdoor") {
-    if (
-      goal === "Security lighting" ||
-      space === "Perimeter" ||
-      space === "Driveway" ||
-      space === "Pathway"
-    ) {
-      recommendedSetup =
-        "Use outdoor lighting focused on visibility, movement safety, and security coverage with durable weather-suited fittings.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "Outdoor spotlights + pathway lighting"
-          : fitting;
-      colorTone = "Cool or neutral white for visibility";
-    } else if (
-      goal === "Decorative garden lighting" ||
-      goal === "Feature landscape lighting" ||
-      goal === "Warm outdoor ambiance"
-    ) {
-      recommendedSetup =
-        "Use layered landscape lighting to highlight plants, pathways, walls, and outdoor seating zones for depth and atmosphere.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "Garden spots + hidden strip lighting + feature lights"
-          : fitting;
-      colorTone = "Warm white for ambiance";
-    } else {
-      recommendedSetup =
-        "Use a mixed outdoor setup that improves visibility and atmosphere while keeping the space practical and inviting.";
-      fittings =
-        fitting === "Mixed Recommendation"
-          ? "Outdoor feature lighting + functional area lighting"
-          : fitting;
-      colorTone = "Balanced outdoor white tones";
-    }
-  }
-
-  if (brightness === "Soft ambient") {
-    installationNote =
-      "Keep the light diffused and indirect. Avoid over-lighting the space so the final effect stays comfortable and premium.";
-  } else if (brightness === "Balanced") {
-    installationNote =
-      "Use a layered approach with both practical lighting and softer visual accents for the best all-round result.";
-  } else {
-    installationNote =
-      "Prioritize coverage and visibility first, then add accent lighting only where it improves the space without causing glare.";
-  }
-
-  if (budget === "Entry Level") {
-    budgetNote =
-      "Start with the highest-impact zones first and use a simpler phased installation if needed.";
-  } else if (budget === "Mid Range") {
-    budgetNote =
-      "This budget allows a balanced setup with both practical lighting and stronger finishing details.";
-  } else {
-    budgetNote =
-      "A premium budget allows a more complete layout, cleaner finishing, better control options, and stronger overall impact.";
-  }
-
-  summary = `For your ${space.toLowerCase()} ${
-    category === "vehicle" ? "setup" : "project"
-  }, a ${style.toLowerCase()} approach with ${brightness.toLowerCase()} lighting is the best direction.`;
-
-  return {
-    area,
-    summary,
-    recommendedSetup,
-    fittings,
-    colorTone,
-    installationNote,
-    budgetNote
-  };
-}
-
-function buildResultHtml(data) {
-  const areaHtml = data.area
-    ? `<div><strong>Estimated Area</strong>${escapeHtml(data.area)} m²</div>`
-    : "";
-
-  return `
-    <p class="result-summary">${escapeHtml(data.summary)}</p>
-
-    <div class="result-list">
-      <div>
-        <strong>Recommended Setup</strong>
-        ${escapeHtml(data.recommendedSetup)}
-      </div>
-
-      <div>
-        <strong>Suggested Fittings</strong>
-        ${escapeHtml(data.fittings)}
-      </div>
-
-      <div>
-        <strong>Recommended Light Tone</strong>
-        ${escapeHtml(data.colorTone)}
-      </div>
-
-      ${areaHtml}
-
-      <div>
-        <strong>Installation Direction</strong>
-        ${escapeHtml(data.installationNote)}
-      </div>
-
-      <div>
-        <strong>Budget Direction</strong>
-        ${escapeHtml(data.budgetNote)}
-      </div>
-    </div>
-
-    <p class="result-meta">
-      This is a smart direction estimate to help shape your lighting plan before final quoting.
-    </p>
-  `;
-}
-
-/* =========================
-   MENU
-   ========================= */
-function initMobileMenu() {
-  const menuToggle = getEl("menuToggle");
-  const navMenu = getEl("navMenu");
-
-  if (!menuToggle || !navMenu) return;
-
-  menuToggle.addEventListener("click", () => {
-    const isOpen = navMenu.classList.toggle("show");
-    menuToggle.setAttribute("aria-expanded", String(isOpen));
-  });
-
-  navMenu.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      navMenu.classList.remove("show");
-      menuToggle.setAttribute("aria-expanded", "false");
-    });
-  });
-
-  document.addEventListener("click", (event) => {
-    const clickedInsideMenu = navMenu.contains(event.target);
-    const clickedToggle = menuToggle.contains(event.target);
-
-    if (!clickedInsideMenu && !clickedToggle) {
-      navMenu.classList.remove("show");
-      menuToggle.setAttribute("aria-expanded", "false");
-    }
-  });
-}
-
-/* =========================
-   CALCULATOR
-   ========================= */
-function initCalculator() {
-  const form = getEl("lightingCalculator");
-  const categoryEl = getEl("projectCategory");
-  const spaceEl = getEl("exactSpace");
-  const goalEl = getEl("lightingGoal");
-  const styleEl = getEl("styleMood");
-  const lengthEl = getEl("length");
-  const widthEl = getEl("width");
-  const brightnessEl = getEl("brightness");
-  const fittingEl = getEl("fittingType");
-  const budgetEl = getEl("budgetRange");
-  const resultBox = getEl("resultBox");
-  const resultContent = getEl("resultContent");
-  const quoteDetailsEl = getEl("quoteDetails");
-  const openQuoteFromResult = getEl("openQuoteFromResult");
-
-  if (!form || !categoryEl || !spaceEl || !goalEl || !resultBox || !resultContent) {
-    return;
-  }
-
-  function updateCategoryFields() {
-    const selectedCategory = categoryEl.value;
-    const categoryConfig = calculatorData[selectedCategory];
-
-    if (!categoryConfig) {
-      setOptions(spaceEl, [], "Select a space");
-      setOptions(goalEl, [], "Select a goal");
-      return;
-    }
-
-    setOptions(spaceEl, categoryConfig.spaces, "Select a space");
-    setOptions(goalEl, categoryConfig.goals, "Select a goal");
-  }
-
-  categoryEl.addEventListener("change", updateCategoryFields);
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const calculatorPayload = {
-      projectCategory: categoryEl.value,
-      exactSpace: spaceEl.value,
-      lightingGoal: goalEl.value,
-      styleMood: styleEl ? styleEl.value : "",
-      length: lengthEl ? toNumberString(lengthEl.value) : "",
-      width: widthEl ? toNumberString(widthEl.value) : "",
-      brightness: brightnessEl ? brightnessEl.value : "",
-      fittingType: fittingEl ? fittingEl.value : "",
-      budgetRange: budgetEl ? budgetEl.value : ""
-    };
-
-    if (!isCalculatorComplete(calculatorPayload)) {
-      resultContent.innerHTML = `
-        <p class="result-summary">Please complete all required calculator fields first.</p>
-      `;
-      resultBox.classList.add("active", "highlight");
-      resultBox.scrollIntoView({ behavior: "smooth", block: "start" });
-      return;
-    }
-
-    const resultData = getLightingDirection({
-      category: calculatorPayload.projectCategory,
-      space: calculatorPayload.exactSpace,
-      goal: calculatorPayload.lightingGoal,
-      style: calculatorPayload.styleMood,
-      brightness: calculatorPayload.brightness,
-      fitting: calculatorPayload.fittingType,
-      budget: calculatorPayload.budgetRange,
-      length: calculatorPayload.length,
-      width: calculatorPayload.width
-    });
-
-    calculatorPayload.area = resultData.area;
-
-    resultContent.innerHTML = buildResultHtml(resultData);
-    resultBox.classList.add("active", "highlight");
-
-    const quoteDetailsText = buildQuoteDetailsText(calculatorPayload, resultData);
-
-    if (quoteDetailsEl) {
-      quoteDetailsEl.value = quoteDetailsText;
-    }
-
-    lastCalculatorSubmission = {
-      ...calculatorPayload,
-      requestType: "calculatorQuote",
-      resultData,
-      quoteDetails: quoteDetailsText
-    };
-
-    if (openQuoteFromResult) {
-      openQuoteFromResult.onclick = function (e) {
-        e.preventDefault();
-        smoothScrollToHash("#quote");
-      };
-    }
-
-    resultBox.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
-
-  updateCategoryFields();
-}
-
-/* =========================
-   QUOTE FORM
-   ========================= */
-function initQuoteForm() {
-  const quoteForm = getEl("quoteForm");
-  const formStatus = getEl("formStatus");
-  const submitQuoteBtn = getEl("submitQuoteBtn");
-
-  if (!quoteForm || !formStatus || !submitQuoteBtn) return;
-
-  function showStatus(message, type) {
-    formStatus.textContent = message;
-    formStatus.style.color =
-      type === "success"
-        ? "#7CFC98"
-        : type === "error"
-        ? "#ff8a8a"
-        : "#d8b45a";
-  }
-
-  quoteForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const clientName = getEl("clientName")?.value.trim() || "";
-    const clientEmail = getEl("clientEmail")?.value.trim() || "";
-    const clientPhone = getEl("clientPhone")?.value.trim() || "";
-    const clientLocation = getEl("clientLocation")?.value.trim() || "";
-    const quoteDetails = getEl("quoteDetails")?.value.trim() || "";
-    const additionalRequirements =
-      getEl("additionalRequirements")?.value.trim() || "";
-
-    if (!clientName || !clientEmail || !clientPhone) {
-      showStatus("Please complete your name, email, and phone number.", "error");
-      return;
-    }
-
-    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === "PASTE_YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE") {
-      showStatus(
-        "Your Google Script URL is missing in script.js.",
-        "error"
-      );
-      return;
-    }
-
-    const usingCalculator =
-      lastCalculatorSubmission &&
-      isCalculatorComplete(lastCalculatorSubmission);
-
-    const payload = usingCalculator
-      ? {
-          requestType: "calculatorQuote",
-          clientName,
-          clientEmail,
-          clientPhone,
-          clientLocation,
-          projectCategory: lastCalculatorSubmission.projectCategory,
-          exactSpace: lastCalculatorSubmission.exactSpace,
-          lightingGoal: lastCalculatorSubmission.lightingGoal,
-          styleMood: lastCalculatorSubmission.styleMood,
-          length: lastCalculatorSubmission.length,
-          width: lastCalculatorSubmission.width,
-          area: lastCalculatorSubmission.area,
-          brightness: lastCalculatorSubmission.brightness,
-          fittingType: lastCalculatorSubmission.fittingType,
-          budgetRange: lastCalculatorSubmission.budgetRange,
-          quoteDetails: quoteDetails,
-          additionalRequirements,
-          source: "Cronje Lighting Website",
-          page: "index.html",
-          submittedAt: new Date().toISOString()
-        }
-      : {
-          requestType: "directQuote",
-          clientName,
-          clientEmail,
-          clientPhone,
-          clientLocation,
-          quoteDetails,
-          additionalRequirements,
-          source: "Cronje Lighting Website",
-          page: "index.html",
-          submittedAt: new Date().toISOString()
-        };
-
-    submitQuoteBtn.disabled = true;
-    submitQuoteBtn.textContent = "Submitting...";
-    showStatus("Submitting your quote request...", "info");
-
-    try {
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8"
-        },
-        body: JSON.stringify(payload)
-      });
-
-      const rawText = await response.text();
-
-      let result = null;
-      try {
-        result = JSON.parse(rawText);
-      } catch (error) {
-        result = { success: false, raw: rawText };
-      }
-
-      const success =
-        response.ok &&
-        (
-          result.success === true ||
-          result.status === "success" ||
-          result.result === "success" ||
-          result.ok === true
-        );
-
-      if (success) {
-        showStatus("Quote request sent successfully. We will contact you soon.", "success");
-        quoteForm.reset();
-
-        lastCalculatorSubmission = null;
-
-        const resultBox = getEl("resultBox");
-        const resultContent = getEl("resultContent");
-        if (resultBox && resultContent) {
-          resultBox.classList.remove("active", "highlight");
-          resultContent.innerHTML = "";
-        }
-
-        const calculatorForm = getEl("lightingCalculator");
-        if (calculatorForm) {
-          calculatorForm.reset();
-        }
-
-        const exactSpace = getEl("exactSpace");
-        const lightingGoal = getEl("lightingGoal");
-        if (exactSpace) setOptions(exactSpace, [], "Select a space");
-        if (lightingGoal) setOptions(lightingGoal, [], "Select a goal");
-      } else {
-        console.error("Server response:", result);
-        showStatus(
-          "The form reached the server but did not confirm success. Check your Google Script logs.",
-          "error"
-        );
-      }
-    } catch (error) {
-      console.error("Quote form error:", error);
-      showStatus(
-        "Quote request could not be sent. Please check your Google Script deployment and permissions.",
-        "error"
-      );
-    } finally {
-      submitQuoteBtn.disabled = false;
-      submitQuoteBtn.textContent = "Submit Quote Request";
-    }
-  });
-}
-
-/* =========================
-   QUOTE SHORTCUT LINKS
-   ========================= */
-function initQuoteLinks() {
-  const navQuoteBtn = getEl("navQuoteBtn");
-
-  if (navQuoteBtn) {
-    navQuoteBtn.addEventListener("click", (event) => {
-      event.preventDefault();
-      smoothScrollToHash("#quote");
-    });
+  .promo-box {
+    grid-template-columns: 1fr;
   }
 }
 
-/* =========================
-   INIT
-   ========================= */
-document.addEventListener("DOMContentLoaded", () => {
-  initMobileMenu();
-  initCalculator();
-  initQuoteForm();
-  initQuoteLinks();
-});
+@media (max-width: 768px) {
+  .section {
+    padding: 65px 0;
+  }
+
+  .navbar {
+    position: relative;
+  }
+
+  .menu-toggle {
+    display: inline-block;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: min(300px, 90vw);
+    background: #151515;
+    border: 1px solid #2a2a2a;
+    border-radius: 14px;
+    padding: 16px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    z-index: 50;
+  }
+
+  .nav-menu.show {
+    display: flex;
+  }
+
+  .nav-menu a {
+    padding: 10px 6px;
+  }
+
+  .hero-content h1,
+  .shop-intro h1 {
+    font-size: 2.2rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-grid,
+  .contact-grid,
+  .service-grid,
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-controls,
+  .footer-content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .footer-links {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 520px) {
+  .logo {
+    height: 68px;
+  }
+
+  .hero-content h1,
+  .shop-intro h1 {
+    font-size: 1.9rem;
+  }
+
+  .section-heading h2 {
+    font-size: 1.85rem;
+  }
+
+  .sticky-whatsapp {
+    right: 14px;
+    bottom: 14px;
+    padding: 12px 16px;
+    font-size: 0.92rem;
+  }
+} /* ===== SERVICE PAGE GAP FIX ONLY ===== */
+
+.page-hero {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.page-hero .overlay {
+  min-height: auto !important;
+  padding: 24px 0 32px !important;
+}
+
+.page-hero .container {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-hero h1 {
+  margin-top: 48px !important;
+  margin-bottom: 12px !important;
+}
+
+.page-hero p {
+  margin-bottom: 0 !important;
+}
+
+.page-hero + .section {
+  padding-top: 48px !important;
+}/* ===== FIX REPEATING BACKGROUND IMAGE ===== */
+
+.page-hero {
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
